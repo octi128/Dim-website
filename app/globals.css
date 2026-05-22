@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* DIM Brand Colors 2026 — per Manual de Marca DIM 2026 */
+  --color-dim-ink: #081827;
+  --color-dim-blue: #103A73;
+  --color-dim-blue2: #1956A6;
+  --color-dim-violet: #5636A4;
+  --color-dim-orange: #F26A21;
+  --color-dim-orange-deep: #C84F12;
+  --color-dim-graphite: #4B4F56;
+  --color-dim-steel: #737985;
+  --color-dim-mist: #D8DEE8;
+  --color-dim-line: #E6EAF1;
+  --color-dim-paper: #FBFAF7;
+  --color-dim-cream: #F4EFE7;
+  --color-dim-white: #FFFFFF;
+  --color-dim-sage: #6E8B7B;
+  --color-dim-red: #B94035;
+
+  /* Fonts */
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #FBFAF7;
+  color: #081827;
+  font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display/editorial font */
+.font-display {
+  font-family: var(--font-fraunces), 'Georgia', serif;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Smooth dropdown */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.dropdown-enter {
+  animation: fadeDown 0.18s ease-out forwards;
+}
+
+/* Backdrop fade */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.backdrop-enter {
+  animation: fadeIn 0.2s ease-out forwards;
 }

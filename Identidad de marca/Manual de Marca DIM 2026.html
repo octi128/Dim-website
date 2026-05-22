@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DIM — Manual de Marca 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dim-ink:#081827;
+  --dim-blue:#103A73;
+  --dim-blue-2:#1956A6;
+  --dim-violet:#5636A4;
+  --dim-orange:#F26A21;
+  --dim-orange-deep:#C84F12;
+  --dim-graphite:#4B4F56;
+  --dim-steel:#737985;
+  --dim-mist:#D8DEE8;
+  --dim-line:#E6EAF1;
+  --dim-paper:#FBFAF7;
+  --dim-cream:#F4EFE7;
+  --dim-white:#FFFFFF;
+  --dim-sage:#6E8B7B;
+  --dim-red:#B94035;
+  --font-display:'Fraunces', Georgia, serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-soft:0 24px 80px rgba(8,24,39,.08), 0 4px 18px rgba(8,24,39,.05);
+  --shadow-card:0 12px 38px rgba(8,24,39,.07);
+  --radius-xs:8px;
+  --radius-sm:14px;
+  --radius-md:24px;
+  --radius-lg:36px;
+  --radius-pill:999px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--dim-paper);color:var(--dim-ink);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+.layout{display:grid;grid-template-columns:306px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;background:rgba(255,255,255,.86);backdrop-filter:blur(18px);border-right:1px solid var(--dim-line);padding:34px 28px;overflow-y:auto;z-index:10}
+.logo-nav{display:flex;align-items:center;gap:14px;margin-bottom:26px;padding-bottom:24px;border-bottom:1px solid var(--dim-line)}
+.logo-nav img{width:92px;height:auto;display:block;object-fit:contain}
+.logo-nav .meta{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim-steel);line-height:1.4}
+.nav-kicker{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#A7AFBA;margin:24px 0 10px}
+.nav a{display:grid;grid-template-columns:32px 1fr;gap:10px;padding:8px 0;font-size:14px;color:var(--dim-graphite)}
+.nav a:hover{color:var(--dim-orange)}
+.nav span{font-family:var(--font-mono);font-size:10px;color:#B5BDC8;padding-top:3px}
+.main{max-width:1380px;padding:54px clamp(28px,6vw,90px) 90px}
+.hero{min-height:88vh;display:grid;grid-template-rows:auto 1fr auto;border-bottom:1px solid var(--dim-line);padding-bottom:68px;margin-bottom:88px}
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.hero-mark{display:flex;align-items:center;gap:18px}
+.hero-logo-card{background:var(--dim-white);border:1px solid var(--dim-line);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow-card)}
+.hero-logo-card img{width:172px;display:block}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--dim-line);background:rgba(255,255,255,.68);padding:8px 12px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;color:var(--dim-graphite)}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--dim-orange),#FFB15C)}
+.hero-content{align-self:center;max-width:1040px;padding:70px 0 40px}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim-orange);font-weight:600;margin-bottom:22px}
+h1{font-family:var(--font-display);font-weight:320;font-size:clamp(58px,8.2vw,132px);line-height:.92;letter-spacing:-.055em;max-width:10.5ch}
+h1 em{font-style:italic;color:var(--dim-orange)}
+.hero-lead{font-size:clamp(19px,2vw,26px);font-weight:300;color:var(--dim-graphite);max-width:760px;margin-top:34px;line-height:1.55}
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--dim-line);gap:0}
+.hero-stat{padding:22px 24px;border-right:1px solid var(--dim-line)}
+.hero-stat:last-child{border-right:none}
+.hero-stat b{display:block;font-family:var(--font-display);font-size:27px;font-weight:450;letter-spacing:-.02em;color:var(--dim-ink)}
+.hero-stat span{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim-steel)}
+.section{padding:88px 0;border-bottom:1px solid var(--dim-line)}
+.section-head{display:grid;grid-template-columns:86px minmax(0,800px);gap:34px;margin-bottom:48px}
+.num{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;color:var(--dim-orange);padding-top:12px}
+h2{font-family:var(--font-display);font-size:clamp(38px,5vw,76px);font-weight:330;line-height:1.02;letter-spacing:-.035em}
+h2 em{font-style:italic;color:var(--dim-violet)}
+.lead{font-size:19px;color:var(--dim-graphite);font-weight:300;margin-top:18px;max-width:760px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:var(--dim-white);border:1px solid var(--dim-line);border-radius:var(--radius-md);padding:28px;box-shadow:0 1px 0 rgba(8,24,39,.02)}
+.card h3{font-family:var(--font-display);font-size:30px;font-weight:420;letter-spacing:-.02em;margin-bottom:12px}
+.card h4{font-size:16px;font-weight:750;letter-spacing:-.01em;margin-bottom:9px}
+.card p{color:var(--dim-graphite);font-size:15px}
+.pill{display:inline-flex;border-radius:999px;background:#F2F5FA;border:1px solid var(--dim-line);padding:6px 10px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim-steel);margin-bottom:18px}
+.gradient-panel{min-height:330px;border-radius:var(--radius-lg);padding:42px;position:relative;overflow:hidden;color:white;background:radial-gradient(circle at 84% 20%,rgba(242,106,33,.75),transparent 24%),radial-gradient(circle at 20% 80%,rgba(86,54,164,.9),transparent 35%),linear-gradient(135deg,var(--dim-blue),var(--dim-violet) 64%,#291C4D)}
+.gradient-panel:before{content:"";position:absolute;inset:-20%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.18),transparent);transform:rotate(-12deg)}
+.gradient-panel h3{font-family:var(--font-display);font-size:54px;line-height:1;letter-spacing:-.035em;font-weight:330;max-width:10ch;position:relative}
+.gradient-panel p{position:relative;max-width:560px;margin-top:22px;color:rgba(255,255,255,.82);font-size:17px}
+.benchmark{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
+.benchmark-list{display:grid;gap:12px}
+.bench-item{display:grid;grid-template-columns:140px 1fr;gap:20px;padding:18px;background:var(--dim-white);border:1px solid var(--dim-line);border-radius:18px}
+.bench-name{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim-orange);font-weight:600}
+.bench-item p{font-size:14px;color:var(--dim-graphite)}
+.palette{display:grid;gap:14px}
+.color-row{display:grid;grid-template-columns:190px 1fr;overflow:hidden;background:var(--dim-white);border:1px solid var(--dim-line);border-radius:20px}
+.swatch{min-height:132px}
+.color-info{padding:22px;display:grid;grid-template-columns:1.3fr repeat(3,.8fr);gap:16px;align-items:center}
+.color-info h4{font-family:var(--font-display);font-size:26px;font-weight:430;letter-spacing:-.02em}
+.spec small{display:block;font-family:var(--font-mono);font-size:9px;color:#A4ADBA;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.spec code{font-family:var(--font-mono);font-size:12px;color:var(--dim-graphite)}
+.ratio{display:grid;grid-template-columns:60fr 25fr 10fr 5fr;height:64px;border-radius:18px;overflow:hidden;border:1px solid var(--dim-line);margin:22px 0}
+.logo-show{background:var(--dim-white);border:1px solid var(--dim-line);border-radius:var(--radius-lg);padding:54px;display:grid;place-items:center;min-height:290px;box-shadow:var(--shadow-soft)}
+.logo-show img{max-width:min(460px,90%);height:auto}
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.logo-tile{min-height:180px;border-radius:22px;border:1px solid var(--dim-line);display:grid;place-items:center;padding:28px;background:white}
+.logo-tile.dark{background:linear-gradient(135deg,var(--dim-ink),var(--dim-blue))}
+.logo-tile.orange{background:linear-gradient(135deg,var(--dim-orange),#FFB15C)}
+.logo-tile img{max-width:190px;mix-blend-mode:multiply}
+.logo-tile.dark img,.logo-tile.orange img{filter:brightness(0) invert(1);mix-blend-mode:normal}
+.type-sample{background:var(--dim-white);border:1px solid var(--dim-line);border-radius:var(--radius-lg);padding:44px}
+.display-sample{font-family:var(--font-display);font-size:clamp(52px,7vw,98px);line-height:.95;letter-spacing:-.055em;font-weight:320;margin-bottom:28px}
+.display-sample em{font-style:italic;color:var(--dim-orange)}
+.body-sample{font-size:20px;color:var(--dim-graphite);font-weight:300;max-width:720px}
+.scale{margin-top:26px;border-top:1px solid var(--dim-line)}
+.scale-row{display:grid;grid-template-columns:90px 1fr 110px;align-items:baseline;padding:17px 0;border-bottom:1px solid var(--dim-line)}
+.scale-row .token,.scale-row .size{font-family:var(--font-mono);font-size:11px;color:var(--dim-steel)}
+.scale-row .sample{font-weight:650;letter-spacing:-.02em}
+.component-board{background:linear-gradient(180deg,#F7F9FC,var(--dim-cream));border:1px solid var(--dim-line);border-radius:var(--radius-lg);padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:13px 22px;font-weight:700;font-size:14px;border:1px solid transparent}
+.btn.primary{background:var(--dim-orange);color:white}
+.btn.dark{background:var(--dim-ink);color:white}
+.btn.light{background:white;border-color:var(--dim-line);color:var(--dim-ink)}
+.searchbar{height:58px;border-radius:999px;background:white;border:1px solid var(--dim-line);display:flex;align-items:center;gap:12px;padding:0 18px;color:var(--dim-steel);box-shadow:var(--shadow-card)}
+.searchbar b{color:var(--dim-ink);font-weight:650}
+.appt-card{background:white;border:1px solid var(--dim-line);border-radius:24px;padding:22px;box-shadow:var(--shadow-card)}
+.appt-card .top{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}
+.tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim-orange);font-weight:600}
+.appt-card h4{font-size:20px;margin-bottom:8px}
+.appt-card p{font-size:14px;color:var(--dim-graphite)}
+.phone{width:280px;margin:auto;background:#0B111B;border-radius:42px;padding:10px;box-shadow:0 30px 70px rgba(8,24,39,.25)}
+.screen{height:520px;border-radius:33px;background:var(--dim-paper);padding:24px;overflow:hidden}
+.phone-title{font-family:var(--font-display);font-size:34px;line-height:1;letter-spacing:-.03em;margin:24px 0 12px}
+.phone-card{background:white;border:1px solid var(--dim-line);border-radius:20px;padding:16px;margin-top:12px}
+.data-card{background:var(--dim-ink);color:white;border-radius:24px;padding:22px;position:relative;overflow:hidden}
+.data-card:after{content:"";position:absolute;right:-30px;top:-20px;width:160px;height:160px;background:radial-gradient(circle,rgba(242,106,33,.45),transparent 65%)}
+.bars{display:flex;align-items:end;gap:8px;height:110px;margin-top:24px;position:relative}
+.bar{width:24px;border-radius:999px 999px 0 0;background:linear-gradient(180deg,var(--dim-orange),var(--dim-violet))}
+.voice{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.quote{font-family:var(--font-display);font-size:38px;line-height:1.18;letter-spacing:-.025em;font-style:italic;background:var(--dim-white);border:1px solid var(--dim-line);border-radius:var(--radius-lg);padding:38px}
+.do-dont{display:grid;gap:14px}
+.dd{padding:22px;border-radius:20px;background:white;border:1px solid var(--dim-line)}
+.dd.do{border-left:5px solid var(--dim-sage)}.dd.dont{border-left:5px solid var(--dim-red)}
+.dd b{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.applications{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.app{background:white;border:1px solid var(--dim-line);border-radius:var(--radius-lg);overflow:hidden}
+.app-preview{min-height:320px;display:grid;place-items:center;background:linear-gradient(135deg,#F9FAFD,#F0ECE5);padding:26px;position:relative}
+.app-footer{padding:20px 24px;border-top:1px solid var(--dim-line)}
+.app-footer h4{font-size:18px;margin-bottom:5px}.app-footer p{font-size:14px;color:var(--dim-graphite)}
+.billboard{width:100%;aspect-ratio:16/7;background:linear-gradient(90deg,var(--dim-ink),var(--dim-blue) 55%,var(--dim-violet));border-radius:18px;color:white;padding:28px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow-card)}
+.billboard h3{font-family:var(--font-display);font-size:44px;line-height:1;letter-spacing:-.03em;max-width:10ch}
+.signage{width:260px;background:white;border-radius:18px;box-shadow:var(--shadow-card);overflow:hidden}
+.signage .head{height:62px;background:linear-gradient(135deg,var(--dim-blue),var(--dim-violet));color:white;display:flex;align-items:center;padding:0 20px;font-weight:750}
+.signage ul{list-style:none;padding:20px;font-size:24px;line-height:1.35;font-family:var(--font-display)}
+.wa{max-width:340px;background:#E9E1D8;border-radius:22px;padding:18px}
+.bubble{background:white;border-radius:12px;padding:13px 14px;margin-bottom:8px;font-size:14px;color:#222;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.bubble strong{color:var(--dim-blue)}
+.footer{padding:80px 0 20px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+.footer h2{max-width:800px}
+.footer img{width:140px}
+@media (max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.main{padding:36px 22px 70px}.hero-grid,.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3,.grid-2,.benchmark,.component-board,.voice,.applications{grid-template-columns:1fr}.section-head{grid-template-columns:1fr;gap:12px}.logo-grid{grid-template-columns:1fr}.color-row,.color-info{grid-template-columns:1fr}.hero-top{align-items:flex-start;flex-direction:column}}
+@media print{.sidebar{display:none}.layout{display:block}.main{padding:40px}.section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="logo-nav"><img src="dim-logo.png" alt="Logo DIM"><div class="meta">Manual de Marca<br>2026</div></div>
+    <nav class="nav">
+      <div class="nav-kicker">Sistema</div>
+      <a href="#vision"><span>01</span>Visión de marca</a>
+      <a href="#benchmarks"><span>02</span>Benchmark global</a>
+      <a href="#principios"><span>03</span>Principios visuales</a>
+      <a href="#logo"><span>04</span>Logo</a>
+      <a href="#color"><span>05</span>Color</a>
+      <a href="#tipo"><span>06</span>Tipografía</a>
+      <a href="#componentes"><span>07</span>UI & UX</a>
+      <a href="#voz"><span>08</span>Voz y tono</a>
+      <a href="#apps"><span>09</span>Aplicaciones</a>
+      <a href="#gobernanza"><span>10</span>Gobernanza</a>
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="hero-mark"><div class="hero-logo-card"><img src="dim-logo.png" alt="Logo DIM"></div><span class="badge"><span class="dot"></span> Brand system 2026</span></div>
+        <span class="badge">Salud · Tecnología · Humanidad</span>
+      </div>
+      <div class="hero-content">
+        <div class="eyebrow">Manual vivo de identidad</div>
+        <h1>DIM, claridad médica para una vida <em>mejor.</em></h1>
+        <p class="hero-lead">Una evolución del ADN histórico de DIM hacia una marca premium, digital y profundamente humana: autoridad clínica, tecnología invisible, experiencia simple y estética contemporánea.</p>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-stat"><b>1964</b><span>Origen institucional</span></div>
+        <div class="hero-stat"><b>+15</b><span>Sedes y escala real</span></div>
+        <div class="hero-stat"><b>Digital</b><span>Portal, app, IA y datos</span></div>
+        <div class="hero-stat"><b>Premium</b><span>Experiencia de cuidado</span></div>
+      </div>
+    </header>
+
+    <section class="section" id="vision">
+      <div class="section-head"><div class="num">01</div><div><h2>La marca no debe parecer una clínica vieja ni una startup médica. Debe sentirse como un <em>sistema de salud inteligente.</em></h2><p class="lead">El territorio de DIM es la intersección entre medicina seria, tecnología aplicada y hospitalidad. Una marca que baja la ansiedad, ordena la experiencia y acelera el acceso a respuestas.</p></div></div>
+      <div class="gradient-panel"><h3>Humanidad aumentada por tecnología.</h3><p>La tecnología de DIM no aparece como show visual: aparece como menos espera, turnos más simples, resultados disponibles, circuitos claros, diagnósticos precisos y acompañamiento humano.</p></div>
+      <div class="grid-4" style="margin-top:18px">
+        <div class="card"><span class="pill">Pilar 01</span><h3>Precisión</h3><p>Diagnósticos confiables, comunicación clara y decisiones mejor informadas.</p></div>
+        <div class="card"><span class="pill">Pilar 02</span><h3>Calma</h3><p>Diseño que reduce fricción, ruido y ansiedad en cada punto de contacto.</p></div>
+        <div class="card"><span class="pill">Pilar 03</span><h3>Acceso</h3><p>Turnos, resultados y orientación siempre a mano, especialmente mobile.</p></div>
+        <div class="card"><span class="pill">Pilar 04</span><h3>Innovación</h3><p>IA, datos y automatización al servicio de una experiencia más humana.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="benchmarks">
+      <div class="section-head"><div class="num">02</div><div><h2>Benchmark global: qué tomar y qué evitar.</h2><p class="lead">DIM debe aprender de los mejores sin copiar su estética. La síntesis correcta es autoridad clínica tipo Mayo/Cleveland + simplicidad digital tipo One Medical/Ro + innovación tipo Function/Forward + calidez editorial tipo Parsley/Maven/Tia.</p></div></div>
+      <div class="benchmark">
+        <div class="card"><h3>Matriz de inspiración</h3><p>El objetivo no es “modernizar por modernizar”, sino crear un sistema consistente para web, app, redes, sedes, vía pública, turnos, terminales, WhatsApp e IA.</p><div class="ratio"><div style="background:var(--dim-paper)"></div><div style="background:linear-gradient(135deg,var(--dim-blue),var(--dim-violet))"></div><div style="background:var(--dim-orange)"></div><div style="background:var(--dim-ink)"></div></div><p><strong>Proporción visual recomendada:</strong> 60% claro/editorial, 25% azul-violeta, 10% naranja, 5% grafito. El naranja guía la acción; no debe dominar.</p></div>
+        <div class="benchmark-list">
+          <div class="bench-item"><div class="bench-name">Mayo / Cleveland</div><p>Jerarquía impecable, búsqueda potente, autoridad clínica y CTA siempre visible: turno, médico, especialidad, sede.</p></div>
+          <div class="bench-item"><div class="bench-name">One Medical / Ro</div><p>Flujos simples, mobile-first, copy directo y experiencia que se siente producto digital, no trámite médico.</p></div>
+          <div class="bench-item"><div class="bench-name">Parsley / Tia / Maven</div><p>Calidez editorial, fotografía humana real, paletas suaves y storytelling sin perder profesionalismo.</p></div>
+          <div class="bench-item"><div class="bench-name">Function / Forward</div><p>Dashboard, datos longitudinales, biomarcadores, estética científica premium y tecnología silenciosa.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="principios">
+      <div class="section-head"><div class="num">03</div><div><h2>Principios visuales: más aire, más foco, menos ruido.</h2><p class="lead">La marca DIM debe transmitir orden y capacidad operativa. En salud, la estética no es decoración: es una señal de confianza.</p></div></div>
+      <div class="grid-3">
+        <div class="card"><span class="pill">01</span><h3>Editorial premium</h3><p>Titulares grandes, mucho blanco/arena, ritmo pausado y piezas que no parecen flyers.</p></div>
+        <div class="card"><span class="pill">02</span><h3>Conversión limpia</h3><p>Turnos, resultados, médicos, sedes y WhatsApp deben estar siempre cerca, pero sin saturar.</p></div>
+        <div class="card"><span class="pill">03</span><h3>Tech calmada</h3><p>Gradientes, dashboards e IA con criterio clínico. Tecnología como claridad, no como ruido.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="logo">
+      <div class="section-head"><div class="num">04</div><div><h2>Logo: usar el archivo real. No reconstruirlo.</h2><p class="lead">El logo de DIM tiene valor histórico. En el sistema 2026 se respeta su forma y proporción. El diseñador no debe redibujarlo, deformarlo ni reemplazarlo por una versión tipográfica aproximada.</p></div></div>
+      <div class="logo-show"><img src="dim-logo.png" alt="Logo DIM oficial"></div>
+      <div class="logo-grid">
+        <div class="logo-tile"><img src="dim-logo.png" alt="Logo DIM sobre fondo claro"></div>
+        <div class="logo-tile dark"><img src="dim-logo.png" alt="Logo DIM sobre fondo oscuro"></div>
+        <div class="logo-tile orange"><img src="dim-logo.png" alt="Logo DIM sobre fondo naranja"></div>
+      </div>
+      <div class="grid-3" style="margin-top:18px">
+        <div class="card"><h4>Regla</h4><p>Usar siempre archivo vectorial maestro. Esta guía muestra el logo como referencia, pero producción debe trabajar con SVG/AI/PDF original.</p></div>
+        <div class="card"><h4>Zona de seguridad</h4><p>Dejar alrededor del logo un margen mínimo equivalente al alto de la letra “d”. En vía pública, aumentar el aire.</p></div>
+        <div class="card"><h4>No hacer</h4><p>No deformar, no separar símbolo y texto, no rotar, no cambiar proporciones, no poner sombras duras, no usar outline.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="color">
+      <div class="section-head"><div class="num">05</div><div><h2>Color: ADN naranja + evolución azul-violeta.</h2><p class="lead">El naranja sigue siendo el acento propietario de DIM. El azul-violeta construye el universo moderno: tecnología médica, diagnóstico por imágenes, IA, precisión y confianza.</p></div></div>
+      <div class="palette">
+        <div class="color-row"><div class="swatch" style="background:#081827"></div><div class="color-info"><h4>DIM Ink</h4><div class="spec"><small>HEX</small><code>#081827</code></div><div class="spec"><small>Uso</small><code>Fondos premium</code></div><div class="spec"><small>Rol</small><code>Autoridad</code></div></div></div>
+        <div class="color-row"><div class="swatch" style="background:#103A73"></div><div class="color-info"><h4>DIM Blue</h4><div class="spec"><small>HEX</small><code>#103A73</code></div><div class="spec"><small>Uso</small><code>Institucional</code></div><div class="spec"><small>Rol</small><code>Confianza</code></div></div></div>
+        <div class="color-row"><div class="swatch" style="background:#5636A4"></div><div class="color-info"><h4>DIM Violet</h4><div class="spec"><small>HEX</small><code>#5636A4</code></div><div class="spec"><small>Uso</small><code>Innovación</code></div><div class="spec"><small>Rol</small><code>Tech</code></div></div></div>
+        <div class="color-row"><div class="swatch" style="background:#F26A21"></div><div class="color-info"><h4>DIM Orange</h4><div class="spec"><small>HEX</small><code>#F26A21</code></div><div class="spec"><small>Uso</small><code>CTA / foco</code></div><div class="spec"><small>Rol</small><code>Acción</code></div></div></div>
+        <div class="color-row"><div class="swatch" style="background:#F4EFE7"></div><div class="color-info"><h4>Arena Premium</h4><div class="spec"><small>HEX</small><code>#F4EFE7</code></div><div class="spec"><small>Uso</small><code>Editorial</code></div><div class="spec"><small>Rol</small><code>Calma</code></div></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="tipo">
+      <div class="section-head"><div class="num">06</div><div><h2>Tipografía: autoridad editorial + claridad digital.</h2><p class="lead">La marca necesita una voz visual menos genérica. Una serif contemporánea da prestigio y humanidad; una sans limpia garantiza lectura y performance en interfaces.</p></div></div>
+      <div class="type-sample">
+        <div class="display-sample">Cuando necesitás respuestas, <em>ya sabés dónde.</em></div>
+        <p class="body-sample">Inter ordena la información clínica, los turnos, las instrucciones y los resultados. Fraunces aporta diferenciación, calma y sofisticación en titulares y campañas.</p>
+        <div class="scale">
+          <div class="scale-row"><div class="token">H1</div><div class="sample" style="font-family:var(--font-display);font-size:48px">Salud avanzada, simple y humana.</div><div class="size">64–96 px</div></div>
+          <div class="scale-row"><div class="token">H2</div><div class="sample" style="font-family:var(--font-display);font-size:34px">Tus estudios en un solo lugar.</div><div class="size">40–56 px</div></div>
+          <div class="scale-row"><div class="token">UI</div><div class="sample" style="font-size:20px">Solicitá turno · Ver resultados · Buscar médico</div><div class="size">14–20 px</div></div>
+          <div class="scale-row"><div class="token">BODY</div><div class="sample" style="font-weight:400;font-size:17px;color:var(--dim-graphite)">Información clara, directa y pensada para reducir ansiedad.</div><div class="size">16–18 px</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="componentes">
+      <div class="section-head"><div class="num">07</div><div><h2>UI & UX: DIM debe sentirse como un producto digital de salud.</h2><p class="lead">Cada componente debe resolver una necesidad concreta: encontrar médico, sacar turno, ver resultados, llegar a una sede, hablar con DIM o continuar un circuito.</p></div></div>
+      <div class="component-board">
+        <div class="card"><span class="pill">Búsqueda clínica</span><div class="searchbar">🔎 <span>Buscá por <b>especialidad, médico o estudio</b></span></div><div style="height:18px"></div><div class="btn primary">Solicitar turno</div> <div class="btn light">Ver resultados</div> <div class="btn dark">Mi portal DIM</div></div>
+        <div class="appt-card"><div class="top"><span class="tag">Turno disponible</span><span class="badge">Hoy</span></div><h4>Resonancia magnética</h4><p>Sede Ramos Mejía · Próximo horario 14:20 · Preparación disponible online.</p><div style="margin-top:16px"><span class="btn primary">Reservar</span></div></div>
+        <div class="data-card"><span class="tag" style="color:#FFB15C">Resultados</span><h3 style="font-family:var(--font-display);font-size:34px;margin-top:10px">Tus estudios, claros y seguros.</h3><div class="bars"><div class="bar" style="height:46px"></div><div class="bar" style="height:80px"></div><div class="bar" style="height:62px"></div><div class="bar" style="height:104px"></div><div class="bar" style="height:72px"></div></div></div>
+        <div class="phone"><div class="screen"><img src="dim-logo.png" alt="Logo DIM" style="width:98px"><div class="phone-title">Hola, ¿qué necesitás resolver hoy?</div><p style="color:var(--dim-graphite);font-size:14px">Turnos, resultados, indicaciones y asistencia en un solo lugar.</p><div class="phone-card"><b>Solicitar turno</b><p style="font-size:13px;color:var(--dim-graphite)">Elegí especialidad, sede y horario.</p></div><div class="phone-card"><b>Ver resultados</b><p style="font-size:13px;color:var(--dim-graphite)">Acceso seguro a informes e imágenes.</p></div><div class="phone-card"><b>Hablar con DIM</b><p style="font-size:13px;color:var(--dim-graphite)">Asistencia por WhatsApp e IA.</p></div></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="voz">
+      <div class="section-head"><div class="num">08</div><div><h2>Voz y tono: cálido, médico, directo. Sin humo.</h2><p class="lead">DIM habla con autoridad, pero no desde arriba. Explica, acompaña y simplifica. Usa voseo rioplatense cuando corresponde en canales conversacionales.</p></div></div>
+      <div class="voice">
+        <div class="quote">“La salud ya trae suficiente incertidumbre. La marca DIM tiene que sumar claridad, no ruido.”</div>
+        <div class="do-dont">
+          <div class="dd do"><b>Sí</b><p>“Tus resultados están disponibles online. Podés verlos desde el portal DIM de forma simple y segura.”</p></div>
+          <div class="dd do"><b>Sí</b><p>“Cuando tu salud necesita respuestas, DIM te ayuda a encontrarlas rápido.”</p></div>
+          <div class="dd dont"><b>No</b><p>“Somos la institución líder absoluta con tecnología de excelencia superior.”</p></div>
+          <div class="dd dont"><b>No</b><p>“Revolucionamos la salud con una experiencia disruptiva.”</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="apps">
+      <div class="section-head"><div class="num">09</div><div><h2>Aplicaciones: una marca consistente de Instagram a la sede.</h2><p class="lead">El sistema debe bajar a piezas reales: web, cartelería, vía pública, señalética, credenciales, tótems, WhatsApp, redes y campañas médicas.</p></div></div>
+      <div class="applications">
+        <div class="app"><div class="app-preview"><div class="billboard"><img src="dim-logo.png" style="width:110px;filter:brightness(0) invert(1)" alt="Logo DIM"><h3>Cuando tu salud necesita respuestas, ya sabés dónde.</h3><div>Solicitá turno en dim.com.ar</div></div></div><div class="app-footer"><h4>Vía pública</h4><p>Mensaje corto, alto contraste, logo real y CTA visible. Pensado para lectura en 2–3 segundos.</p></div></div>
+        <div class="app"><div class="app-preview"><div class="signage"><div class="head">Consultorios ↑</div><ul><li>Pediatría</li><li>Cardiología</li><li>Traumatología</li><li>Alergia</li></ul></div></div><div class="app-footer"><h4>Señalética</h4><p>Wayfinding claro, códigos cromáticos suaves y jerarquía grande para reducir preguntas y fricción.</p></div></div>
+        <div class="app"><div class="app-preview"><div class="wa"><div class="bubble"><strong>DIM</strong><br>Hola, Alejandro. ¿Querés solicitar un turno, ver resultados o consultar una indicación?</div><div class="bubble">Podés escribirlo con tus palabras. Te ayudo a resolverlo.</div></div></div><div class="app-footer"><h4>WhatsApp / IA</h4><p>Conversacional, rioplatense, cálido y preciso. Autenticación solo cuando hace falta.</p></div></div>
+        <div class="app"><div class="app-preview"><div class="card" style="max-width:330px"><span class="pill">Post educativo</span><h3>Un diagnóstico a tiempo cambia todo.</h3><p>Diseño limpio, título fuerte, evidencia, CTA simple y continuidad visual con el ecosistema DIM.</p><div style="margin-top:18px" class="btn primary">Sacar turno</div></div></div><div class="app-footer"><h4>Redes</h4><p>Menos flyer saturado. Más educación médica, prevención, autoridad y estética premium.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="gobernanza">
+      <div class="section-head"><div class="num">10</div><div><h2>Gobernanza: reglas simples para que la marca no se degrade.</h2><p class="lead">Una marca premium se sostiene con consistencia. Cada proveedor, sede, agencia y equipo interno debe trabajar sobre el mismo sistema.</p></div></div>
+      <div class="grid-3">
+        <div class="card"><h3>Checklist visual</h3><p>Logo real, aire suficiente, naranja máximo 10%, título legible, CTA claro, foto auténtica y una sola idea principal.</p></div>
+        <div class="card"><h3>Checklist UX</h3><p>¿El usuario entiende qué hacer? ¿Puede sacar turno? ¿El próximo paso está visible? ¿El diseño reduce ansiedad?</p></div>
+        <div class="card"><h3>Checklist tono</h3><p>¿Suena humano? ¿Es claro? ¿Evita exageraciones? ¿Respeta autoridad clínica sin volverse frío?</p></div>
+      </div>
+    </section>
+
+    <footer class="footer"><h2>DIM debe sentirse como la salud del futuro, pero con la confianza de una institución que ya existe.</h2><img src="dim-logo.png" alt="Logo DIM"></footer>
+  </main>
+</div>
+</body>
+</html>
