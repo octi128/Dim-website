@@ -112,7 +112,7 @@ export default function Footer() {
             {/* App downloads */}
             <div className="flex flex-col gap-2.5">
               <p className="text-[#737985] text-[10px] font-mono font-medium uppercase tracking-wider mb-1">App DIM Salud</p>
-              <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://apps.apple.com/ar/app/dim-salud-turnos-y-resultados/id1627335644" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2.5 bg-[#081827] hover:bg-[#103A73] text-white rounded-xl px-4 py-3 transition-colors">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white flex-shrink-0" aria-hidden>
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -122,10 +122,13 @@ export default function Footer() {
                   <div className="text-xs font-semibold">App Store</div>
                 </div>
               </a>
-              <a href="https://play.google.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://play.google.com/store/apps/details?id=ar.com.dim.portalturnos" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2.5 bg-[#081827] hover:bg-[#103A73] text-white rounded-xl px-4 py-3 transition-colors">
-                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white flex-shrink-0" aria-hidden>
-                  <path d="M3.18 23.76c.3.17.64.24.99.2l12.49-7.17-2.66-2.66-10.82 9.63zm15.28-9.1L5.37 7.26 3.18.24C2.84.05 2.4.12 2.1.4L14.63 12 18.46 14.66zM21.4 10.6l-3.08-1.77-3.08 1.77.01 4.17 3.07 1.77 3.08-1.77-.01-4.17zm-18.22-.36C3 10.42 3 10.62 3 10.83v2.34c0 .21 0 .41.18.59l11.45-3.76-11.45-3.76z" />
+                <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" aria-hidden>
+                  <path d="M3 2 L14 12 L3 22 Z" fill="#00C3FF" />
+                  <path d="M3 2 L18 8.5 L14 12 Z" fill="#FF3D47" />
+                  <path d="M3 22 L18 15.5 L14 12 Z" fill="#00E676" />
+                  <path d="M14 12 L18 8.5 L21 12 L18 15.5 Z" fill="#FFD500" />
                 </svg>
                 <div>
                   <div className="text-white/50 text-[9px] leading-none">Disponible en</div>
