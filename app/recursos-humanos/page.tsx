@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ChevronRight,
@@ -17,6 +18,7 @@ import {
   Send,
   CheckCircle2,
 } from "lucide-react";
+import CtaBackdrop from "@/components/CtaBackdrop";
 
 export const metadata: Metadata = {
   title: "Trabajá en DIM — Recursos Humanos | DIM Centros de Salud",
@@ -125,11 +127,21 @@ const steps = [
 export default function RecursosHumanosPage() {
   return (
     <>
-      {/* ─── Hero ─── */}
-      <section className="relative bg-gradient-to-br from-[#081827] via-[#103A73] to-[#1956A6] overflow-hidden">
+      {/* ─── Hero (banner) ─── */}
+      <section className="relative bg-[#081827] overflow-hidden">
+        {/* Full-width background image */}
+        <Image
+          src="/recursos-hero.jpg"
+          alt="Equipo de profesionales de DIM Centros de Salud"
+          fill
+          sizes="100vw"
+          className="object-cover object-[75%_30%]"
+          priority
+        />
+        {/* Legibility overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#081827]/95 via-[#103A73]/72 to-[#1956A6]/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-transparent to-[#081827]/40" />
         <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-[#F26A21]/12 blur-3xl pointer-events-none" />
-        <div className="absolute -left-16 bottom-0 w-72 h-72 rounded-full bg-[#5636A4]/20 blur-3xl pointer-events-none" />
-        <div className="absolute right-1/3 top-1/2 -translate-y-1/2 w-56 h-56 rounded-full bg-white/4 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-16 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
@@ -144,72 +156,43 @@ export default function RecursosHumanosPage() {
             <span className="text-white/90">Trabajá en DIM</span>
           </nav>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left: copy */}
-            <div>
-              <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
-                <Users size={12} strokeWidth={2.25} className="text-[#F26A21]" aria-hidden="true" />
-                Más de 750 profesionales en toda la red
-              </div>
-
-              <h1
-                className="font-display text-[clamp(40px,6vw,80px)] leading-[0.93] tracking-[-0.04em] font-light text-white mb-6"
-                style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-              >
-                La única forma
-                <br />
-                de crecer es{" "}
-                <em className="italic text-[#F26A21]">en equipo.</em>
-              </h1>
-
-              <p className="text-white/70 text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl">
-                Somos un equipo apasionado por mejorar la salud de las personas en Zona
-                Oeste. Si tenés ganas de crecer y hacer la diferencia, este es tu lugar.
-              </p>
-
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="https://empleos.dim.com.ar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors duration-200"
-                >
-                  <Send size={14} aria-hidden="true" />
-                  Ver búsquedas activas
-                </a>
-                <a
-                  href="#categorias"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white font-medium px-6 py-3 rounded-full text-sm border border-white/20 transition-colors duration-200"
-                >
-                  ¿Qué roles buscamos?
-                </a>
-              </div>
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
+              <Users size={12} strokeWidth={2.25} className="text-[#F26A21]" aria-hidden="true" />
+              Más de 750 profesionales en toda la red
             </div>
 
-            {/* Right: culture card */}
-            <div className="hidden lg:block">
-              <div className="bg-white/8 backdrop-blur-sm border border-white/15 rounded-3xl p-8 space-y-5">
-                <p
-                  className="font-display text-white/40 text-[10px] font-mono uppercase tracking-widest"
-                  style={{ fontFamily: "var(--font-jetbrains), monospace" }}
-                >
-                  Nuestra cultura
-                </p>
-                <blockquote className="text-white text-2xl font-light leading-snug">
-                  &ldquo;Buscamos personas con{" "}
-                  <span className="text-[#F26A21] italic">pasión por lo que hacen</span>, con
-                  ganas y entusiasmo para mejorar continuamente.&rdquo;
-                </blockquote>
-                <div className="pt-2 border-t border-white/10 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[#F26A21] flex items-center justify-center flex-shrink-0">
-                    <Users size={15} className="text-white" strokeWidth={2} />
-                  </div>
-                  <div>
-                    <p className="text-white text-sm font-semibold">Equipo de Recursos Humanos</p>
-                    <p className="text-white/50 text-xs">DIM Centros de Salud</p>
-                  </div>
-                </div>
-              </div>
+            <h1
+              className="font-display text-[clamp(40px,6vw,80px)] leading-[0.93] tracking-[-0.04em] font-light text-white mb-6"
+              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            >
+              La única forma
+              <br />
+              de crecer es{" "}
+              <em className="italic text-[#F26A21]">en equipo.</em>
+            </h1>
+
+            <p className="text-white/80 text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl">
+              Somos un equipo apasionado por mejorar la salud de las personas en Zona
+              Oeste. Si tenés ganas de crecer y hacer la diferencia, este es tu lugar.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://empleos.dim.com.ar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors duration-200"
+              >
+                <Send size={14} aria-hidden="true" />
+                Ver búsquedas activas
+              </a>
+              <a
+                href="#categorias"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white font-medium px-6 py-3 rounded-full text-sm border border-white/20 transition-colors duration-200"
+              >
+                ¿Qué roles buscamos?
+              </a>
             </div>
           </div>
         </div>
@@ -431,8 +414,9 @@ export default function RecursosHumanosPage() {
       </section>
 
       {/* ─── Final CTA ─── */}
-      <section className="py-20 lg:py-28 bg-[#081827]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="relative overflow-hidden py-20 lg:py-28 bg-[#081827]">
+        <CtaBackdrop opacity="opacity-100" overlay="bg-gradient-to-t from-[#081827]/90 via-[#081827]/65 to-[#0d2340]/50" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-[#F26A21] text-xs font-mono uppercase tracking-widest mb-4">
               Sumate al equipo

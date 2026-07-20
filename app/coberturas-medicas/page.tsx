@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ShieldCheck, Clock, Phone } from "lucide-react";
 import CoberturasList from "@/components/CoberturasList";
+import CtaBackdrop from "@/components/CtaBackdrop";
 import { COVERAGES } from "@/lib/coverages";
 
 export const metadata: Metadata = {
@@ -47,11 +49,21 @@ const VALIDITY_INFO = [
 export default function CoberturasMedicasPage() {
   return (
     <>
-      {/* ────────── Hero ────────── */}
-      <section className="relative bg-gradient-to-br from-[#103A73] via-[#1956A6] to-[#5636A4] overflow-hidden">
+      {/* ────────── Hero (banner) ────────── */}
+      <section className="relative bg-[#103A73] overflow-hidden">
+        {/* Full-width background image */}
+        <Image
+          src="/coberturas-hero.jpg"
+          alt="Paciente con profesional de DIM Centros de Salud"
+          fill
+          sizes="100vw"
+          className="object-cover object-[72%_30%]"
+          priority
+        />
+        {/* Legibility overlays: brand-blue scrim on the text side */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B2440]/95 via-[#103A73]/72 to-[#5636A4]/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-transparent to-[#081827]/40" />
         <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-[#F26A21]/15 blur-3xl pointer-events-none" />
-        <div className="absolute -left-20 bottom-0 w-80 h-80 rounded-full bg-white/5 blur-3xl pointer-events-none" />
-        <div className="absolute right-1/4 top-1/3 w-64 h-64 rounded-full bg-[#5636A4]/30 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-16 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
@@ -66,61 +78,56 @@ export default function CoberturasMedicasPage() {
             <span className="text-white/90">Coberturas médicas</span>
           </nav>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
-                <ShieldCheck size={12} strokeWidth={2.25} className="text-[#F26A21]" aria-hidden="true" />
-                Actualizadas a 2026
-              </div>
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
+              <ShieldCheck size={12} strokeWidth={2.25} className="text-[#F26A21]" aria-hidden="true" />
+              Actualizadas a 2026
+            </div>
 
-              <h1
-                className="font-display text-[clamp(44px,6.5vw,84px)] leading-[0.95] tracking-[-0.04em] font-light text-white mb-6"
-                style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            <h1
+              className="font-display text-[clamp(44px,6.5vw,84px)] leading-[0.95] tracking-[-0.04em] font-light text-white mb-6"
+              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            >
+              Coberturas
+              <br />
+              <em className="italic text-[#F26A21]">médicas.</em>
+            </h1>
+
+            <p className="text-white/80 text-lg font-light leading-relaxed mb-8 max-w-lg">
+              Trabajamos con más de 104 obras sociales y prepagas. Buscá la tuya,
+              conocé la validez de tu orden y sacá turno sin complicaciones.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#coberturas"
+                className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
               >
-                Coberturas
-                <br />
-                <em className="italic text-[#F26A21]">médicas.</em>
-              </h1>
+                Buscar mi cobertura
+              </a>
+              <a
+                href="tel:08009991800"
+                className="inline-flex items-center gap-2 border border-white/25 hover:border-white/50 text-white font-medium px-6 py-3 rounded-full text-sm transition-colors"
+              >
+                <Phone size={14} aria-hidden="true" />
+                0800 999 1800
+              </a>
+            </div>
+          </div>
 
-              <p className="text-white/75 text-lg font-light leading-relaxed mb-8 max-w-lg">
-                Trabajamos con más de 104 obras sociales y prepagas. Buscá la tuya,
-                conocé la validez de tu orden y sacá turno sin complicaciones.
-              </p>
-
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="#coberturas"
-                  className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+          {/* Stats strip */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-5 mt-14 lg:mt-20 border-t border-white/15 pt-8">
+            {STATS.map((s) => (
+              <div key={s.label}>
+                <p
+                  className="font-display text-3xl lg:text-4xl font-medium text-white tracking-tight"
+                  style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
                 >
-                  Buscar mi cobertura
-                </a>
-                <a
-                  href="tel:08009991800"
-                  className="inline-flex items-center gap-2 border border-white/25 hover:border-white/50 text-white font-medium px-6 py-3 rounded-full text-sm transition-colors"
-                >
-                  <Phone size={14} aria-hidden="true" />
-                  0800 999 1800
-                </a>
+                  {s.value}
+                </p>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">{s.label}</p>
               </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-3">
-              {STATS.map((s) => (
-                <div
-                  key={s.label}
-                  className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5"
-                >
-                  <p
-                    className="font-display text-4xl font-light text-white mb-1 tracking-tight"
-                    style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                  >
-                    {s.value}
-                  </p>
-                  <p className="text-white/60 text-sm">{s.label}</p>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -174,8 +181,9 @@ export default function CoberturasMedicasPage() {
       {/* ────────── CTA ────────── */}
       <section className="bg-[#FBFAF7] pb-20 lg:pb-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="bg-[#081827] rounded-3xl p-8 lg:p-12 grid lg:grid-cols-2 gap-8 items-center">
-            <div>
+          <div className="relative overflow-hidden bg-[#081827] rounded-3xl p-8 lg:p-12 grid lg:grid-cols-2 gap-8 items-center">
+            <CtaBackdrop />
+            <div className="relative z-10">
               <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">
                 Atención particular
               </p>
@@ -192,7 +200,7 @@ export default function CoberturasMedicasPage() {
                 Consultanos por teléfono o WhatsApp y te asesoramos sin compromiso.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 lg:justify-end">
+            <div className="relative z-10 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 lg:justify-end">
               <a
                 href="tel:08009991800"
                 className="inline-flex items-center justify-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-7 py-4 rounded-full text-sm transition-colors"

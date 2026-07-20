@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Check, MessageCircle, Phone, MapPin, Clock } from "lucide-react";
+import CtaBackdrop from "@/components/CtaBackdrop";
 
 const benefits = [
   {
@@ -331,9 +332,10 @@ export default function MutualAmedim() {
       {/* Contact Section */}
       <section
         id="solicitar"
-        className="bg-gradient-to-br from-[#103A73] to-[#5636A4] py-20 lg:py-28 border-b border-[#081827]/10"
+        className="relative overflow-hidden bg-gradient-to-br from-[#103A73] to-[#5636A4] py-20 lg:py-28 border-b border-[#081827]/10"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <CtaBackdrop opacity="opacity-100" overlay="bg-gradient-to-t from-[#081827]/85 via-[#103A73]/60 to-[#5636A4]/50" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
           <div className="mb-16 text-center">
             <h2
               className="font-display text-[clamp(36px,5vw,72px)] leading-[1.02] tracking-[-0.035em] font-light text-white max-w-2xl mx-auto mb-6"

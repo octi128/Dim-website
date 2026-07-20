@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { AVAILABLE_LETTERS } from "@/lib/diseases";
 import DiseaseSearchBar from "@/components/DiseaseSearchBar";
+import CtaBackdrop from "@/components/CtaBackdrop";
 
 const LETTER_ROWS = [
   ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
@@ -185,11 +186,12 @@ export default function EnfermedadesIndexPage() {
             href="/conocenos"
             className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#081827] via-[#103A73] to-[#5636A4]"
           >
+            <CtaBackdrop opacity="opacity-100" overlay="bg-gradient-to-r from-[#081827] via-[#103A73]/70 to-transparent" />
             {/* Decorative circle */}
             <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-white/5 blur-2xl" />
             <div className="absolute right-10 top-10 w-40 h-40 rounded-full bg-[#F26A21]/20 blur-3xl" />
 
-            <div className="relative grid lg:grid-cols-[1fr_auto] gap-8 p-8 lg:p-12 items-end">
+            <div className="relative z-10 grid lg:grid-cols-[1fr_auto] gap-8 p-8 lg:p-12 items-end">
               <div className="max-w-2xl">
                 <p className="text-white/60 text-[10px] font-mono font-medium uppercase tracking-widest mb-3">
                   Desde 1964

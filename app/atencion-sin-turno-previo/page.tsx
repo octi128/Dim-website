@@ -221,10 +221,21 @@ const SERVICES = [
 export default function AtencionSinTurnoPrevioPage() {
   return (
     <>
-      {/* ────────── Hero ────────── */}
-      <section className="relative bg-gradient-to-br from-[#103A73] via-[#1956A6] to-[#5636A4] overflow-hidden">
+      {/* ────────── Hero (banner) ────────── */}
+      <section className="relative bg-[#103A73] overflow-hidden">
+        {/* Full-width background image */}
+        <Image
+          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80"
+          alt="Sala de espera DIM Centros de Salud"
+          fill
+          sizes="100vw"
+          className="object-cover object-[70%_35%]"
+          priority
+        />
+        {/* Legibility overlays: brand-blue scrim on the text side */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B2440]/95 via-[#103A73]/72 to-[#5636A4]/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-transparent to-[#081827]/40" />
         <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-[#F26A21]/15 blur-3xl pointer-events-none" />
-        <div className="absolute -left-20 bottom-0 w-80 h-80 rounded-full bg-white/5 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-16 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
@@ -234,106 +245,42 @@ export default function AtencionSinTurnoPrevioPage() {
             <span className="text-white/90">Atención sin turno previo</span>
           </nav>
 
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
-            {/* Left */}
-            <div>
-              <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
-                <Clock size={12} strokeWidth={2.25} className="text-[#F26A21]" />
-                Por orden de llegada · Sin reserva previa
-              </div>
-
-              <h1
-                className="font-display text-[clamp(44px,6.5vw,84px)] leading-[0.95] tracking-[-0.04em] font-light text-white mb-6"
-                style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-              >
-                Atención sin
-                <br />
-                <em className="italic text-[#F26A21]">turno previo.</em>
-              </h1>
-
-              <p className="text-white/75 text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl">
-                Tu salud es nuestra prioridad. Desde 1964 atendemos consultas y estudios que no pueden esperar — acercate a cualquiera de nuestros centros y te atendemos el mismo día.
-              </p>
-
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="#servicios"
-                  className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
-                >
-                  <MapPin size={15} strokeWidth={2.25} />
-                  Ver centros y horarios
-                </Link>
-                <Link
-                  href="https://portal.dim.com.ar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white hover:bg-[#F4EFE7] text-[#081827] font-semibold px-6 py-3 rounded-full text-sm transition-colors"
-                >
-                  <CalendarDays size={15} strokeWidth={2.25} />
-                  Pedir turno online
-                </Link>
-              </div>
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
+              <Clock size={12} strokeWidth={2.25} className="text-[#F26A21]" />
+              Por orden de llegada · Sin reserva previa
             </div>
 
-            {/* Right: image with floating badges */}
-            <div className="hidden lg:block relative">
-              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/15 shadow-[0_30px_80px_rgba(8,24,39,.4)]">
-                <Image
-                  src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
-                  alt="Sala de espera DIM Centros de Salud"
-                  fill
-                  sizes="(min-width: 1024px) 45vw, 100vw"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-[#081827]/15 to-transparent" />
+            <h1
+              className="font-display text-[clamp(44px,6.5vw,84px)] leading-[0.95] tracking-[-0.04em] font-light text-white mb-6"
+              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            >
+              Atención sin
+              <br />
+              <em className="italic text-[#F26A21]">turno previo.</em>
+            </h1>
 
-                {/* Floating info chip */}
-                <div className="absolute top-5 right-5 bg-white/10 backdrop-blur-md border border-white/25 rounded-2xl px-4 py-3 max-w-[230px]">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F26A21]" />
-                    <p className="font-mono text-[9px] uppercase tracking-widest text-white/80">
-                      Horario de cierre
-                    </p>
-                  </div>
-                  <p className="text-white text-[12px] font-light leading-snug">
-                    El horario de fin de atención puede variar según el flujo de pacientes del día.
-                  </p>
-                </div>
+            <p className="text-white/80 text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl">
+              Tu salud es nuestra prioridad. Desde 1964 atendemos consultas y estudios que no pueden esperar — acercate a cualquiera de nuestros centros y te atendemos el mismo día.
+            </p>
 
-                {/* Bottom stats badge */}
-                <div className="absolute bottom-5 left-5 right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4">
-                  <div className="grid grid-cols-3 divide-x divide-white/15">
-                    <div className="pr-3">
-                      <p
-                        className="font-display text-2xl font-medium text-white"
-                        style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                      >
-                        9
-                      </p>
-                      <p className="font-mono text-[9px] uppercase tracking-widest text-white/65 leading-tight mt-0.5">Servicios</p>
-                    </div>
-                    <div className="px-3">
-                      <p
-                        className="font-display text-2xl font-medium text-white"
-                        style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                      >
-                        +6
-                      </p>
-                      <p className="font-mono text-[9px] uppercase tracking-widest text-white/65 leading-tight mt-0.5">Centros</p>
-                    </div>
-                    <div className="pl-3">
-                      <p
-                        className="font-display text-2xl font-medium text-white"
-                        style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-                      >
-                        1964
-                      </p>
-                      <p className="font-mono text-[9px] uppercase tracking-widest text-white/65 leading-tight mt-0.5">Fundación</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="#servicios"
+                className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+              >
+                <MapPin size={15} strokeWidth={2.25} />
+                Ver centros y horarios
+              </Link>
+              <Link
+                href="https://portal.dim.com.ar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white hover:bg-[#F4EFE7] text-[#081827] font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+              >
+                <CalendarDays size={15} strokeWidth={2.25} />
+                Pedir turno online
+              </Link>
             </div>
           </div>
 

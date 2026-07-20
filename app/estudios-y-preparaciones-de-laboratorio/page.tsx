@@ -23,10 +23,21 @@ export const metadata = {
 export default function EstudiosLaboratorioPage() {
   return (
     <>
-      {/* ────────── Hero ────────── */}
-      <section className="relative bg-gradient-to-br from-[#103A73] via-[#1956A6] to-[#5636A4] overflow-hidden">
+      {/* ────────── Hero (banner) ────────── */}
+      <section className="relative bg-[#103A73] overflow-hidden">
+        {/* Full-width background image */}
+        <Image
+          src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=1600&q=80"
+          alt="Profesional de laboratorio de DIM Centros de Salud"
+          fill
+          sizes="100vw"
+          className="object-cover object-[70%_30%]"
+          priority
+        />
+        {/* Legibility overlays: brand-blue scrim on the text side */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B2440]/95 via-[#103A73]/72 to-[#5636A4]/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-transparent to-[#081827]/40" />
         <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-[#F26A21]/15 blur-3xl pointer-events-none" />
-        <div className="absolute -left-20 bottom-0 w-80 h-80 rounded-full bg-white/5 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-16 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
@@ -38,116 +49,58 @@ export default function EstudiosLaboratorioPage() {
             <span className="text-white/90">Estudios y preparaciones de laboratorio</span>
           </nav>
 
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
-            {/* Left */}
-            <div>
-              <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
-                <Coffee size={12} strokeWidth={2.25} className="text-[#F26A21]" />
-                Solo 2 horas de ayuno en la mayoría
-              </div>
-
-              <h1
-                className="font-display text-[clamp(44px,6.5vw,84px)] leading-[0.95] tracking-[-0.04em] font-light text-white mb-6"
-                style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-              >
-                ¿Ayunar?
-                <br />
-                <em className="italic text-[#F26A21]">Solo si es necesario.</em>
-              </h1>
-
-              <p className="text-white/75 text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl">
-                En DIM hacemos los análisis de rutina con sólo 2 horas de ayuno. Programá tu extracción a media mañana, al mediodía o después de un desayuno liviano — sin alterar tu día.
-              </p>
-
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="https://portal.dim.com.ar/auth/login"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
-                >
-                  <CalendarDays size={15} strokeWidth={2.25} />
-                  Quiero un turno
-                </Link>
-                <Link
-                  href="#categorias"
-                  className="inline-flex items-center gap-2 bg-white hover:bg-[#F4EFE7] text-[#081827] font-semibold px-6 py-3 rounded-full text-sm transition-colors"
-                >
-                  <FileText size={15} strokeWidth={2.25} />
-                  Ver preparaciones
-                </Link>
-              </div>
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-7">
+              <Coffee size={12} strokeWidth={2.25} className="text-[#F26A21]" />
+              Solo 2 horas de ayuno en la mayoría
             </div>
 
-            {/* Right: doctor/lab image */}
-            <div className="hidden lg:block relative">
-              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/15 shadow-[0_30px_80px_rgba(8,24,39,.4)]">
-                <Image
-                  src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=900&q=80"
-                  alt="Profesional de laboratorio de DIM Centros de Salud"
-                  fill
-                  sizes="(min-width: 1024px) 45vw, 100vw"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-[#081827]/15 to-transparent" />
+            <h1
+              className="font-display text-[clamp(44px,6.5vw,84px)] leading-[0.95] tracking-[-0.04em] font-light text-white mb-6"
+              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            >
+              ¿Ayunar?
+              <br />
+              <em className="italic text-[#F26A21]">Solo si es necesario.</em>
+            </h1>
 
-                {/* Top floating chip */}
-                <div className="absolute top-5 right-5 bg-white/10 backdrop-blur-md border border-white/25 rounded-2xl px-4 py-3 max-w-[240px]">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F26A21]" />
-                    <p className="font-mono text-[9px] uppercase tracking-widest text-white/80">
-                      Acceso rápido
-                    </p>
-                  </div>
-                  <p className="text-white text-[12px] font-light leading-snug">
-                    Reservá tu turno desde el Portal y subí la orden médica en segundos.
-                  </p>
-                </div>
+            <p className="text-white/80 text-lg lg:text-xl font-light leading-relaxed mb-8 max-w-xl">
+              En DIM hacemos los análisis de rutina con sólo 2 horas de ayuno. Programá tu extracción a media mañana, al mediodía o después de un desayuno liviano — sin alterar tu día.
+            </p>
 
-                {/* Bottom stats badge — three fasting tiers */}
-                <div className="absolute bottom-5 left-5 right-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4">
-                  <p className="font-mono text-[9px] uppercase tracking-widest text-white/65 mb-2.5">
-                    Tiempos de ayuno
-                  </p>
-                  <div className="grid grid-cols-3 divide-x divide-white/15">
-                    <div className="pr-3">
-                      <p className="font-display text-2xl font-medium text-white" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>
-                        2hs
-                      </p>
-                      <p className="text-[10px] text-white/65 leading-tight mt-0.5">Mayoría de estudios</p>
-                    </div>
-                    <div className="px-3">
-                      <p className="font-display text-2xl font-medium text-white" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>
-                        8hs
-                      </p>
-                      <p className="text-[10px] text-white/65 leading-tight mt-0.5">{STUDIES_8H.length} estudios puntuales</p>
-                    </div>
-                    <div className="pl-3">
-                      <p className="font-display text-2xl font-medium text-white" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>
-                        12hs
-                      </p>
-                      <p className="text-[10px] text-white/65 leading-tight mt-0.5">{STUDIES_12H.length} estudios específicos</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="https://portal.dim.com.ar/auth/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+              >
+                <CalendarDays size={15} strokeWidth={2.25} />
+                Quiero un turno
+              </Link>
+              <Link
+                href="#categorias"
+                className="inline-flex items-center gap-2 bg-white hover:bg-[#F4EFE7] text-[#081827] font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+              >
+                <FileText size={15} strokeWidth={2.25} />
+                Ver preparaciones
+              </Link>
             </div>
           </div>
 
-          {/* Stats strip — mobile fallback */}
-          <div className="grid grid-cols-3 lg:hidden gap-x-4 gap-y-5 mt-14 border-t border-white/15 pt-8">
+          {/* Stats strip — three fasting tiers */}
+          <div className="grid grid-cols-3 gap-x-4 gap-y-5 mt-14 lg:mt-20 border-t border-white/15 pt-8 max-w-2xl">
             <div>
-              <p className="font-display text-3xl font-medium text-white tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>2hs</p>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">Ayuno habitual</p>
+              <p className="font-display text-3xl lg:text-4xl font-medium text-white tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>2hs</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">Mayoría de estudios</p>
             </div>
             <div>
-              <p className="font-display text-3xl font-medium text-white tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>+{STUDIES_8H.length}</p>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">Con 8hs ayuno</p>
+              <p className="font-display text-3xl lg:text-4xl font-medium text-white tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>+{STUDIES_8H.length}</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">Con 8hs de ayuno</p>
             </div>
             <div>
-              <p className="font-display text-3xl font-medium text-white tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>{STUDIES_12H.length}</p>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">Con 12hs ayuno</p>
+              <p className="font-display text-3xl lg:text-4xl font-medium text-white tracking-tight" style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}>{STUDIES_12H.length}</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-white/55 mt-1">Con 12hs de ayuno</p>
             </div>
           </div>
         </div>
@@ -276,31 +229,32 @@ export default function EstudiosLaboratorioPage() {
       <section className="bg-[#FBFAF7] py-16 lg:py-20 border-b border-[#E6EAF1]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
-          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 items-center mb-12">
-            <div>
-              <div className="inline-flex items-center border border-[#E6EAF1] bg-white px-3.5 py-1.5 rounded-full text-xs font-medium text-[#4B4F56] mb-5">
-                <Droplets size={12} className="text-[#F26A21] mr-2" strokeWidth={2.25} />
+          {/* Banner — cuidados previos */}
+          <div className="relative rounded-3xl overflow-hidden border border-[#E6EAF1] mb-12 min-h-[340px] lg:min-h-[400px] flex">
+            <Image
+              src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80"
+              alt="Equipo de laboratorio DIM"
+              fill
+              sizes="100vw"
+              className="object-cover object-[70%_40%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0B2440]/95 via-[#103A73]/70 to-[#5636A4]/25" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/70 via-transparent to-transparent" />
+
+            <div className="relative z-10 max-w-xl p-8 lg:p-12 self-center">
+              <div className="inline-flex items-center gap-2 border border-white/20 bg-white/10 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-white/90 mb-5">
+                <Droplets size={12} className="text-[#F26A21]" strokeWidth={2.25} />
                 Cuidados previos
               </div>
               <h3
-                className="font-display text-3xl lg:text-4xl font-light text-[#081827] tracking-[-0.02em] leading-tight mb-4"
+                className="font-display text-3xl lg:text-4xl font-light text-white tracking-[-0.02em] leading-tight mb-4"
                 style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
               >
-                Hidratate <em className="italic text-[#5636A4]">con normalidad.</em>
+                Hidratate <em className="italic text-[#F26A21]">con normalidad.</em>
               </h3>
-              <p className="text-[#4B4F56] font-light text-base lg:text-lg leading-relaxed">
+              <p className="text-white/80 font-light text-base lg:text-lg leading-relaxed">
                 El agua no rompe el ayuno. Tomá agua durante las horas previas a la extracción para facilitar la toma de muestra — salvo indicación contraria de tu médico tratante. Evitá café, mate, jugos y bebidas azucaradas.
               </p>
-            </div>
-
-            <div className="relative aspect-[5/4] rounded-3xl overflow-hidden border border-[#E6EAF1]">
-              <Image
-                src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=900&q=80"
-                alt="Equipo de laboratorio DIM"
-                fill
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
-              />
             </div>
           </div>
 

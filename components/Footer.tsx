@@ -65,9 +65,9 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Image
-              src="/dim-logo.svg"
+              src="/dim-logotipo.svg"
               alt="DIM Centros de Salud"
-              width={100}
+              width={80}
               height={40}
               className="h-10 w-auto mb-4"
             />

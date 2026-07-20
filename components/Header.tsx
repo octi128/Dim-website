@@ -137,9 +137,9 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center">
             <Image
-              src="/dim-logo.svg"
+              src="/dim-logotipo.svg"
               alt="DIM Centros de Salud"
-              width={100}
+              width={80}
               height={40}
               className="h-10 w-auto"
               priority

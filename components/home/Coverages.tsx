@@ -10,11 +10,6 @@ const featured = [
   { name: "AVALIAN", detail: "Todos los planes vigentes · 60 días", accent: "#5636A4" },
 ];
 
-const others = COVERAGES
-  .filter((c) => !featured.some((f) => f.name.toLowerCase() === c.name.toLowerCase()))
-  .slice(0, 16)
-  .map((c) => c.name);
-
 const total = COVERAGES.length;
 
 export default function Coverages() {
@@ -60,21 +55,6 @@ export default function Coverages() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Others — scrolling pill list */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {others.map((name) => (
-            <div
-              key={name}
-              className="bg-white border border-[#E6EAF1] rounded-full px-4 py-2 text-sm text-[#4B4F56] font-medium hover:border-[#F26A21]/40 hover:text-[#F26A21] transition-colors cursor-default"
-            >
-              {name}
-            </div>
-          ))}
-          <div className="bg-[#F4EFE7] border border-[#E6EAF1] rounded-full px-4 py-2 text-sm text-[#4B4F56] font-medium">
-            +{total - featured.length - others.length} más
-          </div>
         </div>
 
         {/* CTA strip */}

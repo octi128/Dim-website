@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, MapPin, CalendarDays, ArrowUpRight, Clock } from "lucide-react";
 import CentresGrid from "@/components/CentresGrid";
@@ -19,11 +20,21 @@ const STATS = [
 export default function NuestrosCentrosPage() {
   return (
     <>
-      {/* ────────── Hero ────────── */}
-      <section className="relative bg-gradient-to-br from-[#103A73] via-[#1956A6] to-[#5636A4] overflow-hidden">
+      {/* ────────── Hero (banner) ────────── */}
+      <section className="relative bg-[#103A73] overflow-hidden">
+        {/* Full-width background image */}
+        <Image
+          src="/centros-hero.jpg"
+          alt="Profesionales de DIM Centros de Salud"
+          fill
+          sizes="100vw"
+          className="object-cover object-[75%_30%]"
+          priority
+        />
+        {/* Legibility overlays: brand-blue scrim on the text side */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B2440]/95 via-[#103A73]/72 to-[#5636A4]/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#081827]/85 via-transparent to-[#081827]/40" />
         <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-[#F26A21]/15 blur-3xl pointer-events-none" />
-        <div className="absolute -left-20 bottom-0 w-80 h-80 rounded-full bg-white/5 blur-3xl pointer-events-none" />
-        <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-[#5636A4]/30 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-16 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
