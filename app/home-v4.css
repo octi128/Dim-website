@@ -986,6 +986,8 @@
     .section { padding: 68px 0; }
     .hero { padding: 64px 0 72px; min-height: auto; }
     .hero > .wrap { padding: 0 44px; }
+    /* En pantallas chicas el radio grande se come el encuadre de la foto. */
+    .hero-photo-bg { border-radius: 12px; }
     .bento-panel { padding: 36px 22px 30px; border-radius: 20px; }
     .bento-grid { grid-template-columns: 1fr; }
     .editorial-band { height: 520px; }

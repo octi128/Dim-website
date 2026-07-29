@@ -67,9 +67,9 @@ export default function Footer() {
       {/* Tarjeta única, siempre centrada y con tope de 1600px. */}
       <div className="max-w-[1600px] mx-auto bg-white border border-[#E6EAF1] rounded-3xl overflow-hidden">
         {/* ── Tier 1: columnas de enlaces + panel de la app ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-10 lg:gap-16 p-8 sm:p-10 lg:p-14 border-b border-[#E6EAF1]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-10 lg:gap-16 px-5 py-8 sm:p-10 lg:p-14 border-b border-[#E6EAF1]">
           {/* Columnas de navegación */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-8 md:gap-8">
             {cols.map((col) => (
               <div key={col.title}>
                 <p className="text-[#081827] font-mono font-semibold text-[10px] uppercase tracking-[0.14em] mb-4">
@@ -95,7 +95,7 @@ export default function Footer() {
 
           {/* Panel destacado: turnos, contacto y descarga de la app.
               Ocupa el lugar del bloque "Stay in the loop" de la referencia. */}
-          <div className="bg-[#FBFAF7] border border-[#E6EAF1] rounded-2xl p-6 flex flex-col">
+          <div className="bg-[#FBFAF7] border border-[#E6EAF1] rounded-2xl p-5 sm:p-6 flex flex-col">
             <p className="text-[#5636A4] font-mono font-medium text-[10px] uppercase tracking-[0.16em] mb-2">
               App DIM Salud
             </p>
@@ -174,7 +174,7 @@ export default function Footer() {
         </div>
 
         {/* ── Tier 2: marca + redes ── */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 p-8 sm:p-10 lg:px-14 lg:py-10 border-b border-[#E6EAF1]">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 px-5 py-8 sm:p-10 lg:px-14 lg:py-10 border-b border-[#E6EAF1]">
           <div className="max-w-md">
             <Image
               src="/dim-logotipo.svg"
@@ -211,7 +211,7 @@ export default function Footer() {
         </div>
 
         {/* ── Tier 3: barra legal ── */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-8 sm:px-10 lg:px-14 py-5">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-5 sm:px-10 lg:px-14 py-5">
           <p className="text-xs text-[#737985]">
             © DIM Salud — Todos los derechos reservados desde 1964
           </p>
