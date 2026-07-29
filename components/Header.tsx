@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, Menu, X, ChevronDown, ArrowUpRight } from "lucide-react";
@@ -97,13 +98,45 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [overHero, setOverHero] = useState(false);
+  /** true sólo cuando la zona oscura activa es el hero de portada (data-hero-dark="hero"). */
+  const [overMainHero, setOverMainHero] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // El Header vive en el layout y no se vuelve a montar al navegar, así que las
+  // zonas [data-hero-dark] se leen en vivo dentro de check() (nunca guardamos una
+  // referencia que quede colgada al desmontarse la página anterior). Depende de
+  // pathname para forzar una lectura apenas se pinta la nueva ruta.
+  useEffect(() => {
+    const check = () => {
+      const zones = document.querySelectorAll<HTMLElement>("[data-hero-dark]");
+      const navH = headerRef.current?.offsetHeight ?? 80;
+      let active: HTMLElement | null = null;
+      for (const z of zones) {
+        const r = z.getBoundingClientRect();
+        if (r.top <= navH + 8 && r.bottom > navH) {
+          active = z;
+          break;
+        }
+      }
+      setOverHero(!!active);
+      setOverMainHero(active?.dataset.heroDark === "hero");
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -123,13 +156,27 @@ export default function Header() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  const dark = overHero && openDropdown === null;
+  const white = !dark && (scrolled || openDropdown !== null);
+
+  /* La línea inferior #0A286E se muestra en todos lados MENOS en dos casos: sobre
+     el hero de portada y con el navbar en blanco. En esos dos el borde no se quita
+     sino que se pinta del color del propio header: así la altura sigue siendo 81px
+     (el layout no salta al hacer scroll) y no se abre un hueco de 1px por el que
+     se vería la página detrás del megamenú. */
+  const borderClass = dark
+    ? overMainHero
+      ? "border-[#061224]"
+      : "border-[#0A286E]"
+    : white
+    ? "border-white"
+    : "border-[#0A286E]";
+
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 transition-all duration-200 ${
-        scrolled || openDropdown !== null
-          ? "bg-white shadow-[0_1px_0_#E6EAF1]"
-          : "bg-[#FBFAF7]"
+      className={`sticky top-0 z-50 border-b transition-all duration-200 ${borderClass} ${
+        dark ? "bg-[#061224]" : white ? "bg-white" : "bg-[#FBFAF7]"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -137,7 +184,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center">
             <Image
-              src="/dim-logotipo.svg"
+              src={dark ? "/dim-logotipo-white.svg" : "/dim-logotipo.svg"}
               alt="DIM Centros de Salud"
               width={80}
               height={40}
@@ -155,7 +202,7 @@ export default function Header() {
                   key={nav.label}
                   onClick={() => setOpenDropdown(isOpen ? null : idx)}
                   aria-expanded={isOpen}
-                  className="relative flex items-center gap-1.5 px-4 py-2 text-[15px] font-medium text-[#081827] group"
+                  className={`relative flex items-center gap-1.5 px-4 py-2 text-[15px] font-medium group transition-colors ${dark ? "text-white" : "text-[#081827]"}`}
                 >
                   <span className="relative pb-1">
                     {nav.label}
@@ -168,7 +215,7 @@ export default function Header() {
                   <ChevronDown
                     size={14}
                     className={`transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-[#F26A21]" : "text-[#737985]"
+                      isOpen ? "rotate-180 text-[#F26A21]" : dark ? "text-white/70" : "text-[#737985]"
                     }`}
                     strokeWidth={2.25}
                   />
@@ -180,7 +227,7 @@ export default function Header() {
           {/* Right: search + CTA */}
           <div className="flex items-center gap-3">
             <button
-              className="hidden md:flex items-center gap-2 text-[#081827] hover:text-[#F26A21] transition-colors text-sm font-medium px-2 py-2"
+              className={`hidden md:flex items-center gap-2 hover:text-[#F26A21] transition-colors text-sm font-medium px-2 py-2 ${dark ? "text-white" : "text-[#081827]"}`}
               aria-label="Buscar"
             >
               <Search size={17} strokeWidth={2} />
@@ -190,13 +237,13 @@ export default function Header() {
               href="https://portal.dim.com.ar"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center bg-[#081827] hover:bg-[#103A73] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-200"
+              className={`hidden sm:inline-flex items-center text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-200 ${dark ? "bg-white text-[#081827] hover:bg-white/90" : "bg-[#081827] hover:bg-[#103A73] text-white"}`}
             >
               Portal de Turnos
             </Link>
 
             <button
-              className="lg:hidden p-2 text-[#4B4F56] hover:bg-[#F4EFE7] rounded-lg transition-colors"
+              className={`lg:hidden p-2 rounded-lg transition-colors ${dark ? "text-white hover:bg-white/10" : "text-[#4B4F56] hover:bg-[#F4EFE7]"}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Menú"
             >
@@ -209,7 +256,7 @@ export default function Header() {
       {/* Desktop backdrop — covers only the area below the navbar bar (h-20 = 80px) */}
       {openDropdown !== null && (
         <div
-          className="hidden lg:block fixed top-20 inset-x-0 bottom-0 bg-[#081827]/25 backdrop-blur-[2px] backdrop-enter"
+          className="hidden lg:block fixed top-[81px] inset-x-0 bottom-0 bg-[#081827]/25 backdrop-blur-[2px] backdrop-enter"
           onClick={() => setOpenDropdown(null)}
           aria-hidden="true"
         />
@@ -217,7 +264,7 @@ export default function Header() {
 
       {/* Desktop megamenu */}
       {openDropdown !== null && (
-        <div className="hidden lg:block absolute top-full left-0 right-0 bg-white border-t border-[#E6EAF1] shadow-[0_24px_48px_-12px_rgba(8,24,39,.10)] dropdown-enter">
+        <div className="hidden lg:block absolute top-[calc(100%+1px)] left-0 right-0 bg-white shadow-[0_24px_48px_-12px_rgba(8,24,39,.10)] dropdown-enter">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 lg:py-12">
             <div className="grid grid-cols-12 gap-10">
               {/* Two link columns */}

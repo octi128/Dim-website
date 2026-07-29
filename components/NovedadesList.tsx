@@ -41,6 +41,18 @@ export default function NovedadesList({ items }: { items: NewsItem[] }) {
 
   const close = useCallback(() => setSelected(null), []);
 
+  // Al llegar con #novedad-<id> (por ejemplo desde el carrusel del home) abrimos
+  // esa novedad. Limpiamos el hash enseguida para que al cerrar el modal la URL
+  // quede consistente y no vuelva a abrirse.
+  useEffect(() => {
+    const match = window.location.hash.match(/^#novedad-(\d+)$/);
+    if (!match) return;
+    const item = items.find((i) => i.id === Number(match[1]));
+    if (!item) return;
+    setSelected(item);
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }, [items]);
+
   // Cerrar con Escape + bloquear scroll del body mientras el modal está abierto
   useEffect(() => {
     if (!selected) return;

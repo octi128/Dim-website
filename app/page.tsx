@@ -1,5 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
+import EspecialidadesAccordion from "@/components/home/EspecialidadesAccordion";
+import CoberturasMarquee from "@/components/home/CoberturasMarquee";
+import TestimoniosPacientes from "@/components/home/TestimoniosPacientes";
+import NovedadesCarrusel from "@/components/home/NovedadesCarrusel";
 import "./home-v4.css";
 
 const LETTERS = "ABCDEFGHIJLMNOPQRSTUVZ".split("");
@@ -45,7 +48,10 @@ export default function Home() {
       </svg>
 
       {/* ───────────────── HERO ──────────────────── */}
-      <section className="hero">
+      {/* data-hero-dark="hero" identifica al hero de portada: el navbar se pone
+          oscuro pero SIN la línea inferior. En el resto de secciones oscuras la
+          línea sí se muestra. */}
+      <section className="hero" data-hero-dark="hero">
         <div className="hero-photo-bg" aria-hidden="true" />
         <div className="wrap">
           <div className="hero-grid">
@@ -59,23 +65,6 @@ export default function Home() {
               <p className="lead">
                 Diagnóstico por imágenes, laboratorio, consultorios, cirugías y atención sin turno previo. Todo en un mismo lugar, en Zona Oeste y CABA.
               </p>
-              <div className="hero-tech">
-                <span className="hero-tech-chip">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
-                    <circle cx="12" cy="12" r="3" fill="currentColor" />
-                  </svg>
-                  PET digital GE Healthcare
-                </span>
-                <span className="hero-tech-chip">
-                  <svg viewBox="0 0 24 24" fill="none"><use href="#ico-scan" /></svg>
-                  Resonancia 3T
-                </span>
-                <span className="hero-tech-chip">
-                  <svg viewBox="0 0 24 24" fill="none"><use href="#ico-flask" /></svg>
-                  Laboratorio propio
-                </span>
-              </div>
             </div>
 
             {/* ACCESO RÁPIDO */}
@@ -132,21 +121,6 @@ export default function Home() {
                 </div>
                 <span className="quick-chevron">›</span>
               </Link>
-              <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="quick-item">
-                <div className="quick-item-left">
-                  <div className="ico" style={{ background: "rgba(16,58,115,.12)" }}>
-                    <svg viewBox="0 0 24 24" style={{ color: "var(--blue)", width: 18, height: 18 }}>
-                      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                      <path d="M9 12h6M9 16h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="quick-item-name">Mis resultados</div>
-                    <div className="quick-item-desc">Accedé a tus estudios y análisis</div>
-                  </div>
-                </div>
-                <span className="quick-chevron">›</span>
-              </Link>
               <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="btn btn-violet" style={{ height: 44, fontSize: 13, width: "100%", justifyContent: "center" }}>
                 Reservá tu turno →
               </Link>
@@ -155,306 +129,169 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────────────── STRIP STATS ───────────── */}
-      <div className="strip">
-        <div className="strip-inner">
-          <div className="strip-cell">
-            <div>
-              <div className="strip-n">+850</div>
-              <div className="strip-l">Médicos y especialistas</div>
-              <div className="strip-s">Certificados</div>
-            </div>
-          </div>
-          <div className="strip-cell">
-            <div>
-              <div className="strip-n">60+</div>
-              <div className="strip-l">Años de trayectoria</div>
-              <div className="strip-s">Fundado en 1964</div>
-            </div>
-          </div>
-          <div className="strip-cell">
-            <div>
-              <div className="strip-n">+350</div>
-              <div className="strip-l">Especialidades médicas</div>
-              <div className="strip-s">Alta y baja complejidad</div>
-            </div>
-          </div>
-          <div className="strip-cell">
-            <div>
-              <div className="strip-n">+104</div>
-              <div className="strip-l">Obras sociales y prepagas</div>
-              <div className="strip-s">Actualizadas</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ───────────────── SERVICIOS ─────────────── */}
-      <section className="section">
+      {/* ───────────────── SEDES ─────────────── */}
+      <section className="sedes" data-hero-dark>
         <div className="wrap">
-          <div className="services-header">
-            <div>
-              <div className="eyebrow" style={{ marginBottom: 16 }}>Nuestros servicios</div>
-              <h2>Tus estudios en<br />un solo <em className="soft violet">lugar.</em></h2>
-            </div>
-            <p className="lead" style={{ fontSize: 16 }}>
-              Más de 350 especialidades y la tecnología diagnóstica disponible en los mejores centros del mundo, en Zona Oeste y CABA.
-            </p>
-          </div>
-          <div className="services-grid">
-            <div className="s-featured">
-              <div className="s-featured-photo" aria-hidden="true" />
-              <div className="eyebrow white">Especialistas</div>
-              <h3>850+ profesionales médicos<br /><em className="soft v-light">para cada necesidad.</em></h3>
-              <p>Todas las especialidades en un mismo sistema de turnos y resultados.</p>
-              <Link href="/especialidades-medicas" className="btn btn-ghost-white" style={{ height: 44 }}>Ver especialidades →</Link>
-            </div>
-            <div className="s-card">
-              <div className="ico violet-bg">
-                <svg viewBox="0 0 24 24" style={{ color: "var(--violet)", width: 22, height: 22 }}><use href="#ico-scan" /></svg>
+          <h2 className="sedes-title">Cerca tuyo, en <em className="soft v-light">cada etapa.</em></h2>
+          <p className="sedes-sub">Más de 6 centros de salud en Zona Oeste y CABA para acompañarte en cada momento.</p>
+          <div className="sedes-grid">
+            <Link href="/nuestros-centros-y-horarios" className="sede-card" style={{ backgroundImage: "url(/home/porque-dim.jpg)" }}>
+              <span className="sede-dot"><i style={{ background: "#2DD4BF" }} /></span>
+              <div className="sede-card-body">
+                <h3 className="sede-name">DIM Alta<br />Complejidad</h3>
+                <div className="sede-desc">Espora 18, Ramos Mejía</div>
               </div>
-              <div className="s-card-name">Resonancia Magnética</div>
-              <div className="s-card-desc">Resonadores de 1.5 y 3 Teslas · Alta resolución diagnóstica</div>
-            </div>
-            <div className="s-card">
-              <div className="ico orange-bg">
-                <svg viewBox="0 0 24 24" style={{ color: "var(--orange)", width: 22, height: 22 }}><use href="#ico-flask" /></svg>
+            </Link>
+            <Link href="/nuestros-centros-y-horarios" className="sede-card" style={{ backgroundImage: "url(/home/clin-guardia.jpg)" }}>
+              <span className="sede-dot"><i style={{ background: "#34D399" }} /></span>
+              <div className="sede-card-body">
+                <h3 className="sede-name">DIM<br />Rivadavia</h3>
+                <div className="sede-desc">Av. Rivadavia 14252 · Sin turno previo</div>
               </div>
-              <div className="s-card-name">Laboratorio</div>
-              <div className="s-card-desc">Propio de referencia · Resultados online</div>
-            </div>
-            <div className="s-card">
-              <div className="ico" style={{ background: "rgba(16,58,115,.1)" }}>
-                <svg viewBox="0 0 24 24" style={{ color: "var(--blue-2)", width: 22, height: 22 }}><use href="#ico-scan" /></svg>
+            </Link>
+            <Link href="/nuestros-centros-y-horarios" className="sede-card" style={{ backgroundImage: "url(/home/editorial-nina.jpg)" }}>
+              <span className="sede-dot"><i style={{ background: "#7C6CF0" }} /></span>
+              <div className="sede-card-body">
+                <h3 className="sede-name">DIM<br />Mujer</h3>
+                <div className="sede-desc">Av. Rivadavia 14282, Ramos Mejía</div>
               </div>
-              <div className="s-card-name">Medicina Nuclear</div>
-              <div className="s-card-desc">PET/CT Digital · Oncología de precisión</div>
-            </div>
-            <div className="s-card">
-              <div className="ico" style={{ background: "rgba(110,139,123,.12)" }}>
-                <svg viewBox="0 0 24 24" style={{ color: "var(--sage)", width: 22, height: 22 }}><use href="#ico-knife" /></svg>
+            </Link>
+            <Link href="/nuestros-centros-y-horarios" className="sede-card" style={{ backgroundImage: "url(/odontologia-consultorio.jpg)" }}>
+              <span className="sede-dot"><i style={{ background: "#F5B301" }} /></span>
+              <div className="sede-card-body">
+                <h3 className="sede-name">DIM<br />Odontología</h3>
+                <div className="sede-desc">Av. Rivadavia 14230, Ramos Mejía</div>
               </div>
-              <div className="s-card-name">Cirugías</div>
-              <div className="s-card-desc">3 quirófanos · Procedimientos ambulatorios</div>
-            </div>
-            <div className="s-card">
-              <div className="ico violet-bg">
-                <svg viewBox="0 0 24 24" style={{ color: "var(--violet)", width: 22, height: 22 }}><use href="#ico-heart" /></svg>
-              </div>
-              <div className="s-card-name">Oncología</div>
-              <div className="s-card-desc">Alianza Instituto Alexander Fleming</div>
-            </div>
-            <div className="s-card">
-              <div className="ico orange-bg">
-                <svg viewBox="0 0 24 24" style={{ color: "var(--orange)", width: 22, height: 22 }}><use href="#ico-clock" /></svg>
-              </div>
-              <div className="s-card-name">Atención sin turno previo</div>
-              <div className="s-card-desc">Todos los días · Rivadavia 14252</div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ───────────────── FOTO EDITORIAL ────────── */}
-      <div className="foto-editorial" role="img" aria-label="Una niña sonríe junto a la técnica de DIM frente a un equipo Philips">
-        <Image src="/home/editorial-nina.jpg" alt="Niña con la técnica de DIM frente a un equipo Philips, antes de su estudio" fill sizes="100vw" style={{ objectFit: "cover", objectPosition: "75% 35%", opacity: 0.82 }} priority />
-        <div className="foto-editorial-overlay" aria-hidden="true" />
-        <div className="foto-editorial-inner">
-          <div className="foto-editorial-content">
-            <div className="eyebrow orange" style={{ marginBottom: 16 }}>Tecnología de diagnóstico</div>
-            <h2 style={{ color: "#fff", lineHeight: 1.06 }}>
-              La tecnología más avanzada al servicio de tu <em className="soft" style={{ color: "var(--violet-light)" }}>tranquilidad.</em>
-            </h2>
-            <p style={{ marginTop: 20 }}>
-              Resonancia 3T, PET/CT Digital y resonadores pediátricos especialmente diseñados para hacer cada estudio lo más cómodo y calmado posible.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ───────────────── DESTACADOS CLÍNICOS ─── */}
-      <section className="section" style={{ background: "var(--ink)", borderTop: "none", paddingBottom: 80 }}>
-        <div className="wrap on-dark">
-          <div className="clinicos-header">
-            <div>
-              <div className="eyebrow orange" style={{ marginBottom: 16 }}>PET digital · Resonancia 3T</div>
-              <h2 style={{ color: "#fff" }}>Tu salud, en alta <em className="soft v-light">resolución.</em></h2>
-            </div>
-            <p style={{ color: "rgba(255,255,255,.6)", fontSize: 16, lineHeight: 1.65 }}>
-              La precisión que necesita tu diagnóstico. Resonancia 3T, PET/CT digital y laboratorio propio, con respaldo de los principales centros de referencia del país.
-            </p>
-          </div>
-
-          <div className="clinicos-grid">
-            <div className="clin-card pet">
-              <div className="clin-card-photo" aria-hidden="true" />
-              <div>
-                <div className="clin-eyebrow">DIM PET · Nuevo · Argentina</div>
-                <div className="clin-big">1°</div>
-                <div className="clin-big-sub">En Argentina</div>
-                <div className="clin-name">PET/CT Digital Omni Legend™</div>
-                <div className="clin-desc">El primer equipo GE Healthcare de este tipo en el país. Diagnóstico oncológico de alta precisión, en menos tiempo y con mayor comodidad para el paciente.</div>
-              </div>
-              <button className="btn btn-ghost-white" style={{ height: 44 }}>Conocer el estudio →</button>
-            </div>
-
-            <div className="clin-card lab">
-              <div className="clin-card-photo" aria-hidden="true" />
-              <div>
-                <div className="clin-eyebrow">Laboratorio · Referencia</div>
-                <div className="clin-big">1 día</div>
-                <div className="clin-big-sub">Resultados online</div>
-                <div className="clin-name">Saber primero. <em className="soft v-light">Curar mejor.</em></div>
-                <div className="clin-desc">Más de 300 determinaciones. Resultados directamente en tu app el mismo día. Y para la mayoría de los estudios, solo necesitás 2 horas de ayuno.</div>
-              </div>
-              <button className="btn btn-ghost-white" style={{ height: 44 }}>Sacar turno →</button>
-            </div>
-
-            <div className="clin-card guard">
-              <div className="clin-card-photo" aria-hidden="true" />
-              <div>
-                <div className="clin-eyebrow">Atención sin turno · Rivadavia</div>
-                <div className="clin-name" style={{ fontSize: "clamp(22px,2.2vw,32px)", marginTop: 12 }}>Cuando lo necesitás, <em className="soft v-light">ya estamos.</em></div>
-                <div className="clin-desc" style={{ marginTop: 16 }}>Todos los días, a cualquier hora. Con laboratorio e imágenes en el acto para resolver en el momento. Av. Rivadavia 14252, Ramos Mejía.</div>
-              </div>
-              <button className="btn btn-ghost-white" style={{ height: 44 }}>Cómo llegar →</button>
-            </div>
-          </div>
-
-          <div className="quiro-row">
-            <div className="quiro-photo-bg" aria-hidden="true" />
-            <div>
-              <div className="eyebrow orange" style={{ marginBottom: 10 }}>Cirugía ambulatoria</div>
-              <h3 style={{ color: "#fff", fontSize: "clamp(22px,2.5vw,30px)" }}>Cirugía ambulatoria con <em className="soft v-light">alta el mismo día.</em></h3>
-              <p style={{ color: "rgba(255,255,255,.6)", marginTop: 10, fontSize: 15, maxWidth: 560 }}>3 quirófanos propios para procedimientos ambulatorios, con alta el mismo día en la mayoría de los casos. DIM no realiza internación.</p>
-            </div>
-            <div style={{ textAlign: "right", flexShrink: 0 }}>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 80, fontWeight: 300, color: "#fff", letterSpacing: "-.04em", lineHeight: 1 }}>3</div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".16em", textTransform: "uppercase", color: "rgba(255,255,255,.45)", marginTop: 4 }}>Quirófanos propios</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ───────────────── POR QUÉ DIM ─────────────── */}
-      <section className="section">
+      {/* ───────────────── BENEFICIOS / BENTO ─────────────── */}
+      <section className="beneficios" data-hero-dark>
         <div className="wrap">
-          <div className="porque-grid">
-            <div style={{ position: "relative" }}>
-              <div className="porque-foto">
-                <Image src="/home/porque-dim.jpg" alt="Paciente acompañada por una profesional de DIM Salud" fill sizes="(max-width: 1040px) 100vw, 50vw" style={{ objectFit: "cover", objectPosition: "center 35%" }} />
-                <div className="porque-foto-badge" aria-hidden="true">
-                  <div className="badge-n">+2M</div>
-                  <div className="badge-l">Prestaciones por año</div>
-                </div>
+          <div className="bento-panel">
+            <div className="bento-head">
+              <h2>Diagnóstico, tratamiento y seguimiento<em className="soft violet"> — todo en un solo lugar</em></h2>
+              <div className="bento-head-side">
+                <div className="bento-avatar" style={{ backgroundImage: "url(/home/porque-dim.jpg)" }} />
+                <p>Desde 1964 acompañamos a las familias de Zona Oeste y CABA con la tecnología, los especialistas y la cercanía que cada momento necesita.</p>
               </div>
             </div>
 
-            <div>
-              <div className="eyebrow" style={{ marginBottom: 16 }}>Por qué elegir DIM</div>
-              <h2>+800 médicos.<br />Uno <em className="soft violet">cerca tuyo.</em></h2>
-              <p className="lead" style={{ fontSize: 16, marginTop: 16, maxWidth: "100%" }}>
-                Más de 60 años cuidando la salud de las familias de Zona Oeste y CABA. Baja, mediana y alta complejidad en un solo lugar, con la tecnología que cada diagnóstico requiere.
-              </p>
-              <div className="feature-list">
-                <div className="feat">
-                  <div className="feat-dot" />
-                  <div className="feat-text"><strong>Atención personalizada en cada etapa</strong><span>De la consulta al diagnóstico, siempre acompañado</span></div>
-                </div>
-                <div className="feat">
-                  <div className="feat-dot" />
-                  <div className="feat-text"><strong>PET digital, resonancia 3T y laboratorio propio</strong><span>PET/CT digital Omni Legend de GE Healthcare</span></div>
-                </div>
-                <div className="feat">
-                  <div className="feat-dot" />
-                  <div className="feat-text"><strong>100% digital: turnos, resultados y recetas</strong><span>Desde la app o el portal web, en cualquier momento</span></div>
-                </div>
-                <div className="feat">
-                  <div className="feat-dot" />
-                  <div className="feat-text"><strong>Sede universitaria de la UBA</strong><span>Formamos médicos residentes en Diagnóstico por Imágenes desde 2014, en las mismas salas donde te atendemos.</span></div>
-                </div>
-                <div className="feat">
-                  <div className="feat-dot" />
-                  <div className="feat-text"><strong>Atención sin turno previo</strong><span>Todos los días en Av. Rivadavia, Ramos Mejía</span></div>
-                </div>
-                <div className="feat">
-                  <div className="feat-dot" />
-                  <div className="feat-text"><strong>Quirófanos propios para cirugías ambulatorias</strong><span>Alta complejidad diagnóstica y terapéutica</span></div>
-                </div>
-              </div>
-              <div className="kpi-grid">
-                <div className="kpi-box">
-                  <div className="kpi-n">60+</div>
-                  <div className="kpi-l">Años de trayectoria</div>
-                  <div className="kpi-s">Desde 1964</div>
-                </div>
-                <div className="kpi-box">
-                  <div className="kpi-n">98%</div>
-                  <div className="kpi-l">Resultados online</div>
-                  <div className="kpi-s">Acceso digital inmediato</div>
-                </div>
-                <div className="kpi-box">
-                  <div className="kpi-n">+104</div>
-                  <div className="kpi-l">Coberturas médicas</div>
-                  <div className="kpi-s">Obras sociales y prepagas</div>
-                </div>
-                <div className="kpi-box">
-                  <div className="kpi-n">+350</div>
-                  <div className="kpi-l">Especialidades</div>
-                  <div className="kpi-s">Alta y baja complejidad</div>
-                </div>
-                <div className="kpi-testi">
-                  <div className="stars">★ ★ ★ ★ ★</div>
-                  <p>&ldquo;DIM tiene todos los estudios y especialistas en un solo lugar. Desde que me atienden acá no necesito ir a ningún otro lado.&rdquo;</p>
-                  <div className="author">Paciente DIM · Ramos Mejía</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* BANDA DE RECONOCIMIENTOS */}
-          <div className="reconocimientos-banda">
-            <div className="reconoc-eyebrow">Reconocimientos institucionales</div>
-            <div className="reconoc-cards">
-              <div className="reconoc-card">
-                <div className="reconoc-icon reconoc-icon--blue">
-                  <span className="reconoc-uba">UBA</span>
-                </div>
-                <div className="reconoc-body">
-                  <div className="reconoc-tag reconoc-tag--blue">Sede universitaria</div>
-                  <div className="reconoc-title">Universidad de Buenos Aires</div>
-                  <div className="reconoc-desc">Carrera de Diagnóstico por Imágenes · Sede oficial desde 2014</div>
-                </div>
+            <div className="bento-grid">
+              <div className="bento-col bento-col--a">
+                <article className="bento-card bento-photo" style={{ backgroundImage: "url(/conocenos-hero.jpg)" }}>
+                  <h3>Más de 850 médicos y 350 especialidades, en un solo lugar</h3>
+                </article>
+                <article className="bento-card bento-dark">
+                  <h3>Atención sin turno previo, todos los días del año</h3>
+                  <div className="bento-radar" aria-hidden="true">
+                    <span className="bento-radar-ring" />
+                    <span className="bento-radar-ring bento-radar-ring--2" />
+                    <span className="bento-radar-sweep" />
+                  </div>
+                </article>
               </div>
 
-              <div className="reconoc-divider" aria-hidden="true" />
+              <div className="bento-col bento-col--b">
+                <article className="bento-card bento-blue">
+                  <h3>PET/CT digital, resonancia 3T y tomografía multicorte</h3>
+                  <div className="bento-stack" aria-hidden="true">
+                    <span className="bento-chip bento-chip--1">Tomografía multicorte</span>
+                    <span className="bento-chip bento-chip--2">Resonancia 3T</span>
+                    <span className="bento-chip bento-chip--3">PET/CT Digital</span>
+                  </div>
+                </article>
+                <article className="bento-card bento-soft">
+                  <h3>100% digital: turnos, resultados y recetas desde la app</h3>
+                  <div className="bento-bubbles" aria-hidden="true">
+                    <span className="bento-bubble bento-bubble--dark" />
+                    <span className="bento-bubble bento-bubble--light">
+                      <svg viewBox="0 0 24 24"><use href="#ico-heart" /></svg>
+                    </span>
+                  </div>
+                </article>
+              </div>
 
-              <div className="reconoc-card">
-                <div className="reconoc-icon reconoc-icon--gradient">
-                  <div className="reconoc-nivel-a">A</div>
-                </div>
-                <div className="reconoc-body">
-                  <div className="reconoc-tag reconoc-tag--orange">Máximo reconocimiento</div>
-                  <div className="reconoc-title">SIER Nivel A · Ministerio de Salud</div>
-                  <div className="reconoc-desc">Residencia en Diagnóstico por Imágenes reconocida con Nivel A por 5 años · Disposición DI-2026-171 · Junio 2026</div>
-                </div>
+              <div className="bento-col bento-col--c">
+                <article className="bento-card bento-sky">
+                  <h3>Más de 104 obras sociales y prepagas</h3>
+                  <div className="bento-orbit" aria-hidden="true">
+                    <span className="bento-orbit-ring" />
+                    <span className="bento-orbit-ring bento-orbit-ring--2" />
+                    <span className="bento-orbit-ring bento-orbit-ring--3" />
+                    <span className="bento-orbit-tag bento-orbit-tag--1">OSDE</span>
+                    <span className="bento-orbit-tag bento-orbit-tag--2">Swiss Medical</span>
+                  </div>
+                </article>
+                <article className="bento-card bento-photo" style={{ backgroundImage: "url(/home/clin-lab.jpg)" }}>
+                  <h3>Laboratorio propio con resultados online el mismo día</h3>
+                </article>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ───────────────── PROPÓSITO ─────────────── */}
-      <div className="proposito">
-        <div className="wrap">
-          <div className="eyebrow orange" style={{ marginBottom: 14 }}>Nuestro propósito</div>
-          <h2>
-            <span className="linea">&ldquo;Ayudar a las personas a vivir más y mejor,</span>
-            <span className="linea">manteniendo su salud, <em className="soft">autonomía y calidad de vida</em></span>
-            <span className="linea">durante más tiempo.&rdquo;</span>
-          </h2>
+      {/* ───────────────── BANDA EDITORIAL ─────────────── */}
+      <section className="editorial-band" aria-hidden="true" />
+
+      {/* ───────────────── MÉTRICAS ───────────── */}
+      <section className="metricas">
+        <div className="metricas-panel">
+          <div className="metricas-rules" aria-hidden="true">
+            <span /><span /><span /><span />
+          </div>
+
+          <div className="metricas-head">
+            <h2>Más cuidado con<em className="soft violet"> menos vueltas</em></h2>
+            <p>
+              Al reunir médicos, estudios y laboratorio en un mismo lugar,<br />
+              acortamos los tiempos de diagnóstico y evitamos derivaciones innecesarias.
+            </p>
+          </div>
+
+          <div className="metricas-grid">
+            <div className="metrica">
+              <div className="metrica-ring metrica-ring--1">
+                <div className="metrica-n">+850</div>
+                <p>Médicos y especialistas certificados en un solo lugar</p>
+              </div>
+            </div>
+            <div className="metrica">
+              <div className="metrica-ring metrica-ring--2">
+                <div className="metrica-n">60+</div>
+                <p>Años acompañando a las familias de Zona Oeste, desde 1964</p>
+              </div>
+            </div>
+            <div className="metrica">
+              <div className="metrica-ring metrica-ring--3">
+                <div className="metrica-n">+350</div>
+                <p>Especialidades médicas de alta y baja complejidad</p>
+              </div>
+            </div>
+            <div className="metrica">
+              <div className="metrica-ring metrica-ring--4">
+                <div className="metrica-n">+104</div>
+                <p>Obras sociales y prepagas con cobertura vigente</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* ───────────────── ESPECIALIDADES ────────── */}
+      <EspecialidadesAccordion />
+
+      {/* ───────────────── OBRAS SOCIALES (marquee) ────────── */}
+      <CoberturasMarquee />
+
+      {/* ───────────────── TESTIMONIOS ────────── */}
+      <TestimoniosPacientes />
+
+      {/* ───────────────── NOVEDADES (carrusel) ────────── */}
+      <NovedadesCarrusel />
 
       {/* ───────────────── APP ────────────────────── */}
       <section className="section">
@@ -501,95 +338,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ───────────────── COBERTURAS ─────────────── */}
-      <section className="section cob-wrap" style={{ borderTop: "1px solid var(--line)" }}>
-        <div className="wrap">
-          <div className="eyebrow" style={{ marginBottom: 16 }}>Coberturas</div>
-          <h2>Más de 104 <em className="soft violet">coberturas</em> médicas.</h2>
-          <div className="cob-grid">
-            <div className="cob-card"><div className="cob-head" style={{ background: "var(--blue)" }}>OSDE</div><div className="cob-body">Todos los planes</div></div>
-            <div className="cob-card"><div className="cob-head" style={{ background: "var(--blue)" }}>Medife</div><div className="cob-body">Cobertura completa</div></div>
-            <div className="cob-card"><div className="cob-head" style={{ background: "var(--blue)" }}>Swiss Medical</div><div className="cob-body">Todos los planes</div></div>
-            <div className="cob-card"><div className="cob-head" style={{ background: "var(--blue)" }}>Galeno</div><div className="cob-body">Alta y baja complejidad</div></div>
-            <div className="cob-card"><div className="cob-head" style={{ background: "var(--blue)" }}>Sancor Salud</div><div className="cob-body">Todos los planes</div></div>
-            <div className="cob-card"><div className="cob-head" style={{ background: "var(--blue)" }}>Avalian</div><div className="cob-body">Todos los planes</div></div>
-          </div>
-          <div className="cob-cta">
-            <div>
-              <p>Trabajamos con obras sociales y prepagas.</p>
-              <span>OSDE · Medife · Swiss · Galeno · Sancor · PAMI · Y muchas más</span>
-            </div>
-            <Link href="/coberturas-medicas" className="btn btn-orange">Ver todas las coberturas</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ───────────────── CENTROS ─────────────── */}
-      <section className="section" style={{ borderTop: "1px solid var(--line)" }}>
-        <div className="wrap">
-          <div className="centros-head-row">
-            <div>
-              <div className="eyebrow" style={{ marginBottom: 16 }}>Nuestros centros</div>
-              <h2>Estamos <em className="soft violet">cerca tuyo.</em></h2>
-            </div>
-            <Link href="/nuestros-centros-y-horarios">Ver todos los centros →</Link>
-          </div>
-          <div className="centros-grid">
-            <div className="centro-card">
-              <div className="centro-head">
-                <div className="centro-name">DIM Alta Complejidad</div>
-                <span className="centro-tag violet">Principal</span>
-              </div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-location" /></svg>Espora 18, Ramos Mejía</div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-clock" /></svg>Lun–Vie 7–21h · Sáb 7–19h · Dom 8–17:30h</div>
-            </div>
-            <div className="centro-card">
-              <div className="centro-head">
-                <div className="centro-name">DIM Rivadavia</div>
-                <span className="centro-tag alert">24 hs</span>
-              </div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-location" /></svg>Av. Rivadavia 14252, Ramos Mejía</div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-clock" /></svg>Lun–Vie 24hs · Sáb–Dom 7–18:30h</div>
-            </div>
-            <div className="centro-card">
-              <div className="centro-head">
-                <div className="centro-name">DIM Mujer</div>
-                <span className="centro-tag">Salud femenina</span>
-              </div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-location" /></svg>Av. Rivadavia 14282, Ramos Mejía</div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-clock" /></svg>Lun–Vie 7:30–20h · Sáb 7:30–17h</div>
-            </div>
-            <div className="centro-card">
-              <div className="centro-head">
-                <div className="centro-name">DIM Odontología</div>
-                <span className="centro-tag violet">Premium</span>
-              </div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-location" /></svg>Av. Rivadavia 14230, Ramos Mejía</div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-clock" /></svg>Consultar horarios</div>
-            </div>
-            <div className="centro-card">
-              <div className="centro-head">
-                <div className="centro-name">DIM Sede Central</div>
-              </div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-location" /></svg>Belgrano 134, Ramos Mejía</div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-clock" /></svg>Consultar horarios</div>
-            </div>
-            <div className="centro-card">
-              <div className="centro-head">
-                <div className="centro-name">DIM Once</div>
-                <span className="centro-tag">CABA</span>
-              </div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-location" /></svg>Av. Rivadavia 2198, Once, CABA</div>
-              <div className="centro-info"><svg viewBox="0 0 24 24"><use href="#ico-phone" /></svg>WhatsApp: 15-6205-0330</div>
-            </div>
-          </div>
-          <div className="centros-cta">
-            <Link href="/nuestros-centros-y-horarios" className="btn btn-ghost">Todos los centros y horarios</Link>
-            <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="btn btn-orange">Sacar un turno ahora</Link>
           </div>
         </div>
       </section>

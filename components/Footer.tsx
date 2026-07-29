@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, Clock } from "lucide-react";
+import { Phone, MessageCircle, Clock } from "lucide-react";
 
 const cols = [
   {
@@ -55,65 +55,62 @@ const socials = [
   { label: "LinkedIn", href: "https://ar.linkedin.com/company/dimcentrosdesalud" },
 ];
 
+const legal = [
+  { label: "Política de Privacidad", href: "/politica" },
+  { label: "Comité de Ética", href: "/comite-de-etica" },
+  { label: "Contactanos", href: "/contacto" },
+];
+
 export default function Footer() {
   return (
-    <footer className="bg-[#F4EFE7] pb-8 pt-2 px-6 lg:px-8">
-      {/* Main card */}
-      <div className="max-w-7xl mx-auto bg-white border border-[#E6EAF1] rounded-3xl overflow-hidden">
-        {/* Top: brand + contact */}
-        <div className="grid md:grid-cols-2 gap-8 p-8 lg:p-10 border-b border-[#E6EAF1]">
-          {/* Brand */}
-          <div>
-            <Image
-              src="/dim-logotipo.svg"
-              alt="DIM Centros de Salud"
-              width={80}
-              height={40}
-              className="h-10 w-auto mb-4"
-            />
-            <p className="text-[#4B4F56] font-light text-sm leading-relaxed max-w-xs mb-5">
-              Líderes en imágenes médicas, consultas y laboratorios desde 1964. Zona Oeste del Gran Buenos Aires.
-            </p>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center gap-2 text-[#737985]">
-                <Mail size={13} className="text-[#F26A21] flex-shrink-0" />
-                <a href="mailto:turnos@dim.com.ar" className="hover:text-[#F26A21] transition-colors">turnos@dim.com.ar</a>
+    <footer className="bg-[#F4EFE7] pb-8 pt-2 px-4 sm:px-6 lg:px-8">
+      {/* Tarjeta única, siempre centrada y con tope de 1600px. */}
+      <div className="max-w-[1600px] mx-auto bg-white border border-[#E6EAF1] rounded-3xl overflow-hidden">
+        {/* ── Tier 1: columnas de enlaces + panel de la app ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-10 lg:gap-16 p-8 sm:p-10 lg:p-14 border-b border-[#E6EAF1]">
+          {/* Columnas de navegación */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {cols.map((col) => (
+              <div key={col.title}>
+                <p className="text-[#081827] font-mono font-semibold text-[10px] uppercase tracking-[0.14em] mb-4">
+                  {col.title}
+                </p>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                        className="text-[#737985] hover:text-[#F26A21] text-sm font-light transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
+            ))}
           </div>
 
-          {/* Contact + app */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {/* Contact */}
-            <div className="bg-[#FBFAF7] border border-[#E6EAF1] rounded-2xl p-4 flex flex-col gap-3">
-              <div className="flex items-start gap-2.5 text-sm">
-                <Phone size={14} className="text-[#F26A21] mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-[#737985] text-xs">Central de Turnos</p>
-                  <p className="font-bold text-[#081827]">5554-8888</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-2.5 text-sm">
-                <Phone size={14} className="text-[#F26A21] mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-[#737985] text-xs">WhatsApp</p>
-                  <p className="font-bold text-[#081827]">11-6648-5555</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-2.5 text-sm">
-                <Clock size={14} className="text-[#F26A21] mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-[#737985] text-xs">Atención</p>
-                  <p className="font-medium text-[#081827] text-xs">Lun–Vie 8–20h · Sáb 8–13h</p>
-                </div>
-              </div>
-            </div>
+          {/* Panel destacado: turnos, contacto y descarga de la app.
+              Ocupa el lugar del bloque "Stay in the loop" de la referencia. */}
+          <div className="bg-[#FBFAF7] border border-[#E6EAF1] rounded-2xl p-6 flex flex-col">
+            <p className="text-[#5636A4] font-mono font-medium text-[10px] uppercase tracking-[0.16em] mb-2">
+              App DIM Salud
+            </p>
+            <p className="text-[#4B4F56] text-sm font-light leading-relaxed mb-5">
+              Pedí turnos, accedé a tus resultados y llevá tu historial médico
+              siempre con vos.
+            </p>
 
-            {/* App downloads */}
             <div className="flex flex-col gap-2.5">
-              <p className="text-[#737985] text-[10px] font-mono font-medium uppercase tracking-wider mb-1">App DIM Salud</p>
-              <a href="https://apps.apple.com/ar/app/dim-salud-turnos-y-resultados/id1627335644" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2.5 bg-[#081827] hover:bg-[#103A73] text-white rounded-xl px-4 py-3 transition-colors">
+              <a
+                href="https://apps.apple.com/ar/app/dim-salud-turnos-y-resultados/id1627335644"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 bg-[#081827] hover:bg-[#103A73] text-white rounded-xl px-4 py-3 transition-colors"
+              >
                 <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white flex-shrink-0" aria-hidden>
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
                 </svg>
@@ -122,8 +119,12 @@ export default function Footer() {
                   <div className="text-xs font-semibold">App Store</div>
                 </div>
               </a>
-              <a href="https://play.google.com/store/apps/details?id=ar.com.dim.portalturnos" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2.5 bg-[#081827] hover:bg-[#103A73] text-white rounded-xl px-4 py-3 transition-colors">
+              <a
+                href="https://play.google.com/store/apps/details?id=ar.com.dim.portalturnos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 bg-[#081827] hover:bg-[#103A73] text-white rounded-xl px-4 py-3 transition-colors"
+              >
                 <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" aria-hidden>
                   <path d="M3 2 L14 12 L3 22 Z" fill="#00C3FF" />
                   <path d="M3 2 L18 8.5 L14 12 Z" fill="#FF3D47" />
@@ -136,40 +137,93 @@ export default function Footer() {
                 </div>
               </a>
             </div>
+
+            {/* Contacto rápido */}
+            <div className="mt-6 pt-5 border-t border-[#E6EAF1] space-y-3">
+              <a
+                href="tel:55548888"
+                className="flex items-center gap-2.5 group"
+              >
+                <Phone size={14} className="text-[#F26A21] flex-shrink-0" />
+                <span className="text-[#737985] text-xs">Central de Turnos</span>
+                <span className="ml-auto font-bold text-[#081827] text-sm group-hover:text-[#F26A21] transition-colors">
+                  5554-8888
+                </span>
+              </a>
+              <a
+                href="https://wa.me/541166485555"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 group"
+              >
+                <MessageCircle size={14} className="text-[#F26A21] flex-shrink-0" />
+                <span className="text-[#737985] text-xs">WhatsApp</span>
+                <span className="ml-auto font-bold text-[#081827] text-sm group-hover:text-[#F26A21] transition-colors">
+                  11-6648-5555
+                </span>
+              </a>
+              <div className="flex items-center gap-2.5">
+                <Clock size={14} className="text-[#F26A21] flex-shrink-0" />
+                <span className="text-[#737985] text-xs">Atención</span>
+                <span className="ml-auto font-medium text-[#081827] text-xs">
+                  Lun–Vie 8–20h · Sáb 8–13h
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Nav columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 lg:p-10">
-          {cols.map((col) => (
-            <div key={col.title}>
-              <p className="text-[#081827] font-mono font-semibold text-[10px] uppercase tracking-wider mb-4">{col.title}</p>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
-                      className="text-[#737985] hover:text-[#F26A21] text-sm font-light transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        {/* ── Tier 2: marca + redes ── */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 p-8 sm:p-10 lg:px-14 lg:py-10 border-b border-[#E6EAF1]">
+          <div className="max-w-md">
+            <Image
+              src="/dim-logotipo.svg"
+              alt="DIM Centros de Salud"
+              width={110}
+              height={56}
+              className="h-12 w-auto mb-4"
+            />
+            <p className="text-[#4B4F56] font-light text-sm leading-relaxed mb-3">
+              Líderes en imágenes médicas, consultas y laboratorios desde 1964.
+              Zona Oeste del Gran Buenos Aires.
+            </p>
+            <a
+              href="mailto:turnos@dim.com.ar"
+              className="text-sm text-[#737985] hover:text-[#F26A21] transition-colors"
+            >
+              turnos@dim.com.ar
+            </a>
+          </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-[#E6EAF1] px-8 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-[#737985]">© DIM Salud — Todos los derechos reservados desde 1964</p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5 md:gap-6">
             {socials.map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-xs text-[#737985] hover:text-[#F26A21] transition-colors font-medium">
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-[#737985] hover:text-[#F26A21] transition-colors"
+              >
                 {s.label}
               </a>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Tier 3: barra legal ── */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-8 sm:px-10 lg:px-14 py-5">
+          <p className="text-xs text-[#737985]">
+            © DIM Salud — Todos los derechos reservados desde 1964
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            {legal.map((l) => (
+              <Link
+                key={l.label}
+                href={l.href}
+                className="text-xs text-[#737985] hover:text-[#F26A21] transition-colors"
+              >
+                {l.label}
+              </Link>
             ))}
           </div>
         </div>
