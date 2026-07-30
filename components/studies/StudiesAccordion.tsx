@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Search, ArrowUpRight, X } from "lucide-react";
 import type { Study } from "@/lib/studies";
+import { useQueryParam } from "@/lib/useQueryParam";
 import StudyIcon from "./StudyIcon";
 
 interface Props {
@@ -32,14 +33,37 @@ function studyMatches(study: Study, q: string) {
 }
 
 export default function StudiesAccordion({ studies }: Props) {
-  const [query, setQuery] = useState("");
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  // Llegada desde el buscador global (`?q=`): la semilla es el valor de arranque del
+  // filtro y deja de mandar apenas la persona escribe. Se deriva en el render en
+  // lugar de copiarse al estado con un efecto, así no hay un frame con la lista sin
+  // filtrar. `typed` en null significa "todavía no tocó el campo"; limpiar deja ""
+  // y la semilla no vuelve.
+  const seed = useQueryParam("q");
+  const [typed, setTyped] = useState<string | null>(null);
+  const query = typed ?? seed;
+  const setQuery = setTyped;
 
   const q = normalize(query.trim());
   const filtered = useMemo(() => {
     if (!q) return studies;
     return studies.filter((s) => studyMatches(s, q));
   }, [studies, q]);
+
+  // Si la semilla deja un solo estudio a la vista, se abre solo: el dato que se vino
+  // a buscar está adentro del panel y pedir un clic más sería raro. Con dos o más
+  // queda cerrado, que es la vista de comparación.
+  const seedSlug = useMemo(() => {
+    const sq = normalize(seed.trim());
+    if (!sq) return null;
+    const matches = studies.filter((s) => studyMatches(s, sq));
+    return matches.length === 1 ? matches[0].slug : null;
+  }, [seed, studies]);
+
+  // `undefined` es "nadie abrió ni cerró nada todavía", y ahí manda la semilla. El
+  // primer clic fija el estado y a partir de ahí gana siempre la persona.
+  const [manualSlug, setManualSlug] = useState<string | null | undefined>(undefined);
+  const openSlug = manualSlug === undefined ? seedSlug : manualSlug;
+  const setOpenSlug = setManualSlug;
 
   return (
     <div>

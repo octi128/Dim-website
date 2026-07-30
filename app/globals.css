@@ -78,10 +78,97 @@ body {
   animation: modalIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Menú mobile a pantalla completa: la superficie funde y cada fila sube
+   escalonada. Van con fill "both" (no "forwards") porque las filas llevan
+   delay y necesitan arrancar ocultas durante la espera. */
+@keyframes menuPanelIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* Fundido corto a propósito: mientras la superficie es translúcida se transparenta
+   la página de atrás y el menú se lee sucio. Se vuelve opaca rápido y el gesto
+   queda a cargo de las filas. */
+.menu-panel-enter {
+  animation: menuPanelIn 0.14s ease-out both;
+}
+
+@keyframes menuRowIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.menu-row-enter {
+  animation: menuRowIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Cierre en dos tiempos: primero se va el contenido, después la superficie.
+   Si fundieran juntos, durante el cruce se leerían a la vez el menú y el h1 del
+   hero y quedaría una doble exposición ilegible. Con la superficie todavía
+   opaca el contenido se retira limpio, y lo último que funde es un rectángulo
+   liso: ahí sí destapar la página se lee bien.
+   El total (0.08 + 0.14 = 0.22s) tiene que coincidir con el timer que desmonta
+   el panel en Header.tsx. */
+@keyframes menuContentOut {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+.menu-content-exit {
+  animation: menuContentOut 0.1s ease-in both;
+}
+
+@keyframes menuPanelOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.menu-panel-exit {
+  animation: menuPanelOut 0.14s ease-in 0.08s both;
+}
+
+/* Submenús del acordeón. El contenedor se abre a la par de la cascada: si sólo
+   escalonáramos los ítems, el bloque saltaría a su altura final de golpe y
+   quedaría un hueco vacío debajo del último ítem visible.
+   grid-template-rows 0fr→1fr es la única forma de animar "hasta el alto del
+   contenido" sin medirlo en JS. Ojo: el alto colapsado NO va en la regla base,
+   así que si el browser no interpola unidades fr el submenú queda abierto en
+   lugar de invisible. */
+@keyframes menuSubGroupIn {
+  from { grid-template-rows: 0fr; }
+  to   { grid-template-rows: 1fr; }
+}
+/* A propósito va un paso POR DETRÁS de la cascada de ítems (más lento y con una
+   curva menos adelantada que el resto del menú). Si abriera más rápido que la
+   cascada, se vería sitio vacío esperando ítems; yendo detrás, cada ítem ya está
+   fundido cuando el clip lo destapa y la apertura se lee como un barrido. */
+.menu-sub-group {
+  display: grid;
+  animation: menuSubGroupIn 0.4s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+/* min-height:0 porque un ítem de grid no baja de su alto de contenido sin esto,
+   y el clip es lo que hace visible la apertura. */
+.menu-sub-group > div {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Recorrido y duración más cortos que las filas de primer nivel: son hasta ocho
+   ítems seguidos y con el mismo gesto que el padre la cascada se haría eterna. */
+@keyframes menuSubIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.menu-sub-enter {
+  animation: menuSubIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .backdrop-enter,
   .modal-enter,
-  .dropdown-enter {
+  .dropdown-enter,
+  .menu-panel-enter,
+  .menu-row-enter,
+  .menu-panel-exit,
+  .menu-content-exit,
+  .menu-sub-group,
+  .menu-sub-enter {
     animation: none;
   }
 }

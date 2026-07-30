@@ -11,7 +11,8 @@ export const AVAILABLE_LETTERS = [
 
 export type AvailableLetter = typeof AVAILABLE_LETTERS[number];
 
-const DISEASES: Disease[] = [
+/** Exportado para que el buscador global (lib/search.ts) pueda indexarlas. */
+export const DISEASES: Disease[] = [
   // A
   { name: "Acné", slug: "acne", letter: "A" },
   { name: "Alergia alimentaria", slug: "alergia-alimentaria", letter: "A" },

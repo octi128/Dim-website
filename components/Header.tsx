@@ -1,10 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, Menu, X, ChevronDown, ArrowUpRight } from "lucide-react";
+import SiteSearch from "@/components/SiteSearch";
+
+/** Duración del cierre del menú mobile. Espejo del CSS: .menu-content-exit (0.1s)
+    + .menu-panel-exit (0.14s con 0.08s de retardo). Si cambia uno, cambian los dos. */
+const MENU_EXIT_MS = 220;
 
 type NavLink = { label: string; href: string; external?: boolean };
 
@@ -95,12 +100,17 @@ const navItems: NavItem[] = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  /** El panel sigue montado mientras se reproduce el cierre; sin esto React lo
+      desmontaría en el mismo frame y no habría nada que animar. */
+  const [mobileClosing, setMobileClosing] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<number | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [overHero, setOverHero] = useState(false);
   /** true sólo cuando la zona oscura activa es el hero de portada (data-hero-dark="hero"). */
   const [overMainHero, setOverMainHero] = useState(false);
+  /** Panel del buscador de escritorio. En mobile el buscador va inline en el menú. */
+  const [searchOpen, setSearchOpen] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -138,10 +148,13 @@ export default function Header() {
     };
   }, [pathname]);
 
+  // El buscador de escritorio cuelga del header igual que el megamenú, así que
+  // comparte estos dos listeners en lugar de duplicarlos.
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
         setOpenDropdown(null);
+        setSearchOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -150,11 +163,86 @@ export default function Header() {
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpenDropdown(null);
+      if (e.key === "Escape") {
+        setOpenDropdown(null);
+        setSearchOpen(false);
+      }
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
+
+  // Al navegar se cierra el panel. El Header no se desmonta entre rutas, así que sin
+  // esto quedaría abierto encima de la página nueva.
+  //
+  // El ajuste va en el render y no en un efecto a propósito: es el patrón de React
+  // para resetear estado cuando cambia un valor de arriba. Con un efecto, el panel
+  // abierto llegaría a pintarse sobre la página nueva antes de cerrarse.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setSearchOpen(false);
+  }
+
+  /** Arranca el cierre animado. No lee estado, así que los listeners que la
+      capturan nunca quedan con una versión vieja. Con motion reducido cierra de
+      una: la animación está anulada por CSS y esperarla sería una pausa muerta. */
+  const closeMobileMenu = useCallback(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setMobileClosing(false);
+      setMobileOpen(false);
+      return;
+    }
+    setMobileClosing(true);
+  }, []);
+
+  // Desmontaje por temporizador y no por animationend: con motion reducido el
+  // evento no se dispara nunca y el menú quedaría abierto para siempre.
+  // MENU_EXIT_MS tiene que seguir al cierre de globals.css (.menu-content-exit
+  // 0.1s + .menu-panel-exit 0.14s con 0.08s de retardo = 220ms).
+  useEffect(() => {
+    if (!mobileClosing) return;
+    const t = setTimeout(() => {
+      setMobileOpen(false);
+      setMobileClosing(false);
+    }, MENU_EXIT_MS);
+    return () => clearTimeout(t);
+  }, [mobileClosing]);
+
+  // El menú mobile es un overlay fijo que tapa el viewport: si no bloqueamos el
+  // scroll del body, la página sigue desplazándose por detrás. El listener de
+  // resize evita el caso en que se rota a desktop con el menú abierto: el panel
+  // se oculta por lg:hidden y el body quedaría trabado sin nada que lo cierre.
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMobileMenu();
+    };
+    // Acá sí es un corte seco: el panel ya se escondió por lg:hidden, animar
+    // algo que nadie ve sólo retrasaría el desbloqueo del scroll.
+    const onResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileClosing(false);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+      // Al cerrar, el acordeón vuelve a cero para que no reabra expandido. Corre
+      // recién en el desmontaje, o sea después del cierre: si se reseteara al
+      // apretar el botón, el submenú desaparecería antes de la animación.
+      setMobileExpanded(null);
+    };
+  }, [mobileOpen, closeMobileMenu]);
 
   const dark = overHero && openDropdown === null;
   const white = !dark && (scrolled || openDropdown !== null);
@@ -227,10 +315,20 @@ export default function Header() {
           {/* Right: search + CTA */}
           <div className="flex items-center gap-3">
             <button
-              className={`hidden md:flex items-center gap-2 hover:text-[#F26A21] transition-colors text-sm font-medium px-2 py-2 ${dark ? "text-white" : "text-[#081827]"}`}
-              aria-label="Buscar"
+              onClick={() => {
+                // Abrir el buscador cierra el megamenú: los dos son paneles
+                // anclados al header y superpuestos quedarían uno sobre el otro.
+                setOpenDropdown(null);
+                setSearchOpen((v) => !v);
+              }}
+              className={`hidden md:flex items-center gap-2 transition-colors text-sm font-medium px-2 py-2 ${
+                searchOpen ? "text-[#F26A21]" : dark ? "text-white hover:text-[#F26A21]" : "text-[#081827] hover:text-[#F26A21]"
+              }`}
+              aria-label={searchOpen ? "Cerrar buscador" : "Buscar"}
+              aria-expanded={searchOpen}
+              aria-controls="site-search-panel"
             >
-              <Search size={17} strokeWidth={2} />
+              {searchOpen ? <X size={17} strokeWidth={2} /> : <Search size={17} strokeWidth={2} />}
             </button>
 
             <Link
@@ -244,10 +342,22 @@ export default function Header() {
 
             <button
               className={`lg:hidden p-2 rounded-lg transition-colors ${dark ? "text-white hover:bg-white/10" : "text-[#4B4F56] hover:bg-[#F4EFE7]"}`}
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => {
+                if (mobileClosing) {
+                  // Se toca de nuevo mientras se cierra: se cancela el cierre y
+                  // el panel vuelve a entrar en vez de quedar a medio camino.
+                  setMobileClosing(false);
+                } else if (mobileOpen) {
+                  closeMobileMenu();
+                } else {
+                  setMobileOpen(true);
+                }
+              }}
               aria-label="Menú"
+              aria-expanded={mobileOpen && !mobileClosing}
+              aria-controls="mobile-menu"
             >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileOpen && !mobileClosing ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -260,6 +370,33 @@ export default function Header() {
           onClick={() => setOpenDropdown(null)}
           aria-hidden="true"
         />
+      )}
+
+      {/* Buscador de escritorio. Panel angosto y alineado a la derecha, anclado al
+          botón de la lupa; el megamenú en cambio ocupa todo el ancho. Desde md
+          porque ese es el breakpoint en el que aparece la lupa. */}
+      {searchOpen && (
+        <>
+          <div
+            className="hidden md:block fixed top-[81px] inset-x-0 bottom-0 bg-[#081827]/25 backdrop-blur-[2px] backdrop-enter"
+            onClick={() => setSearchOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            id="site-search-panel"
+            className="hidden md:block absolute top-[calc(100%+1px)] inset-x-0"
+          >
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+              <div className="ml-auto w-full max-w-md bg-white border border-[#E6EAF1] rounded-2xl shadow-[0_24px_48px_-12px_rgba(8,24,39,.18)] p-4 dropdown-enter">
+                <SiteSearch
+                  variant="overlay"
+                  autoFocus
+                  onNavigate={() => setSearchOpen(false)}
+                />
+              </div>
+            </div>
+          </div>
+        </>
       )}
 
       {/* Desktop megamenu */}
@@ -331,22 +468,35 @@ export default function Header() {
         </div>
       )}
 
-      {/* Mobile menu */}
+      {/* Mobile menu — panel fijo que ocupa el viewport completo por debajo de la
+          barra (65px = h-16 + el borde). h-[calc(100dvh-65px)] usa la unidad
+          dinámica para descontar la barra de direcciones del navegador mobile; si
+          el browser no entiende dvh, la declaración se descarta y queda el
+          top/bottom como fallback. */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-[#E6EAF1] bg-[#FBFAF7]">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            {/* Mobile search */}
-            <div className="flex items-center gap-2 bg-white border border-[#E6EAF1] rounded-full px-4 py-2.5 mb-4">
-              <Search size={14} className="text-[#737985]" />
-              <input
-                type="text"
-                placeholder="Buscar especialidad o estudio..."
-                className="bg-transparent text-sm text-[#081827] outline-none flex-1 placeholder-[#737985]"
-              />
+        <div
+          id="mobile-menu"
+          className={`lg:hidden fixed inset-x-0 top-[65px] bottom-0 h-[calc(100dvh-65px)] overflow-y-auto overscroll-contain bg-[#FBFAF7] ${
+            mobileClosing ? "menu-panel-exit pointer-events-none" : "menu-panel-enter"
+          }`}
+        >
+          <div
+            className={`max-w-7xl mx-auto px-6 pt-5 pb-10 ${
+              mobileClosing ? "menu-content-exit" : ""
+            }`}
+          >
+            {/* Mobile search. Sin autoFocus a propósito: en mobile levantaría el
+                teclado y taparía el menú que la persona recién abrió. */}
+            <div className="menu-row-enter" style={{ animationDelay: "0.04s" }}>
+              <SiteSearch variant="inline" onNavigate={closeMobileMenu} />
             </div>
 
             {navItems.map((nav, idx) => (
-              <div key={nav.label} className="border-b border-[#E6EAF1] last:border-0">
+              <div
+                key={nav.label}
+                className="border-b border-[#E6EAF1] last:border-0 menu-row-enter"
+                style={{ animationDelay: `${0.09 + idx * 0.05}s` }}
+              >
                 <button
                   className="flex items-center justify-between w-full py-3.5 text-sm font-semibold text-[#081827]"
                   onClick={() => setMobileExpanded(mobileExpanded === idx ? null : idx)}
@@ -358,29 +508,37 @@ export default function Header() {
                   />
                 </button>
                 {mobileExpanded === idx && (
-                  <div className="pb-3 pl-2 space-y-0.5">
-                    {nav.cols.flat().map((item) => (
-                      <Link
-                        key={`mobile-${nav.label}-${item.label}`}
-                        href={item.href}
-                        target={item.external ? "_blank" : undefined}
-                        className="block py-2 px-2 text-sm text-[#737985] hover:text-[#F26A21] transition-colors"
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
+                  <div className="menu-sub-group">
+                    <div>
+                      <div className="pb-3 pl-2 space-y-0.5">
+                        {nav.cols.flat().map((item, i) => (
+                          <Link
+                            key={`mobile-${nav.label}-${item.label}`}
+                            href={item.href}
+                            target={item.external ? "_blank" : undefined}
+                            className="block py-2 px-2 text-sm text-[#737985] hover:text-[#F26A21] transition-colors menu-sub-enter"
+                            style={{ animationDelay: `${i * 0.02}s` }}
+                            onClick={closeMobileMenu}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
             ))}
 
-            <div className="pt-4">
+            <div
+              className="pt-4 menu-row-enter"
+              style={{ animationDelay: `${0.09 + navItems.length * 0.05}s` }}
+            >
               <Link
                 href="https://portal.dim.com.ar"
                 target="_blank"
                 className="flex items-center justify-center w-full bg-[#081827] text-white font-semibold py-3 rounded-full text-sm"
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobileMenu}
               >
                 Portal de Turnos
               </Link>

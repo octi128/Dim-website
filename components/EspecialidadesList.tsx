@@ -58,6 +58,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { SPECIALTIES, normalize } from "@/lib/specialties";
+import { useQueryParam } from "@/lib/useQueryParam";
 
 /** Ícono distintivo por especialidad. Fallback: Stethoscope. */
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -132,7 +133,15 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 export default function EspecialidadesList() {
-  const [query, setQuery] = useState("");
+  // Llegada desde el buscador global (`?q=`): la semilla es el valor de arranque y
+  // deja de mandar apenas la persona escribe. Se deriva en el render en lugar de
+  // copiarse al estado con un efecto, así no hay un frame con la lista sin filtrar.
+  // `typed` en null significa "todavía no tocó el campo"; limpiar deja "" y la
+  // semilla no vuelve.
+  const seed = useQueryParam("q");
+  const [typed, setTyped] = useState<string | null>(null);
+  const query = typed ?? seed;
+  const setQuery = setTyped;
 
   const filtered = useMemo(() => {
     const q = normalize(query.trim());

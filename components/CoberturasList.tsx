@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Search, X } from "lucide-react";
 import { COVERAGES, COVERAGE_TAGS, ALPHABET, type CoverageTag } from "@/lib/coverages";
+import { useQueryParam } from "@/lib/useQueryParam";
 
 const TAG_STYLES: Record<CoverageTag, string> = {
   Prepaga: "bg-[#1956A6]/10 text-[#1956A6]",
@@ -20,7 +21,16 @@ const VALIDITY_STYLES: Record<number, { badge: string; label: string }> = {
 };
 
 export default function CoberturasList() {
-  const [query, setQuery] = useState("");
+  // Llegada desde el buscador global (`?q=`): la semilla es el valor de arranque y
+  // deja de mandar apenas la persona escribe. Se deriva en el render en lugar de
+  // copiarse al estado con un efecto, así no hay un frame con la lista sin filtrar.
+  // `typed` en null significa "todavía no tocó el campo"; limpiar deja "" y la
+  // semilla no vuelve.
+  const seed = useQueryParam("q");
+  const [typed, setTyped] = useState<string | null>(null);
+  const query = typed ?? seed;
+  const setQuery = setTyped;
+
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState<CoverageTag | null>(null);
 

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Search, ArrowUpRight, X, Clock } from "lucide-react";
 import type { LabCategory } from "@/lib/lab-studies";
+import { useQueryParam } from "@/lib/useQueryParam";
 import StudyIcon from "./StudyIcon";
 
 interface Props {
@@ -22,14 +23,36 @@ function categoryMatches(cat: LabCategory, q: string) {
 }
 
 export default function LabAccordion({ categories }: Props) {
-  const [query, setQuery] = useState("");
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  // Llegada desde el buscador global (`?q=`): la semilla es el valor de arranque del
+  // filtro y deja de mandar apenas la persona escribe. Se deriva en el render en
+  // lugar de copiarse al estado con un efecto, así no hay un frame con la lista sin
+  // filtrar. `typed` en null significa "todavía no tocó el campo"; limpiar deja ""
+  // y la semilla no vuelve.
+  const seed = useQueryParam("q");
+  const [typed, setTyped] = useState<string | null>(null);
+  const query = typed ?? seed;
+  const setQuery = setTyped;
 
   const q = normalize(query.trim());
   const filtered = useMemo(() => {
     if (!q) return categories;
     return categories.filter((c) => categoryMatches(c, q));
   }, [categories, q]);
+
+  // Con una sola categoría a la vista se abre sola: quien busca "Calcemia" quiere ver
+  // el requisito de ayuno, que está dentro del panel.
+  const seedSlug = useMemo(() => {
+    const sq = normalize(seed.trim());
+    if (!sq) return null;
+    const matches = categories.filter((c) => categoryMatches(c, sq));
+    return matches.length === 1 ? matches[0].slug : null;
+  }, [seed, categories]);
+
+  // `undefined` es "nadie abrió ni cerró nada todavía", y ahí manda la semilla. El
+  // primer clic fija el estado y a partir de ahí gana siempre la persona.
+  const [manualSlug, setManualSlug] = useState<string | null | undefined>(undefined);
+  const openSlug = manualSlug === undefined ? seedSlug : manualSlug;
+  const setOpenSlug = setManualSlug;
 
   // When user types, expand all matching categories that contain a matching item
   const itemsFiltered = (cat: LabCategory): string[] | undefined => {
