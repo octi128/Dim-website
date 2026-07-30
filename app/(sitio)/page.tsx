@@ -3,7 +3,7 @@ import EspecialidadesAccordion from "@/components/home/EspecialidadesAccordion";
 import CoberturasMarquee from "@/components/home/CoberturasMarquee";
 import TestimoniosPacientes from "@/components/home/TestimoniosPacientes";
 import NovedadesCarrusel from "@/components/home/NovedadesCarrusel";
-import "./home-v4.css";
+import "../home-v4.css";
 
 const LETTERS = "ABCDEFGHIJLMNOPQRSTUVZ".split("");
 
