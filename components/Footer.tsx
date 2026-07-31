@@ -38,7 +38,6 @@ const cols = [
   {
     title: "Ayuda",
     links: [
-      { label: "Preguntas frecuentes", href: "/preguntas-frecuentes" },
       { label: "Contactanos", href: "/contacto" },
       { label: "Receta Digital", href: "/receta-digital" },
       { label: "Pacientes Prioritarios", href: "/pacientes-prioritarios" },
