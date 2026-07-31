@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type Marca = {
   name: string;
   /** Ruta al logo (ej: "/obras-sociales/osde.svg"). Si no existe, se muestra el wordmark. */
@@ -46,6 +48,14 @@ export default function CoberturasMarquee() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* La cinta solo muestra 14 marcas y en loop: el botón es la salida para
+          quien no encontró la suya pasando. */}
+      <div className="cob-marquee-cta">
+        <Link href="/coberturas-medicas" className="btn btn-ghost-white">
+          Ver todas las prepagas
+        </Link>
       </div>
     </section>
   );

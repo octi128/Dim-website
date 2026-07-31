@@ -5,17 +5,15 @@ import TestimoniosPacientes from "@/components/home/TestimoniosPacientes";
 import NovedadesCarrusel from "@/components/home/NovedadesCarrusel";
 import "../home-v4.css";
 
-const LETTERS = "ABCDEFGHIJLMNOPQRSTUVZ".split("");
+// Oculto junto con la sección "buscador" (ver más abajo): vuelve cuando exista
+// el contenido de especialidades detrás de cada letra.
+// const LETTERS = "ABCDEFGHIJLMNOPQRSTUVZ".split("");
 
 export default function Home() {
   return (
     <div className="home-v4">
       {/* ───────────────── SVG DEFS ───────────────── */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-        <symbol id="ico-calendar" viewBox="0 0 24 24">
-          <rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M8 2v4M16 2v4M3 9h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </symbol>
         <symbol id="ico-flask" viewBox="0 0 24 24">
           <path d="M9 3h6M10 3v7l-4 9a1 1 0 00.9 1.5h10.2a1 1 0 00.9-1.5L14 10V3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </symbol>
@@ -35,12 +33,6 @@ export default function Home() {
         </symbol>
         <symbol id="ico-location" viewBox="0 0 24 24">
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 119.5 9 2.5 2.5 0 0112 11.5z" fill="currentColor" />
-        </symbol>
-        <symbol id="ico-apple" viewBox="0 0 24 24">
-          <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.2.06 2.04.72 2.74.73.74 0 2.13-.95 3.61-.81.61.03 2.32.25 3.42 1.85-.09.06-2.04 1.19-2.02 3.56.03 2.82 2.48 3.76 2.5 3.77-.03.07-.39 1.35-1.25 2.78zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.94 1.42-.15-1.15.41-2.35 1.04-3.11z" fill="currentColor" />
-        </symbol>
-        <symbol id="ico-play" viewBox="0 0 24 24">
-          <path d="M5 3l14 9-14 9V3z" fill="currentColor" />
         </symbol>
         <symbol id="ico-knife" viewBox="0 0 24 24">
           <path d="M3 3l16 8-8 2-2 8L3 3z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
@@ -73,18 +65,6 @@ export default function Home() {
                 <div className="eyebrow white">Acceso rápido</div>
                 <h4>¿Qué necesitás resolver hoy?</h4>
               </div>
-              <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="quick-item">
-                <div className="quick-item-left">
-                  <div className="ico">
-                    <svg viewBox="0 0 24 24" style={{ color: "var(--violet)" }}><use href="#ico-calendar" /></svg>
-                  </div>
-                  <div>
-                    <div className="quick-item-name">Reservá un turno</div>
-                    <div className="quick-item-desc">Online y en minutos</div>
-                  </div>
-                </div>
-                <span className="quick-chevron">›</span>
-              </Link>
               <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="quick-item">
                 <div className="quick-item-left">
                   <div className="ico">
@@ -179,31 +159,37 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Cada card es un solo enlace: el `Conocé más` es la señal visual,
+                no un segundo link anidado (eso sería HTML inválido y duplicaría
+                la parada en la navegación por teclado). */}
             <div className="bento-grid">
               <div className="bento-col bento-col--a">
-                <article className="bento-card bento-photo" style={{ backgroundImage: "url(/conocenos-hero.jpg)" }}>
+                <Link href="/conocenos" className="bento-card bento-photo" style={{ backgroundImage: "url(/conocenos-hero.jpg)" }}>
                   <h3>Más de 850 médicos y 350 especialidades, en un solo lugar</h3>
-                </article>
-                <article className="bento-card bento-dark">
+                  <span className="bento-mas">Conocé más <span aria-hidden="true">→</span></span>
+                </Link>
+                <Link href="/atencion-sin-turno-previo" className="bento-card bento-dark">
                   <h3>Atención sin turno previo, todos los días del año</h3>
                   <div className="bento-radar" aria-hidden="true">
                     <span className="bento-radar-ring" />
                     <span className="bento-radar-ring bento-radar-ring--2" />
                     <span className="bento-radar-sweep" />
                   </div>
-                </article>
+                  <span className="bento-mas">Conocé más <span aria-hidden="true">→</span></span>
+                </Link>
               </div>
 
               <div className="bento-col bento-col--b">
-                <article className="bento-card bento-blue">
+                <Link href="/resonancia-magnetica" className="bento-card bento-blue">
                   <h3>PET/CT digital, resonancia 3T y tomografía multicorte</h3>
                   <div className="bento-stack" aria-hidden="true">
                     <span className="bento-chip bento-chip--1">Tomografía multicorte</span>
                     <span className="bento-chip bento-chip--2">Resonancia 3T</span>
                     <span className="bento-chip bento-chip--3">PET/CT Digital</span>
                   </div>
-                </article>
-                <article className="bento-card bento-soft">
+                  <span className="bento-mas">Conocé más <span aria-hidden="true">→</span></span>
+                </Link>
+                <Link href="/mutual-amedim" className="bento-card bento-soft">
                   <h3>100% digital: turnos, resultados y recetas desde la app</h3>
                   <div className="bento-bubbles" aria-hidden="true">
                     <span className="bento-bubble bento-bubble--dark" />
@@ -211,11 +197,12 @@ export default function Home() {
                       <svg viewBox="0 0 24 24"><use href="#ico-heart" /></svg>
                     </span>
                   </div>
-                </article>
+                  <span className="bento-mas">Conocé más <span aria-hidden="true">→</span></span>
+                </Link>
               </div>
 
               <div className="bento-col bento-col--c">
-                <article className="bento-card bento-sky">
+                <Link href="/coberturas-medicas" className="bento-card bento-sky">
                   <h3>Más de 104 obras sociales y prepagas</h3>
                   <div className="bento-orbit" aria-hidden="true">
                     <span className="bento-orbit-ring" />
@@ -224,10 +211,12 @@ export default function Home() {
                     <span className="bento-orbit-tag bento-orbit-tag--1">OSDE</span>
                     <span className="bento-orbit-tag bento-orbit-tag--2">Swiss Medical</span>
                   </div>
-                </article>
-                <article className="bento-card bento-photo" style={{ backgroundImage: "url(/home/clin-lab.jpg)" }}>
+                  <span className="bento-mas">Conocé más <span aria-hidden="true">→</span></span>
+                </Link>
+                <Link href="/estudios-y-preparaciones-de-laboratorio" className="bento-card bento-photo" style={{ backgroundImage: "url(/home/clin-lab.jpg)" }}>
                   <h3>Laboratorio propio con resultados online el mismo día</h3>
-                </article>
+                  <span className="bento-mas">Conocé más <span aria-hidden="true">→</span></span>
+                </Link>
               </div>
             </div>
           </div>
@@ -293,56 +282,13 @@ export default function Home() {
       {/* ───────────────── NOVEDADES (carrusel) ────────── */}
       <NovedadesCarrusel />
 
-      {/* ───────────────── APP ────────────────────── */}
-      <section className="section">
-        <div className="wrap">
-          <div className="app-card">
-            <div>
-              <div className="eyebrow" style={{ marginBottom: 16 }}>App DIM Salud</div>
-              <h2>Tu historial médico completo,<br />siempre en el <em className="soft violet">bolsillo.</em></h2>
-              <p className="lead" style={{ fontSize: 16, marginTop: 14 }}>
-                Con la app DIM Salud podés pedir turnos, ver tus resultados de laboratorio e imágenes, acceder a tus recetas y recibir recordatorios. Todo desde el celular, sin esperas.
-              </p>
-              <div className="app-features">
-                <div className="app-feat">
-                  <div className="ico" style={{ width: 18, height: 18, borderRadius: 4, background: "var(--line)" }}><svg viewBox="0 0 24 24" style={{ width: 10, height: 10, color: "var(--violet)" }}><use href="#ico-calendar" /></svg></div>
-                  Pedí turnos online
-                </div>
-                <div className="app-feat">
-                  <div className="ico" style={{ width: 18, height: 18, borderRadius: 4, background: "var(--line)" }}><svg viewBox="0 0 24 24" style={{ width: 10, height: 10, color: "var(--orange)" }}><use href="#ico-flask" /></svg></div>
-                  Resultados de laboratorio
-                </div>
-                <div className="app-feat">
-                  <div className="ico" style={{ width: 18, height: 18, borderRadius: 4, background: "var(--line)" }}><svg viewBox="0 0 24 24" style={{ width: 10, height: 10, color: "var(--blue-2)" }}><use href="#ico-scan" /></svg></div>
-                  Imágenes y estudios digitales
-                </div>
-                <div className="app-feat">
-                  <div className="ico" style={{ width: 18, height: 18, borderRadius: 4, background: "var(--line)" }}><svg viewBox="0 0 24 24" style={{ width: 10, height: 10, color: "var(--sage)" }}><use href="#ico-heart" /></svg></div>
-                  Recetas y certificados
-                </div>
-              </div>
-            </div>
-            <div className="app-stores">
-              <div className="store-btn">
-                <div className="store-ico"><svg viewBox="0 0 24 24"><use href="#ico-apple" /></svg></div>
-                <div>
-                  <div className="store-s">Disponible en</div>
-                  <div className="store-n">App Store</div>
-                </div>
-              </div>
-              <div className="store-btn">
-                <div className="store-ico"><svg viewBox="0 0 24 24"><use href="#ico-play" /></svg></div>
-                <div>
-                  <div className="store-s">Disponible en</div>
-                  <div className="store-n">Google Play</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ───────────────── BUSCADOR / ÍNDICE ───────────────
 
-      {/* ───────────────── BUSCADOR / ÍNDICE ─────────────── */}
+          Oculto a pedido: las 22 letras y los 7 chips prometen "más de 350
+          especialidades" que todavía no existen del otro lado del link. Se
+          descomenta —junto con la constante LETTERS de arriba— cuando el
+          contenido de especialidades esté cargado.
+
       <section className="section buscador">
         <div className="wrap">
           <div className="buscador-grid">
@@ -378,6 +324,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      ─────────────────────────────────────────────────── */}
     </div>
   );
 }

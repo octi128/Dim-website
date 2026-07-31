@@ -119,7 +119,14 @@
   .btn-orange     { background: var(--orange); color: #fff; box-shadow: 0 8px 22px rgba(242,106,33,.28); }
   .btn-orange:hover { background: var(--orange-deep); }
   .btn-ghost      { background: transparent; color: var(--ink); border-color: var(--line); }
-  .btn-ghost-white{ background: transparent; color: #fff; border-color: rgba(255,255,255,.32); }
+  /* El borde se suma a la transición: el .btn base solo anima transform y
+     background, y acá el contorno también cambia en hover. */
+  .btn-ghost-white{
+    background: transparent; color: #fff; border-color: rgba(255,255,255,.32);
+    transition: transform .15s, background .2s, border-color .2s;
+  }
+  .btn-ghost-white:hover { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.55); }
+  .btn-ghost-white:focus-visible { outline: 2px solid var(--violet-light); outline-offset: 3px; }
 
   /* ─── TRUST INDICATOR ─── */
   .trust {
@@ -307,6 +314,8 @@
   .bento-card {
     position: relative; overflow: hidden; border-radius: 14px;
     padding: 26px 26px 24px; display: flex; flex-direction: column; min-height: 0;
+    text-decoration: none;
+    transition: transform .3s ease, box-shadow .3s ease;
   }
   .bento-card h3 {
     font-family: var(--font-body); font-weight: 500;
@@ -314,21 +323,58 @@
     letter-spacing: -.015em; margin: 0; position: relative; z-index: 2;
   }
 
+  /* El padding de píldora está siempre puesto, aunque el fondo blanco recién
+     aparezca en hover: si el padding naciera con el hover, la card cambiaría de
+     alto justo cuando entra el mouse. El margin-left negativo compensa el
+     padding lateral para que en reposo el texto siga alineado con el h3. */
+  .bento-mas {
+    margin-top: auto; align-self: flex-start;
+    margin-left: -14px; padding: 11px 14px; border-radius: 999px;
+    position: relative; z-index: 3; background: transparent;
+    font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
+    letter-spacing: -.01em; display: inline-flex; align-items: center; gap: 7px;
+    transition: background-color .3s ease, color .3s ease, box-shadow .3s ease;
+  }
+  .bento-mas span { transition: transform .3s ease; }
+  .bento-card:hover  { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(8,24,39,.16); }
+  .bento-card:hover .bento-mas span { transform: translateX(4px); }
+  .bento-card:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+
+  /* El botón se arma en hover y también en foco por teclado: quien navega con
+     Tab merece la misma señal que quien usa el mouse. */
+  .bento-card:hover .bento-mas,
+  .bento-card:focus-visible .bento-mas {
+    background: #fff; box-shadow: 0 6px 18px rgba(4,16,40,.18);
+  }
+  /* Las variantes de texto blanco necesitan invertirse sobre el fondo claro. */
+  .bento-photo:hover .bento-mas, .bento-photo:focus-visible .bento-mas,
+  .bento-dark:hover  .bento-mas, .bento-dark:focus-visible  .bento-mas,
+  .bento-blue:hover  .bento-mas, .bento-blue:focus-visible  .bento-mas { color: var(--blue); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-card, .bento-mas, .bento-mas span { transition: none; }
+    .bento-card:hover { transform: none; }
+    .bento-card:hover .bento-mas span { transform: none; }
+  }
+
   /* variantes */
   .bento-photo { background-size: cover; background-position: center; }
+  /* El tramo final vuelve a oscurecerse: sin eso, el "Conocé más" blanco cae
+     sobre la parte clara de la foto y no se lee. */
   .bento-photo::before {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(4,12,26,.78) 0%, rgba(4,12,26,.42) 46%, rgba(4,12,26,.12) 100%);
+    background: linear-gradient(180deg, rgba(4,12,26,.78) 0%, rgba(4,12,26,.42) 46%, rgba(4,12,26,.30) 72%, rgba(4,12,26,.74) 100%);
   }
-  .bento-photo h3 { color: #fff; }
+  .bento-photo h3, .bento-photo .bento-mas { color: #fff; }
   .bento-blue { background: linear-gradient(155deg, #103A73 0%, #1956A6 58%, #2E74C9 100%); }
   .bento-blue h3 { color: #fff; text-align: center; }
+  .bento-blue .bento-mas { color: #fff; align-self: center; margin-left: 0; }
   .bento-sky { background: linear-gradient(180deg, #DCE9F7 0%, #C2DBF3 48%, #EAF2FB 100%); }
-  .bento-sky h3 { color: var(--blue); }
+  .bento-sky h3, .bento-sky .bento-mas { color: var(--blue); }
   .bento-dark { background: var(--ink); }
-  .bento-dark h3 { color: #fff; }
+  .bento-dark h3, .bento-dark .bento-mas { color: #fff; }
   .bento-soft { background: linear-gradient(180deg, #EFEBFA 0%, #DBD2F2 55%, #F4F1FC 100%); }
-  .bento-soft h3 { color: var(--violet); }
+  .bento-soft h3, .bento-soft .bento-mas { color: var(--violet); }
 
   /* gráfico: stack de chips */
   .bento-stack {
@@ -394,7 +440,7 @@
   /* ─── BANDA EDITORIAL ─── */
   .editorial-band {
     height: 760px;
-    background: url('/cta-ambient.jpg') center / cover no-repeat;
+    background: url('/home/quirofano.jpg') center / cover no-repeat;
   }
 
   /* ─── ACCESO RÁPIDO ─── */
@@ -605,6 +651,10 @@
     color: rgba(255,255,255,.94);
     white-space: nowrap; text-align: center;
   }
+
+  /* Los 40px espejan el margin-bottom del eyebrow: la cinta queda centrada
+     entre su bajada y su salida. */
+  .cob-marquee-cta { display: flex; justify-content: center; margin-top: 40px; }
 
   @media (prefers-reduced-motion: reduce) {
     .cob-marquee-track { animation: none; }
@@ -926,18 +976,6 @@
   .proposito h2 .linea + .linea { margin-top: 4px; }
   .proposito h2 em.soft { color: var(--violet-light); }
 
-  /* ─── APP ─── */
-  .app-card { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 56px 60px; display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center; box-shadow: var(--shadow-soft); }
-  .app-features { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
-  .app-feat { background: var(--cream); border: 1px solid var(--arena); border-radius: var(--r-pill); padding: 8px 16px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--graphite); }
-  .app-stores { display: flex; flex-direction: column; gap: 12px; min-width: 210px; }
-  .store-btn { background: var(--ink); color: #fff; border-radius: var(--r-sm); padding: 14px 20px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background .2s; text-decoration: none; }
-  .store-btn:hover { background: var(--blue); }
-  .store-ico { width: 26px; height: 26px; border-radius: 6px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .store-ico svg { width: 14px; fill: white; }
-  .store-s { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; opacity: .55; }
-  .store-n { font-size: 15px; font-weight: 600; }
-
   /* ─── COBERTURAS ─── */
   .cob-wrap { background: var(--paper); }
   .cob-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 36px 0; }
@@ -998,8 +1036,6 @@
     .clinicos-grid { grid-template-columns: 1fr; }
     .porque-grid { grid-template-columns: 1fr; gap: 40px; }
     .porque-foto { position: relative; top: 0; height: 420px; }
-    .app-card { grid-template-columns: 1fr; gap: 36px; }
-    .app-stores { flex-direction: row; min-width: 0; }
     .acc-grid { grid-template-columns: 1fr; gap: 0; }
     .acc-media { display: none; }
     .acc-panel { max-width: none; }
@@ -1069,10 +1105,8 @@
     .services-grid { grid-template-columns: 1fr; }
     .s-featured { grid-column: span 1; }
     .cob-grid, .centros-grid { grid-template-columns: 1fr; }
-    .app-card { padding: 36px 26px; }
     .foto-editorial-content { padding: 0 24px; }
     .proposito { padding: 64px 24px; }
-    .app-stores { flex-direction: column; }
     .reconocimientos-banda { padding: 28px 22px; }
     .reconoc-divider { width: 100%; height: 1px; margin: 16px 0; }
     .reconoc-cards { flex-direction: column; align-items: flex-start; gap: 20px; }
