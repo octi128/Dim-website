@@ -13,6 +13,7 @@
  * documento nuevo en vez de actualizar el viejo.
  */
 
+import * as readline from "node:readline/promises";
 import { config } from "dotenv";
 import { createClient } from "@sanity/client";
 import { CENTRES, type Centre } from "../lib/centres";
@@ -51,6 +52,47 @@ const client = createClient({
   // Escribir contra el CDN no tiene sentido: siempre a la API.
   useCdn: false,
 });
+
+// ─────────────────────── Confirmación ───────────────────────
+
+/** Lo único que deja seguir adelante. Se compara después de recortar espacios. */
+const PALABRA_CONFIRMACION = "migrar";
+
+/**
+ * Bloquea hasta que la persona escriba la palabra de confirmación.
+ *
+ * Devuelve false ante cualquier otra cosa: palabra distinta, Enter vacío,
+ * Ctrl+C, o stdin cerrado (que es lo que pasa cuando el script se corre con la
+ * entrada redirigida y no hay nadie del otro lado). Ante la duda, no escribe.
+ */
+async function confirmar(): Promise<boolean> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  // `null` significa "abortar". Como resolve es idempotente, gana el primero
+  // que dispare y los demás listeners quedan sin efecto.
+  let alRecibirSigint: (() => void) | undefined;
+
+  const respuesta = await new Promise<string | null>((resolve) => {
+    const abortar = () => resolve(null);
+    alRecibirSigint = abortar;
+
+    rl.on("SIGINT", abortar); // Ctrl+C con terminal interactiva
+    process.on("SIGINT", abortar); // Ctrl+C sin TTY
+    rl.on("close", abortar); // stdin cerrado / EOF
+
+    rl.question(
+      `\n   Escribí "${PALABRA_CONFIRMACION}" y Enter para continuar (cualquier otra cosa cancela): `
+    ).then(resolve, abortar);
+  });
+
+  if (alRecibirSigint) process.removeListener("SIGINT", alRecibirSigint);
+  rl.close();
+
+  return respuesta !== null && respuesta.trim() === PALABRA_CONFIRMACION;
+}
 
 // ─────────────────────────── Mapeo ───────────────────────────
 
@@ -143,6 +185,14 @@ async function migrar() {
       "\n⚠️  createOrReplace reemplaza el documento completo: si alguien editó\n" +
         "    alguna de estas sedes desde el Studio, esos cambios se pierden."
     );
+
+    // Última puerta antes de escribir. Nada de lo que sigue corre sin esto.
+    if (!(await confirmar())) {
+      console.log(
+        "\n\n🚫 Migración cancelada. No se escribió nada en Sanity ni se subió ninguna imagen.\n"
+      );
+      process.exit(0);
+    }
   }
 
   console.log(`\n   ${CENTRES.length} sedes para procesar.\n`);
