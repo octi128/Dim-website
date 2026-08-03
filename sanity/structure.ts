@@ -1,11 +1,12 @@
 import type {StructureResolver} from 'sanity/structure'
-import {CogIcon, DocumentTextIcon} from '@sanity/icons'
+import {CogIcon, DocumentTextIcon, PinIcon} from '@sanity/icons'
 
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Contenido')
     .items([
       S.documentTypeListItem('novedad').title('Novedades').icon(DocumentTextIcon),
+      S.documentTypeListItem('sede').title('Sedes').icon(PinIcon),
       S.listItem()
         .title('Configuración del sitio')
         .icon(CogIcon)
