@@ -25,4 +25,21 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({defaultApiVersion: apiVersion}),
   ],
+  document: {
+    actions: (prev, context) =>
+      context.schemaType === 'configuracionSitio'
+        ? prev.filter(
+            ({action}) =>
+              action !== 'duplicate' && action !== 'delete' && action !== 'unpublish',
+          )
+        : prev,
+    // configuracionSitio es un singleton: existe un único documento, con un id
+    // fijo, y se edita desde el menú lateral. Sacarlo del menú de creación
+    // global evita que se generen copias sueltas con otro id, que quedarían
+    // invisibles en el Studio pero presentes en el dataset.
+    newDocumentOptions: (prev, {creationContext}) =>
+      creationContext.type === 'global'
+        ? prev.filter((item) => item.templateId !== 'configuracionSitio')
+        : prev,
+  },
 })

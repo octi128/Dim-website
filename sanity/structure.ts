@@ -1,7 +1,18 @@
 import type {StructureResolver} from 'sanity/structure'
+import {CogIcon} from '@sanity/icons'
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Content')
-    .items(S.documentTypeListItems())
+    .title('Contenido')
+    .items([
+      S.listItem()
+        .title('Configuración del sitio')
+        .icon(CogIcon)
+        .id('configuracionSitio')
+        .child(
+          S.document()
+            .schemaType('configuracionSitio')
+            .documentId('configuracionSitio')
+            .title('Configuración del sitio'),
+        ),
+    ])
