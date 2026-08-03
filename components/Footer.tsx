@@ -1,6 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, MessageCircle, Clock } from "lucide-react";
+import type { Configuracion } from "@/sanity/lib/queries";
+import {
+  plataformaLabel,
+  telefonoLabel,
+  telefonoUrl,
+  whatsappLabel,
+  whatsappUrl,
+} from "@/lib/contacto";
 
 const cols = [
   {
@@ -47,20 +55,20 @@ const cols = [
   },
 ];
 
-const socials = [
-  { label: "Instagram", href: "https://instagram.com/dimcentrosdesalud" },
-  { label: "Facebook", href: "https://facebook.com/dimcentrosdesalud" },
-  { label: "YouTube", href: "https://youtube.com/c/dimcentrosdesalud" },
-  { label: "LinkedIn", href: "https://ar.linkedin.com/company/dimcentrosdesalud" },
-];
-
 const legal = [
   { label: "Política de Privacidad", href: "/politica" },
   { label: "Comité de Ética", href: "/comite-de-etica" },
   { label: "Contactanos", href: "/contacto" },
 ];
 
-export default function Footer() {
+// Los datos de contacto llegan por props: el Footer no consulta Sanity. La
+// consulta vive en app/(sitio)/layout.tsx, que es el único que lo renderiza y
+// el que además va a alimentar al Header (que es cliente y no puede pedirlos).
+export default function Footer({
+  configuracion,
+}: {
+  configuracion: Configuracion;
+}) {
   return (
     <footer className="bg-[#F4EFE7] pb-8 pt-2 px-4 sm:px-6 lg:px-8">
       {/* Tarjeta única, siempre centrada y con tope de 1600px.
@@ -143,17 +151,17 @@ export default function Footer() {
             {/* Contacto rápido */}
             <div className="mt-6 pt-5 border-t border-white/12 space-y-3">
               <a
-                href="tel:55548888"
+                href={telefonoUrl(configuracion.telefonoCentral)}
                 className="flex items-center gap-2.5 group"
               >
                 <Phone size={14} className="text-[#FBC08E] flex-shrink-0" />
                 <span className="text-white/65 text-xs">Central de Turnos</span>
                 <span className="ml-auto font-bold text-white text-sm group-hover:text-[#FBC08E] transition-colors">
-                  5554-8888
+                  {telefonoLabel(configuracion.telefonoCentral)}
                 </span>
               </a>
               <a
-                href="https://wa.me/541166485555"
+                href={whatsappUrl(configuracion.whatsappCentral)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 group"
@@ -161,7 +169,7 @@ export default function Footer() {
                 <MessageCircle size={14} className="text-[#FBC08E] flex-shrink-0" />
                 <span className="text-white/65 text-xs">WhatsApp</span>
                 <span className="ml-auto font-bold text-white text-sm group-hover:text-[#FBC08E] transition-colors">
-                  11-6648-5555
+                  {whatsappLabel(configuracion.whatsappCentral)}
                 </span>
               </a>
               <div className="flex items-center gap-2.5">
@@ -192,23 +200,23 @@ export default function Footer() {
               Zona Oeste del Gran Buenos Aires.
             </p>
             <a
-              href="mailto:turnos@dim.com.ar"
+              href={`mailto:${configuracion.emailTurnos}`}
               className="text-sm text-white/65 hover:text-[#FBC08E] transition-colors"
             >
-              turnos@dim.com.ar
+              {configuracion.emailTurnos}
             </a>
           </div>
 
           <div className="flex items-center gap-5 md:gap-6">
-            {socials.map((s) => (
+            {(configuracion.redes ?? []).map((red) => (
               <a
-                key={s.label}
-                href={s.href}
+                key={red._key}
+                href={red.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm font-medium text-white/75 hover:text-[#FBC08E] transition-colors"
               >
-                {s.label}
+                {plataformaLabel(red.plataforma)}
               </a>
             ))}
           </div>
