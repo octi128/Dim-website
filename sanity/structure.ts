@@ -1,5 +1,5 @@
 import type {StructureResolver} from 'sanity/structure'
-import {CogIcon, DocumentTextIcon, PinIcon} from '@sanity/icons'
+import {CogIcon, CreditCardIcon, DocumentTextIcon, PinIcon} from '@sanity/icons'
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -7,6 +7,7 @@ export const structure: StructureResolver = (S) =>
     .items([
       S.documentTypeListItem('novedad').title('Novedades').icon(DocumentTextIcon),
       S.documentTypeListItem('sede').title('Sedes').icon(PinIcon),
+      S.documentTypeListItem('cobertura').title('Coberturas médicas').icon(CreditCardIcon),
       S.listItem()
         .title('Configuración del sitio')
         .icon(CogIcon)
