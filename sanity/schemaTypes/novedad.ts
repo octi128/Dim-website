@@ -62,6 +62,48 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'cta',
+      title: 'Botón de acción',
+      description:
+        'Opcional. Botón que aparece al pie de la novedad. Dejalo vacío si no hace falta.',
+      type: 'object',
+      options: {collapsible: true, collapsed: true},
+      fields: [
+        defineField({
+          name: 'label',
+          title: 'Texto del botón',
+          type: 'string',
+          validation: (Rule) => Rule.max(40),
+        }),
+        defineField({
+          name: 'href',
+          title: 'Destino',
+          description:
+            'Puede ser una dirección completa (https://...) o una ruta interna del sitio que empiece con barra (por ejemplo /resonancia-magnetica).',
+          type: 'string',
+        }),
+      ],
+      validation: (Rule) =>
+        Rule.custom((cta) => {
+          if (!cta) return true
+          const {label, href} = cta as {label?: string; href?: string}
+          if (!label && !href) return true
+          if (!label || !href) return 'Completá el texto y el destino, o dejá los dos vacíos.'
+          if (!href.startsWith('/') && !href.startsWith('https://')) {
+            return 'El destino tiene que empezar con / si es interno, o con https:// si es externo.'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'appDownload',
+      title: 'Mostrar botón de descarga de la app',
+      description:
+        'Agrega el botón "Descargar App DIM SALUD" al pie de la novedad.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'cuerpo',
       title: 'Contenido',
       type: 'array',
