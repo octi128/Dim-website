@@ -126,7 +126,7 @@ export default defineType({
       name: 'videoUrl',
       title: 'Video de YouTube',
       description:
-        'Opcional. Pegá el link del video. Si hay video, se muestra en lugar de la foto.',
+        'Opcional. Todavía no se muestra en el sitio: el listado de centros usa la foto. Podés dejarlo cargado para cuando se implemente.',
       type: 'url',
       validation: (Rule) =>
         Rule.uri({scheme: ['https']}).custom((url) => {

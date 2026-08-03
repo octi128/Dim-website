@@ -26,6 +26,12 @@ const nextConfig: NextConfig = {
         hostname: "dim.com.ar",
         pathname: "/**",
       },
+      {
+        // Las imágenes que se cargan desde el Studio se sirven desde acá.
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+        pathname: "/**",
+      },
     ],
   },
 };

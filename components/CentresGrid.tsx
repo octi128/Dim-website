@@ -3,29 +3,35 @@
 import { useState } from "react";
 import Image from "next/image";
 import { MapPin, Clock, ExternalLink } from "lucide-react";
-import { CENTRES, type Centre, type Zone } from "@/lib/centres";
+import { urlFor } from "@/sanity/lib/image";
+import type { Sede, Zona } from "@/sanity/lib/queries";
 
-const ZONES: Zone[] = ["Todos", "Ramos Mejía", "Morón", "Buenos Aires"];
+/** Las zonas más el "Todos" del filtro, que es de la interfaz y no del dato. */
+type ZonaFiltro = "Todos" | Zona;
 
-const ZONE_COUNTS: Record<Zone, number> = {
-  Todos: CENTRES.length,
-  "Ramos Mejía": CENTRES.filter((c) => c.zone === "Ramos Mejía").length,
-  Morón: CENTRES.filter((c) => c.zone === "Morón").length,
-  "Buenos Aires": CENTRES.filter((c) => c.zone === "Buenos Aires").length,
-};
+const ZONES: ZonaFiltro[] = ["Todos", "Ramos Mejía", "Morón", "Buenos Aires"];
 
-const ZONE_COLORS: Record<Zone, string> = {
+const ZONE_COLORS: Record<ZonaFiltro, string> = {
   Todos: "#F26A21",
   "Ramos Mejía": "#103A73",
   Morón: "#5636A4",
   "Buenos Aires": "#1956A6",
 };
 
-export default function CentresGrid() {
-  const [activeZone, setActiveZone] = useState<Zone>("Todos");
+export default function CentresGrid({ sedes }: { sedes: Sede[] }) {
+  const [activeZone, setActiveZone] = useState<ZonaFiltro>("Todos");
+
+  // Antes era una constante de módulo porque las sedes eran estáticas. Ahora
+  // llegan por props, así que el conteo se deriva acá.
+  const zoneCounts: Record<ZonaFiltro, number> = {
+    Todos: sedes.length,
+    "Ramos Mejía": sedes.filter((s) => s.zona === "Ramos Mejía").length,
+    Morón: sedes.filter((s) => s.zona === "Morón").length,
+    "Buenos Aires": sedes.filter((s) => s.zona === "Buenos Aires").length,
+  };
 
   const filtered =
-    activeZone === "Todos" ? CENTRES : CENTRES.filter((c) => c.zone === activeZone);
+    activeZone === "Todos" ? sedes : sedes.filter((s) => s.zona === activeZone);
 
   return (
     <section id="centros" className="bg-[#FBFAF7] py-16 lg:py-24">
@@ -71,7 +77,7 @@ export default function CentresGrid() {
                     active ? "bg-white/15 text-white" : "bg-[#F4EFE7] text-[#F26A21]"
                   }`}
                 >
-                  {ZONE_COUNTS[zone]}
+                  {zoneCounts[zone]}
                 </span>
               </button>
             );
@@ -84,8 +90,8 @@ export default function CentresGrid() {
           role="tabpanel"
           aria-label={`Centros en ${activeZone}`}
         >
-          {filtered.map((centre) => (
-            <CentreCard key={centre.name} centre={centre} />
+          {filtered.map((sede) => (
+            <CentreCard key={sede._id} sede={sede} />
           ))}
         </div>
       </div>
@@ -93,31 +99,31 @@ export default function CentresGrid() {
   );
 }
 
-const ZONE_GRADIENTS: Record<Zone, string> = {
+const ZONE_GRADIENTS: Record<ZonaFiltro, string> = {
   Todos: "from-[#103A73] to-[#1956A6]",
   "Ramos Mejía": "from-[#103A73] to-[#1956A6]",
   Morón: "from-[#5636A4] to-[#103A73]",
   "Buenos Aires": "from-[#1956A6] to-[#5636A4]",
 };
 
-function CentreCard({ centre }: { centre: Centre }) {
-  const zoneColor = ZONE_COLORS[centre.zone];
+function CentreCard({ sede }: { sede: Sede }) {
+  const zoneColor = ZONE_COLORS[sede.zona];
 
   return (
     <article className="bg-white border border-[#E6EAF1] rounded-2xl overflow-hidden hover:border-[#D8DEE8] hover:shadow-[0_8px_32px_rgba(8,24,39,.06)] transition-all duration-200 flex flex-col group">
       {/* Photo or gradient banner */}
       <div className="relative h-44 overflow-hidden">
-        {centre.image ? (
+        {sede.imagen ? (
           <Image
-            src={centre.image}
-            alt={`Fachada ${centre.name}`}
+            src={urlFor(sede.imagen).url()}
+            alt={sede.imagen.alt}
             fill
             sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div
-            className={`w-full h-full bg-gradient-to-br ${ZONE_GRADIENTS[centre.zone]} flex items-end p-5`}
+            className={`w-full h-full bg-gradient-to-br ${ZONE_GRADIENTS[sede.zona]} flex items-end p-5`}
           >
             <span
               className="font-display text-white/20 text-5xl font-light leading-none select-none"
@@ -136,10 +142,10 @@ function CentreCard({ centre }: { centre: Centre }) {
             className="inline-flex items-center gap-1.5 text-[10px] font-mono font-medium uppercase tracking-widest px-2.5 py-1 rounded-full backdrop-blur-sm"
             style={{ color: "#fff", background: `${zoneColor}cc` }}
           >
-            {centre.zone}
+            {sede.zona}
           </span>
         </div>
-        {centre.featured && (
+        {sede.destacada && (
           <div className="absolute top-3 right-3">
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#F26A21] bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full">
               Sede principal
@@ -154,7 +160,7 @@ function CentreCard({ centre }: { centre: Centre }) {
           className="font-display text-xl font-medium text-[#081827] leading-snug tracking-[-0.02em] mb-1"
           style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
         >
-          {centre.name}
+          {sede.nombre}
         </h3>
 
         {/* Address */}
@@ -165,7 +171,7 @@ function CentreCard({ centre }: { centre: Centre }) {
             strokeWidth={2}
             aria-hidden="true"
           />
-          <span className="text-[#737985] text-sm font-light">{centre.address}</span>
+          <span className="text-[#737985] text-sm font-light">{sede.direccion}</span>
         </div>
 
         {/* Hours */}
@@ -179,16 +185,16 @@ function CentreCard({ centre }: { centre: Centre }) {
           <dl className="space-y-1.5">
             <div className="flex justify-between gap-4">
               <dt className="text-xs text-[#737985] font-light whitespace-nowrap">Lun – Vie</dt>
-              <dd className="text-xs text-[#081827] font-medium font-mono text-right">{centre.hours.weekday}</dd>
+              <dd className="text-xs text-[#081827] font-medium font-mono text-right">{sede.horarios.semana}</dd>
             </div>
             <div className="flex justify-between gap-4">
               <dt className="text-xs text-[#737985] font-light whitespace-nowrap">Sábado</dt>
-              <dd className="text-xs text-[#081827] font-medium font-mono text-right">{centre.hours.saturday}</dd>
+              <dd className="text-xs text-[#081827] font-medium font-mono text-right">{sede.horarios.sabado}</dd>
             </div>
-            {centre.hours.sunday && (
+            {sede.horarios.domingo && (
               <div className="flex justify-between gap-4">
                 <dt className="text-xs text-[#737985] font-light whitespace-nowrap">Dom / Fer.</dt>
-                <dd className="text-xs text-[#081827] font-medium font-mono text-right">{centre.hours.sunday}</dd>
+                <dd className="text-xs text-[#081827] font-medium font-mono text-right">{sede.horarios.domingo}</dd>
               </div>
             )}
           </dl>
@@ -196,12 +202,12 @@ function CentreCard({ centre }: { centre: Centre }) {
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-5">
-          {centre.tags.map((tag) => (
+          {sede.servicios.map((servicio) => (
             <span
-              key={tag}
+              key={servicio}
               className="text-[11px] text-[#4B4F56] bg-[#F0F3F7] px-2.5 py-1 rounded-full font-light"
             >
-              {tag}
+              {servicio}
             </span>
           ))}
         </div>
@@ -209,11 +215,11 @@ function CentreCard({ centre }: { centre: Centre }) {
         {/* Cómo llegar CTA */}
         <div className="mt-auto">
           <a
-            href={centre.mapsUrl}
+            href={sede.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 w-full justify-center border border-[#E6EAF1] hover:border-[#F26A21]/50 hover:bg-[#FFF5EF] text-[#4B4F56] hover:text-[#F26A21] font-medium text-sm py-2.5 rounded-xl transition-all duration-200"
-            aria-label={`Cómo llegar a ${centre.name} — abre Google Maps`}
+            aria-label={`Cómo llegar a ${sede.nombre} — abre Google Maps`}
           >
             <MapPin size={14} strokeWidth={2} aria-hidden="true" />
             Cómo llegar

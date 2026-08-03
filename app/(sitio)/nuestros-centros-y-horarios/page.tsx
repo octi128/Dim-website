@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, MapPin, CalendarDays, ArrowUpRight, Clock } from "lucide-react";
 import CentresGrid from "@/components/CentresGrid";
+import { client } from "@/sanity/lib/client";
+import { SEDES_QUERY, type Sede } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Nuestros Centros y Horarios — DIM Centros de Salud",
@@ -17,7 +19,14 @@ const STATS = [
   { value: "+60", label: "Años cuidándote" },
 ];
 
-export default function NuestrosCentrosPage() {
+export default async function NuestrosCentrosPage() {
+  // Mismo patrón que app/(sitio)/layout.tsx: `revalidate: false` deja el fetch
+  // cacheado, así se resuelve en el build y la ruta sigue siendo estática.
+  // `useCdn: false` sólo acá, para hornear el dato de la API y no del CDN.
+  const sedes = await client
+    .withConfig({ useCdn: false })
+    .fetch<Sede[]>(SEDES_QUERY, {}, { next: { revalidate: false } });
+
   return (
     <>
       {/* ────────── Hero (banner) ────────── */}
@@ -102,7 +111,7 @@ export default function NuestrosCentrosPage() {
       </section>
 
       {/* ────────── Centers grid (client: zone filter) ────────── */}
-      <CentresGrid />
+      <CentresGrid sedes={sedes} />
 
       {/* ────────── CTA band ────────── */}
       <section className="bg-white py-16 lg:py-20 border-t border-[#E6EAF1]">
