@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   Check,
 } from "lucide-react";
+import { PORTAL_URL } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "Odontología Premium — DIM Centros de Salud",
@@ -134,7 +135,7 @@ export default function OdontologiaPage() {
                 Solicitar turno
               </a>
               <a
-                href="https://portal.dim.com.ar"
+                href={PORTAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 border border-white/25 hover:border-white/50 text-white font-medium px-6 py-3 rounded-full text-sm transition-colors"
@@ -481,7 +482,7 @@ export default function OdontologiaPage() {
                   odontologia@dim.com.ar
                 </a>
                 <a
-                  href="https://portal.dim.com.ar"
+                  href={PORTAL_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 text-white/70 hover:text-white font-medium px-7 py-2 text-sm transition-colors"

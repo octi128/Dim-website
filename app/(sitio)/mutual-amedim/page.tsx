@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Check, MessageCircle, Phone, MapPin, Clock } from "lucide-react";
 import CtaBackdrop from "@/components/CtaBackdrop";
+import { PORTAL_URL } from "@/lib/contacto";
 
 const benefits = [
   {
@@ -414,7 +415,7 @@ export default function MutualAmedim() {
             La credencial AMEDIM no tiene costo adicional. Todos los beneficios se aplican directamente en el momento de la atención.
           </p>
           <Link
-            href="https://portal.dim.com.ar"
+            href={PORTAL_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-8 py-3 rounded-full text-sm transition-colors duration-200"

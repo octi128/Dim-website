@@ -8,15 +8,14 @@ import {defineQuery} from 'next-sanity'
  * cualquier otro documento del mismo tipo que hubiera quedado suelto antes de
  * que el singleton estuviera blindado.
  *
- * `portalUrl` se trae aunque el Footer todavía no lo use: lo va a consumir el
- * Header, que es donde el dato aparece cuatro veces.
+ * Acá no está la URL del portal de turnos: es infraestructura y no contenido
+ * editable, así que vive como constante en `lib/contacto.ts`.
  */
 export const CONFIGURACION_QUERY = defineQuery(`
   *[_type == "configuracionSitio" && _id == "configuracionSitio"][0]{
     whatsappCentral,
     telefonoCentral,
     emailTurnos,
-    portalUrl,
     redes[]{_key, plataforma, url}
   }
 `)
@@ -32,7 +31,6 @@ export type Configuracion = {
   whatsappCentral: string
   telefonoCentral: string
   emailTurnos: string
-  portalUrl: string
   /** Sanity devuelve null, no [], cuando el array está vacío. */
   redes: Red[] | null
 }

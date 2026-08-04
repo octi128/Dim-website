@@ -11,6 +11,7 @@ import {
   Layers,
   ScanLine,
 } from "lucide-react";
+import { PORTAL_URL } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "Tomografía Multicorte (Multislice) — DIM Centros de Salud",
@@ -20,7 +21,6 @@ export const metadata: Metadata = {
 
 const WHATSAPP_URL = "https://wa.me/5491166485555";
 const WHATSAPP_LABEL = "11-6648-5555";
-const PORTAL_URL = "https://portal.dim.com.ar/";
 
 const STATS = [
   { value: "70%", label: "Menos radiación que un tomógrafo convencional" },

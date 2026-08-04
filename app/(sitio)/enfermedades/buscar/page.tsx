@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight, Calendar } from "lucide-react";
 import { AVAILABLE_LETTERS, searchDiseases } from "@/lib/diseases";
 import DiseaseSearchBar from "@/components/DiseaseSearchBar";
+import { PORTAL_URL } from "@/lib/contacto";
 
 const LETTER_ROWS = [
   ["A","B","C","D","E","F","G","H","I"],
@@ -146,7 +147,7 @@ export default async function BuscarPage({
                   En DIM contamos con más de 350 especialidades y +750 profesionales para ayudarte.
                 </p>
                 <Link
-                  href="https://portal.dim.com.ar"
+                  href={PORTAL_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 w-full bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold py-3 rounded-xl text-sm transition-colors duration-200"

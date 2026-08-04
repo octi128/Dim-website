@@ -15,6 +15,7 @@ import {
   Activity,
   FlaskConical,
 } from "lucide-react";
+import { PORTAL_URL } from "@/lib/contacto";
 
 export const metadata = {
   title: "Atención sin turno previo — DIM Centros de Salud",
@@ -273,7 +274,7 @@ export default function AtencionSinTurnoPrevioPage() {
                 Ver centros y horarios
               </Link>
               <Link
-                href="https://portal.dim.com.ar"
+                href={PORTAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-white hover:bg-[#F4EFE7] text-[#081827] font-semibold px-6 py-3 rounded-full text-sm transition-colors"
@@ -429,7 +430,7 @@ export default function AtencionSinTurnoPrevioPage() {
           <div className="grid md:grid-cols-3 gap-5">
             {/* Turno online */}
             <Link
-              href="https://portal.dim.com.ar"
+              href={PORTAL_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white border border-[#E6EAF1] rounded-2xl p-7 lg:p-8 hover:border-[#F26A21]/40 hover:shadow-[0_8px_32px_rgba(8,24,39,.06)] transition-all duration-200"

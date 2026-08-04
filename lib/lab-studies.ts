@@ -1,3 +1,5 @@
+import { portalLogin } from "@/lib/contacto";
+
 export const STUDIES_8H: string[] = [
   "Curva de glucosa",
   "Ácido fólico en glóbulos rojos",
@@ -59,7 +61,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     description:
       "La gran mayoría de los análisis de rutina en DIM se realizan con sólo 2 horas de ayuno. Podés desayunar liviano y venir más tarde, o programar tu turno al mediodía sin saltearte comidas.",
     note: "Tomá agua con normalidad antes de la extracción salvo indicación contraria de tu médico.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "ayuno-8h",
@@ -69,7 +71,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     description:
       "Algunos análisis hormonales, metabólicos y de coagulación requieren 8 horas de ayuno. Programá tu extracción a primera hora de la mañana.",
     items: STUDIES_8H,
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "ayuno-12h",
@@ -79,7 +81,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     description:
       "Estudios específicos del perfil lipídico extendido y dosajes vitamínicos requieren 12 horas de ayuno estricto.",
     items: STUDIES_12H,
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "orina",
@@ -88,7 +90,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     description:
       "Para análisis de orina simple traé la primera muestra de la mañana en un recipiente estéril. Para orina de 24 horas el laboratorio te entrega el bidón y las instrucciones cuando solicitás el turno.",
     note: "Mujeres: evitá realizar el estudio durante el período menstrual.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "coproparasitologico",
@@ -96,7 +98,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     icon: "test-tube",
     description:
       "El estudio seriado requiere muestras de 3 días distintos. Retirá el frasco con conservante en cualquier centro DIM antes de comenzar la recolección.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "microbiologia",
@@ -105,7 +107,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     description:
       "Urocultivo, hemocultivo, cultivo de fauces, exudados y antibiogramas. Cada cultivo tiene una preparación específica que se entrega al solicitar el turno.",
     note: "Para urocultivo: higiene previa con agua y jabón y recolección del chorro medio en recipiente estéril.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "embarazo",
@@ -113,7 +115,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     icon: "heart",
     description:
       "El dosaje cuantitativo de subunidad beta de HCG en sangre no requiere ayuno y permite confirmar el embarazo con mayor sensibilidad que un test de orina.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "pediatricos",
@@ -122,7 +124,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     description:
       "Contamos con sector pediátrico con extraccionistas especializados. Para lactantes y niños pequeños las extracciones se coordinan con horarios protegidos para minimizar la espera.",
     note: "Traé el carnet de vacunación y la orden médica. Si el niño debe estar en ayunas, ofrecele agua hasta el momento de la extracción.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "prequirurgico",
@@ -130,7 +132,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     icon: "clipboard",
     description:
       "Paneles completos pre operatorios que incluyen hemograma, coagulación, función renal, hepatograma, glucemia y serologías según la cirugía. Coordinamos turnos express para entregar los resultados en 24-48 hs hábiles.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "antidoping",
@@ -138,7 +140,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     icon: "shield-check",
     description:
       "Análisis de drogas de abuso en orina para empresas y particulares, con cadena de custodia. Se requiere DNI y orden de la empresa solicitante.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "hormonas",
@@ -146,7 +148,7 @@ export const LAB_CATEGORIES: LabCategory[] = [
     icon: "activity",
     description:
       "Perfil tiroideo (TSH, T3, T4), hormonas sexuales, cortisol, prolactina, testosterona, FSH y LH. La mayoría requieren extracción matutina; algunos exigen 8 horas de ayuno (consultar listado).",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
   {
     slug: "alergia-inmunologia",
@@ -154,6 +156,6 @@ export const LAB_CATEGORIES: LabCategory[] = [
     icon: "shield-check",
     description:
       "Panel de IgE específicas, ANA, FR, complemento, ANCA y autoinmunidad. La toma de muestra es estándar y los plazos de entrega varían según el panel.",
-    scheduleHref: "https://portal.dim.com.ar/auth/login",
+    scheduleHref: portalLogin(),
   },
 ];

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronRight, ArrowUpRight, Calendar, Search } from "lucide-react";
 import { searchSite, countResults } from "@/lib/search";
 import BuscarInput from "@/components/BuscarInput";
+import { PORTAL_URL } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "Buscar — DIM Centros de Salud",
@@ -163,7 +164,7 @@ export default async function BuscarPage({
                   Reservá tu turno online desde el portal o desde la App DIM SALUD.
                 </p>
                 <Link
-                  href="https://portal.dim.com.ar"
+                  href={PORTAL_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 w-full bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold py-3 rounded-xl text-sm transition-colors duration-200"

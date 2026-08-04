@@ -1,3 +1,5 @@
+import { PORTAL_URL } from "@/lib/contacto";
+
 export type StudyAction = {
   label: string;
   href: string;
@@ -16,7 +18,6 @@ export type Study = {
   keywords?: string;
 };
 
-const PORTAL = "https://portal.dim.com.ar/";
 const SIN_TURNO = "/atencion-sin-turno-previo";
 
 export const STUDIES: Study[] = [
@@ -39,7 +40,7 @@ export const STUDIES: Study[] = [
     listLabel: "Tipos de densitometrías que realizamos en nuestros centros:",
     items: ["De columna", "Corporal total", "De cuello femoral", "Con TBS o Score Ósea Trabecular"],
     note: "Solicitá el turno, subí la orden y te enviaremos la preparación por correo.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "ecodoppler",
@@ -68,7 +69,7 @@ export const STUDIES: Study[] = [
       "Ecodoppler Renal",
       "Ecodoppler Hepático",
     ],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "ecografia",
@@ -89,7 +90,7 @@ export const STUDIES: Study[] = [
       "Ecografía Transvaginal",
       "Ecografía Prostática",
     ],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "eco-endoscopia",
@@ -97,7 +98,7 @@ export const STUDIES: Study[] = [
     icon: "microscope",
     description: "Para este estudio necesitás una consulta previa con el profesional.",
     note: 'Reservá desde la App DIM SALUD o el portal: Consultas Médicas → "Turno Previo Eco Endoscopía".',
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "electrocardiograma",
@@ -114,7 +115,7 @@ export const STUDIES: Study[] = [
     description:
       "Estudio cardiológico que evalúa la respuesta del corazón al esfuerzo físico mediante registro electrocardiográfico de 12 derivaciones.",
     note: "Reservá desde la App DIM SALUD o el portal de turnos.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "espirometria",
@@ -122,7 +123,7 @@ export const STUDIES: Study[] = [
     icon: "wind",
     description:
       "Evalúa la función pulmonar. Realizamos también Prueba de Difusión y Volumen Pulmonar.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "holter",
@@ -130,7 +131,7 @@ export const STUDIES: Study[] = [
     icon: "watch",
     description:
       "Registro continuo de la actividad eléctrica del corazón durante 24 horas o más para detectar arritmias y trastornos del ritmo.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "presurometria",
@@ -138,7 +139,7 @@ export const STUDIES: Study[] = [
     icon: "gauge",
     description:
       "Monitoreo ambulatorio de presión arterial de 24 horas (MAPA) que registra valores durante actividades habituales y descanso.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "medicina-nuclear",
@@ -158,7 +159,7 @@ export const STUDIES: Study[] = [
     icon: "footprints",
     description:
       "Estudio computarizado de la pisada que evalúa la distribución de presiones plantares para diagnóstico y prescripción de plantillas.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "polisomnografia",
@@ -166,7 +167,7 @@ export const STUDIES: Study[] = [
     icon: "moon",
     listLabel: "Modalidades disponibles:",
     items: ["Polisomnografía Nocturna", "Polisomnografía Pediátrica", "Polisomnografía con Oximetría"],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "puncion-biopsia",
@@ -178,7 +179,7 @@ export const STUDIES: Study[] = [
       'Prostática — consulta previa: Estudios → "Turno Previo Punción Biopsia Próstata".',
       'Mamaria — consulta previa: Consultas Médicas → "Turno Previo Punción Mamaria".',
     ],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "resonancia-magnetica",
@@ -197,7 +198,7 @@ export const STUDIES: Study[] = [
       "RMN de Tórax",
       "Protocolos especiales: Difusión, Espectroscopia, Volumetría, Tractografía y Neuronavegación",
     ],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "tomografia-multislice",
@@ -216,7 +217,7 @@ export const STUDIES: Study[] = [
       "Angiotomografía (variantes arteriales y venosas)",
       "Colonoscopía Virtual",
     ],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "radiografia-digital",
@@ -253,7 +254,7 @@ export const STUDIES: Study[] = [
     icon: "microscope",
     description:
       "Estudio no invasivo de los capilares periungueales. Se realiza únicamente en Av. Rivadavia 2198, Once.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "test-aire-espirado",
@@ -261,7 +262,7 @@ export const STUDIES: Study[] = [
     icon: "wind",
     description: "Para este estudio necesitás una consulta previa con el profesional.",
     note: 'Reservá desde el portal: Consultas Médicas → "Turno Previo Test de Aire Espirado".',
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "uroflujometria",
@@ -269,7 +270,7 @@ export const STUDIES: Study[] = [
     icon: "droplets",
     description:
       "Estudio funcional urológico que mide el flujo urinario para evaluar trastornos miccionales.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "videoendoscopia",
@@ -277,7 +278,7 @@ export const STUDIES: Study[] = [
     icon: "video",
     description: "Para este estudio necesitás una consulta previa con el profesional.",
     note: 'Reservá desde el portal: Consultas Médicas → "Turno Previo VEDA Videoendoscopía".',
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "videocolonoscopia",
@@ -285,14 +286,14 @@ export const STUDIES: Study[] = [
     icon: "video",
     description: "Para este estudio necesitás una consulta previa con el profesional.",
     note: 'Reservá desde el portal: Consultas Médicas → "Turno Previo VCC Videocolonoscopía".',
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "videonistagmografia",
     title: "Videonistagmografía",
     icon: "eye",
     description: "Realizamos este estudio con y sin test calórico.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "ecocardiograma",
@@ -300,7 +301,7 @@ export const STUDIES: Study[] = [
     icon: "heart",
     description:
       "Estudio por ultrasonido del corazón que evalúa estructura, función ventricular y valvular.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "test-cardiopulmonar",
@@ -308,7 +309,7 @@ export const STUDIES: Study[] = [
     icon: "activity",
     description:
       "Evaluación integrada de la respuesta cardiovascular, respiratoria y metabólica al ejercicio.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "funcion-endotelial",
@@ -316,7 +317,7 @@ export const STUDIES: Study[] = [
     icon: "heart-pulse",
     description:
       "Estudio vascular no invasivo que evalúa la salud del endotelio como marcador temprano de riesgo cardiovascular.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "mamografia",
@@ -324,7 +325,7 @@ export const STUDIES: Study[] = [
     icon: "scan-search",
     description:
       "Estudio radiológico de las mamas para detección temprana y diagnóstico de patología mamaria.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "elastografia",
@@ -332,7 +333,7 @@ export const STUDIES: Study[] = [
     icon: "scan-line",
     description:
       "Técnica ecográfica que mide la rigidez de los tejidos para complementar el diagnóstico de lesiones.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "evaluacion-cognitiva",
@@ -340,7 +341,7 @@ export const STUDIES: Study[] = [
     icon: "brain",
     description:
       "Valoración neuropsicológica de memoria, atención, lenguaje y funciones ejecutivas.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "mapeo-cerebral",
@@ -348,14 +349,14 @@ export const STUDIES: Study[] = [
     icon: "brain",
     description:
       "Análisis cuantitativo de la actividad eléctrica cerebral mediante EEG digital procesado.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "campimetria",
     title: "Campimetría",
     icon: "eye",
     description: "Estudio del campo visual aplicado al diagnóstico de glaucoma y patologías neuroftalmológicas.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "oct",
@@ -363,7 +364,7 @@ export const STUDIES: Study[] = [
     icon: "eye",
     description:
       "Tomografía retiniana de alta resolución para evaluación de mácula, nervio óptico y polo posterior.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "paquimetria-topografia",
@@ -371,7 +372,7 @@ export const STUDIES: Study[] = [
     icon: "eye",
     description:
       "Medición del espesor corneal y mapeo de la curvatura para evaluación pre quirúrgica y seguimiento.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "test-marcha",
@@ -379,7 +380,7 @@ export const STUDIES: Study[] = [
     icon: "footprints",
     description:
       "Evaluación funcional cardiovascular y respiratoria mediante caminata estandarizada.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "manometria",
@@ -387,7 +388,7 @@ export const STUDIES: Study[] = [
     icon: "gauge",
     description:
       "Estudio funcional del aparato digestivo (esofágica o anorrectal) para detectar trastornos motores.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "pap-colposcopia",
@@ -395,14 +396,14 @@ export const STUDIES: Study[] = [
     icon: "stethoscope",
     description:
       "Estudios ginecológicos de tamizaje y diagnóstico cervicovaginal.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "fibroscan",
     title: "Fibroscan",
     icon: "scan-line",
     description: "Elastografía hepática transitoria para evaluación no invasiva de fibrosis y esteatosis.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "audiologia",
@@ -410,7 +411,7 @@ export const STUDIES: Study[] = [
     icon: "ear",
     description:
       "Estudios audiológicos completos para diagnóstico de hipoacusias y patología del oído medio.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "electroencefalograma",
@@ -418,7 +419,7 @@ export const STUDIES: Study[] = [
     icon: "brain",
     listLabel: "Modalidades disponibles:",
     items: ["EEG de Sueño", "EEG con Activación Simple", "EEG con Activación Compleja"],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "electromiograma",
@@ -426,7 +427,7 @@ export const STUDIES: Study[] = [
     icon: "zap",
     listLabel: "Modalidades disponibles:",
     items: ["Miembros Inferiores", "Miembros Superiores", "Facial"],
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "rehabilitacion-piso-pelvico",
@@ -434,7 +435,7 @@ export const STUDIES: Study[] = [
     icon: "heart-handshake",
     description:
       "Programa kinésico especializado para incontinencia, prolapso y disfunciones del piso pélvico.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "kinesiologia",
@@ -442,7 +443,7 @@ export const STUDIES: Study[] = [
     icon: "heart-handshake",
     description:
       "Tratamientos kinésicos individualizados para rehabilitación traumatológica, respiratoria y neurológica.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
   {
     slug: "litotricia",
@@ -450,6 +451,6 @@ export const STUDIES: Study[] = [
     icon: "zap",
     description:
       "Tratamiento no invasivo de litiasis renal y ureteral por ondas de choque extracorpóreas.",
-    actions: [{ label: "Solicitar turno", href: PORTAL, variant: "primary" }],
+    actions: [{ label: "Solicitar turno", href: PORTAL_URL, variant: "primary" }],
   },
 ];

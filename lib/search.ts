@@ -3,6 +3,7 @@ import { STUDIES } from "@/lib/studies";
 import { LAB_CATEGORIES, STUDIES_8H, STUDIES_12H } from "@/lib/lab-studies";
 import { DISEASES } from "@/lib/diseases";
 import { COVERAGES } from "@/lib/coverages";
+import { PORTAL_URL } from "@/lib/contacto";
 
 /**
  * Buscador global del sitio.
@@ -63,7 +64,7 @@ interface IndexEntry extends SearchResult {
  * resultados a un 404.
  */
 const PAGES: { title: string; href: string; keywords?: string; external?: boolean }[] = [
-  { title: "Portal de Turnos", href: "https://portal.dim.com.ar", keywords: "turno reservar sacar turno online cita app dim salud", external: true },
+  { title: "Portal de Turnos", href: PORTAL_URL, keywords: "turno reservar sacar turno online cita app dim salud", external: true },
   { title: "Inicio", href: "/", keywords: "home principal dim" },
   { title: "Atención sin turno previo", href: "/atencion-sin-turno-previo", keywords: "demanda espontanea guardia sin cita walk in" },
   { title: "Cirugías", href: "/cirugia", keywords: "operacion quirofano prequirurgico internacion" },

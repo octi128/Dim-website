@@ -7,9 +7,12 @@ import { CONFIGURACION_QUERY, type Configuracion } from "@/sanity/lib/queries";
 // Header y Footer". El panel vive afuera del grupo y queda limpio.
 //
 // Acá también se resuelven los datos de contacto que vienen de Sanity. Va en el
-// layout y no en el Footer por dos razones: es el único lugar que lo renderiza,
-// y el Header —que es un componente cliente y no puede consultar nada— va a
-// necesitar `portalUrl` de la misma consulta.
+// layout y no en el Footer porque es el único lugar que los renderiza.
+//
+// La URL del portal de turnos NO sale de esta consulta: es infraestructura y no
+// contenido editable, así que vive como constante en `lib/contacto.ts` y la
+// importa cada quien la necesite, incluido el Header, que es cliente y no puede
+// consultar Sanity.
 export default async function LayoutSitio({
   children,
 }: Readonly<{

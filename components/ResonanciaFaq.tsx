@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plus, Minus, ArrowUpRight, type LucideIcon, ShieldCheck, ScanLine, CalendarClock, DoorOpen } from "lucide-react";
+import { PORTAL_URL } from "@/lib/contacto";
 
 const WHATSAPP_URL = "https://wa.me/5491166485555";
 const FORM_URL = "https://forms.gle/bWMVDQgThA19acUF6";
-const PORTAL_URL = "https://portal.dim.com.ar/";
 
 type Faq = {
   icon: LucideIcon;

@@ -265,3 +265,20 @@ negocio o el dato de origen.
   el Deploy Hook y pegarlo en los webhooks de Sanity. **Es bloqueante para
   entregar el CMS al cliente**: sin esto, editar en el Studio parece no tener
   efecto.
+
+### 5.4 `portalUrl` quedó como dato huérfano en el documento de configuración
+
+- **Qué**: la URL del portal de turnos se centralizó como constante de código en
+  `lib/contacto.ts` y el campo `portalUrl` se eliminó del schema. Borrar el campo
+  del schema **no borra el dato del documento**: el `configuracionSitio`
+  publicado en Sanity conserva el valor. Queda invisible en el Studio y fuera de
+  `CONFIGURACION_QUERY`, pero sigue presente si se consulta el documento por API.
+- **Dónde**: documento `configuracionSitio` en el dataset `production`. La
+  decisión está documentada en
+  [lib/contacto.ts](lib/contacto.ts) y en el comentario de
+  [app/(sitio)/layout.tsx](app/(sitio)/layout.tsx).
+- **Por qué quedó pendiente**: no rompe nada ni requiere migración, así que
+  limpiarlo no era parte del alcance. Se resuelve con un `unset` puntual sobre el
+  documento cuando se haga otra pasada de mantenimiento del dataset. Queda
+  anotado para que no sorprenda a quien inspeccione el documento por API y
+  encuentre un campo que el schema ya no declara.

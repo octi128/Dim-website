@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Phone, MessageCircle, Clock } from "lucide-react";
 import type { Configuracion } from "@/sanity/lib/queries";
 import {
+  PORTAL_URL,
   plataformaLabel,
   telefonoLabel,
   telefonoUrl,
@@ -14,7 +15,7 @@ const cols = [
   {
     title: "Navegación",
     links: [
-      { label: "Portal de Turnos", href: "https://portal.dim.com.ar", external: true },
+      { label: "Portal de Turnos", href: PORTAL_URL, external: true },
       { label: "Especialidades Médicas", href: "/especialidades-medicas" },
       { label: "Laboratorio", href: "/laboratorios" },
       { label: "Resonancia Magnética", href: "/resonancia-magnetica" },

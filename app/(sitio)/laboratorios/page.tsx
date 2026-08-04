@@ -12,6 +12,7 @@ import {
   ClipboardList,
   Home,
 } from "lucide-react";
+import { portalLogin } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "DIM Laboratorio — Análisis Clínicos en Zona Oeste | DIM Centros de Salud",
@@ -19,7 +20,6 @@ export const metadata: Metadata = {
     "Análisis clínicos con equipamiento Roche, resultados 100% online y solo 2 horas de ayuno para la mayoría de los estudios. 8 centros de laboratorio en Zona Oeste y CABA, con extracciones a domicilio en Ramos Mejía.",
 };
 
-const PORTAL_TURNO_URL = "https://portal.dim.com.ar/auth/login";
 const DOMICILIO_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeZnmjqeGUjZQ017fFzieNa25p7bCmw1D8lmohRWarwYY26bQ/viewform";
 const PREPARACIONES_URL = "/estudios-y-preparaciones-de-laboratorio";
@@ -162,7 +162,7 @@ export default function LaboratoriosPage() {
 
             <div className="flex flex-wrap gap-3">
               <a
-                href={PORTAL_TURNO_URL}
+                href={portalLogin()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
@@ -220,7 +220,7 @@ export default function LaboratoriosPage() {
                   después de un desayuno liviano o entre reuniones.
                 </p>
                 <a
-                  href={PORTAL_TURNO_URL}
+                  href={portalLogin()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"

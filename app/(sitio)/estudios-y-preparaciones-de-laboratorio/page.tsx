@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { LAB_CATEGORIES, STUDIES_8H, STUDIES_12H } from "@/lib/lab-studies";
 import LabAccordion from "@/components/studies/LabAccordion";
+import { portalLogin, portalResultados } from "@/lib/contacto";
 
 export const metadata = {
   title: "Estudios y preparaciones de laboratorio — DIM Centros de Salud",
@@ -70,7 +71,7 @@ export default function EstudiosLaboratorioPage() {
 
             <div className="flex flex-wrap gap-3">
               <Link
-                href="https://portal.dim.com.ar/auth/login"
+                href={portalLogin()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
@@ -260,7 +261,7 @@ export default function EstudiosLaboratorioPage() {
 
           <div className="grid md:grid-cols-3 gap-5">
             <Link
-              href="https://portal.dim.com.ar/auth/login"
+              href={portalLogin()}
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white border border-[#E6EAF1] rounded-2xl p-7 lg:p-8 hover:border-[#F26A21]/40 hover:shadow-[0_8px_32px_rgba(8,24,39,.06)] transition-all duration-200"
@@ -300,7 +301,7 @@ export default function EstudiosLaboratorioPage() {
             </Link>
 
             <Link
-              href="https://portal.dim.com.ar/resultados"
+              href={portalResultados()}
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white border border-[#E6EAF1] rounded-2xl p-7 lg:p-8 hover:border-[#F26A21]/40 hover:shadow-[0_8px_32px_rgba(8,24,39,.06)] transition-all duration-200"

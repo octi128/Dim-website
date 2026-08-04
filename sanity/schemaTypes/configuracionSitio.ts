@@ -37,15 +37,6 @@ export default defineType({
       validation: (Rule) => Rule.required().email(),
     }),
     defineField({
-      name: 'portalUrl',
-      title: 'URL del portal de turnos',
-      description:
-        'Dirección base, sin barra al final. Ejemplo: https://portal.dim.com.ar',
-      type: 'url',
-      validation: (Rule) =>
-        Rule.required().uri({scheme: ['https']}),
-    }),
-    defineField({
       name: 'redes',
       title: 'Redes sociales',
       description: 'Perfiles institucionales de DIM.',

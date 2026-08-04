@@ -27,6 +27,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import AppStoreLink from "@/components/AppStoreLink";
+import { PORTAL_URL } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "Contactanos — DIM Centros de Salud",
@@ -40,7 +41,6 @@ const WHATSAPP_LABEL = "11-6648-5555";
 const CENTRAL_TEL = "tel:55548888";
 const CENTRAL_LABEL = "5554-8888";
 const HORARIOS = "Lun-Vie 8 a 20 h y Sáb 8 a 13 h";
-const PORTAL_URL = "https://portal.dim.com.ar/";
 
 const STATS = [
   { value: WHATSAPP_LABEL, label: "WhatsApp Oficial" },

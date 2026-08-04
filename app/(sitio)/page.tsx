@@ -4,6 +4,7 @@ import CoberturasMarquee from "@/components/home/CoberturasMarquee";
 import TestimoniosPacientes from "@/components/home/TestimoniosPacientes";
 import NovedadesCarrusel from "@/components/home/NovedadesCarrusel";
 import "../home-v4.css";
+import { PORTAL_URL } from "@/lib/contacto";
 
 // Oculto junto con la sección "buscador" (ver más abajo): vuelve cuando exista
 // el contenido de especialidades detrás de cada letra.
@@ -65,7 +66,7 @@ export default function Home() {
                 <div className="eyebrow white">Acceso rápido</div>
                 <h4>¿Qué necesitás resolver hoy?</h4>
               </div>
-              <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="quick-item">
+              <Link href={PORTAL_URL} target="_blank" rel="noopener noreferrer" className="quick-item">
                 <div className="quick-item-left">
                   <div className="ico">
                     <svg viewBox="0 0 24 24" style={{ color: "var(--orange)" }}><use href="#ico-flask" /></svg>
@@ -101,7 +102,7 @@ export default function Home() {
                 </div>
                 <span className="quick-chevron">›</span>
               </Link>
-              <Link href="https://portal.dim.com.ar" target="_blank" rel="noopener noreferrer" className="btn btn-violet" style={{ height: 44, fontSize: 13, width: "100%", justifyContent: "center" }}>
+              <Link href={PORTAL_URL} target="_blank" rel="noopener noreferrer" className="btn btn-violet" style={{ height: 44, fontSize: 13, width: "100%", justifyContent: "center" }}>
                 Reservá tu turno →
               </Link>
             </div>

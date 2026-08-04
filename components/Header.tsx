@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search, Menu, X, ChevronDown, ArrowUpRight } from "lucide-react";
 import SiteSearch from "@/components/SiteSearch";
+import { PORTAL_URL, portalTurnosMedicos } from "@/lib/contacto";
 
 /** Duración del cierre del menú mobile. Espejo del CSS: .menu-content-exit (0.1s)
     + .menu-panel-exit (0.14s con 0.08s de retardo). Si cambia uno, cambian los dos. */
@@ -31,12 +32,12 @@ const navItems: NavItem[] = [
     label: "Portal de Turnos",
     cols: [
       [
-        { label: "Ingresar al Portal Online", href: "https://portal.dim.com.ar", external: true },
+        { label: "Ingresar al Portal Online", href: PORTAL_URL, external: true },
         { label: "Estudios Médicos y Preparaciones", href: "/estudios-medicos-y-preparaciones" },
         { label: "Turnos de Laboratorio", href: "/estudios-y-preparaciones-de-laboratorio" },
       ],
       [
-        { label: "Turnos Médicos", href: "https://portal.dim.com.ar/turnos-medicos", external: true },
+        { label: "Turnos Médicos", href: portalTurnosMedicos(), external: true },
         { label: "Atención sin turno previo", href: "/atencion-sin-turno-previo" },
       ],
     ],
@@ -44,7 +45,7 @@ const navItems: NavItem[] = [
       eyebrow: "Acceso rápido",
       title: "Reservá tu turno online",
       sub: "Disponible 24/7 desde el Portal del Paciente.",
-      href: "https://portal.dim.com.ar",
+      href: PORTAL_URL,
       external: true,
       bg: "from-[#103A73] to-[#5636A4]",
     },
@@ -332,7 +333,7 @@ export default function Header() {
             </button>
 
             <Link
-              href="https://portal.dim.com.ar"
+              href={PORTAL_URL}
               target="_blank"
               rel="noopener noreferrer"
               className={`hidden sm:inline-flex items-center text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-200 ${dark ? "bg-white text-[#081827] hover:bg-white/90" : "bg-[#081827] hover:bg-[#103A73] text-white"}`}
@@ -535,7 +536,7 @@ export default function Header() {
               style={{ animationDelay: `${0.09 + navItems.length * 0.05}s` }}
             >
               <Link
-                href="https://portal.dim.com.ar"
+                href={PORTAL_URL}
                 target="_blank"
                 className="flex items-center justify-center w-full bg-[#081827] text-white font-semibold py-3 rounded-full text-sm"
                 onClick={closeMobileMenu}

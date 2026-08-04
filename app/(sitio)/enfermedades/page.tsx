@@ -11,6 +11,7 @@ import {
 import { AVAILABLE_LETTERS } from "@/lib/diseases";
 import DiseaseSearchBar from "@/components/DiseaseSearchBar";
 import CtaBackdrop from "@/components/CtaBackdrop";
+import { PORTAL_URL } from "@/lib/contacto";
 
 const LETTER_ROWS = [
   ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
@@ -130,7 +131,7 @@ export default function EnfermedadesIndexPage() {
           <div className="grid md:grid-cols-2 gap-5 mb-5">
             {/* Card: Reservá turno */}
             <Link
-              href="https://portal.dim.com.ar"
+              href={PORTAL_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white border border-[#E6EAF1] rounded-2xl p-7 lg:p-9 flex flex-col justify-between min-h-[260px] hover:border-[#F26A21]/40 hover:shadow-[0_8px_32px_rgba(8,24,39,.06)] transition-all duration-200"

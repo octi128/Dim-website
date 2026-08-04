@@ -1,3 +1,5 @@
+import { PORTAL_URL } from "@/lib/contacto";
+
 export type Block = { p: string } | { list: string[] };
 
 export type NewsItem = {
@@ -386,7 +388,7 @@ const RAW_NEWS: Omit<NewsItem, "image">[] = [
       { p: "Si sos adulto mayor, queres mejorar la movilidad y flexibilidad de tu cuerpo, fortalecer tu sistema inmunológico o reducir el estrés y la ansiedad, también podés solicitar turno para una o más sesiones de osteopatía." },
       { p: "¡Solicitá un turno 100% online ingresando desde el Portal de Turnos!" },
     ],
-    cta: { label: "Portal de Turnos", href: "https://portal.dim.com.ar", external: true },
+    cta: { label: "Portal de Turnos", href: PORTAL_URL, external: true },
   },
   {
     id: 8,

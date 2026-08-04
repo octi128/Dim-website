@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronRight, Stethoscope, Smartphone } from "lucide-react";
 import EspecialidadesList from "@/components/EspecialidadesList";
 import CtaBackdrop from "@/components/CtaBackdrop";
+import { PORTAL_URL } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "Especialidades Médicas — DIM Centros de Salud",
@@ -86,7 +87,7 @@ export default function EspecialidadesMedicasPage() {
                 Buscar especialidad
               </a>
               <a
-                href="https://portal.dim.com.ar"
+                href={PORTAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 border border-white/25 hover:border-white/50 text-white font-medium px-6 py-3 rounded-full text-sm transition-colors"
@@ -188,7 +189,7 @@ export default function EspecialidadesMedicasPage() {
             </div>
             <div className="relative z-10 flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 lg:justify-end">
               <a
-                href="https://portal.dim.com.ar"
+                href={PORTAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-7 py-4 rounded-full text-sm transition-colors"

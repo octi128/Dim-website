@@ -1,13 +1,35 @@
 /**
- * Formato de los datos de contacto que vienen de Sanity.
+ * Punto único de los datos de contacto del sitio.
  *
- * En el CMS los números se guardan crudos, solo dígitos: el WhatsApp como
- * `5491166485555` y el teléfono como `1155548888`. Este módulo es el único
- * lugar donde esos dígitos se convierten en algo que se muestra o se linkea.
- * Si el formato tiene que cambiar, se cambia acá y en ningún otro lado.
+ * Junta dos cosas que tienen orígenes distintos:
  *
- * Todas las funciones son puras y no dependen de React ni de Sanity.
+ * 1. La URL del portal de turnos, que es una constante del código. No vive en
+ *    Sanity a propósito: es infraestructura, no contenido editable. Cambia solo
+ *    si DIM cambia de sistema de turnos, y eso lo hace un desarrollador.
+ * 2. El formato de los datos que sí vienen del CMS. En Sanity los números se
+ *    guardan crudos, solo dígitos: el WhatsApp como `5491166485555` y el
+ *    teléfono como `1155548888`. Este módulo es el único lugar donde esos
+ *    dígitos se convierten en algo que se muestra o se linkea. Si el formato
+ *    tiene que cambiar, se cambia acá y en ningún otro lado.
+ *
+ * Todo lo que exporta es puro y no depende de React ni de Sanity, así que lo
+ * pueden importar tanto los Server como los Client Components.
  */
+
+/**
+ * Portal del Paciente. Sin barra al final: las rutas se arman con los helpers
+ * de abajo, que ya la ponen.
+ */
+export const PORTAL_URL = "https://portal.dim.com.ar";
+
+/** Pantalla de login del portal, que es por donde se saca turno. */
+export const portalLogin = () => `${PORTAL_URL}/auth/login`;
+
+/** Resultados de estudios de laboratorio. */
+export const portalResultados = () => `${PORTAL_URL}/resultados`;
+
+/** Turnos médicos, el acceso directo que linkea el Header. */
+export const portalTurnosMedicos = () => `${PORTAL_URL}/turnos-medicos`;
 
 /** Prefijo internacional de celular argentino: 54 (país) + 9 (celular). */
 const PREFIJO_CELULAR_AR = "549";
