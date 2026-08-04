@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from "react";
 import { Search, X } from "lucide-react";
-import { COVERAGES, COVERAGE_TAGS, ALPHABET, type CoverageTag } from "@/lib/coverages";
+import { COVERAGE_TAGS, ALPHABET, type CoverageTag } from "@/lib/coverages";
 import { useQueryParam } from "@/lib/useQueryParam";
+import type { Cobertura } from "@/sanity/lib/queries";
 
 const TAG_STYLES: Record<CoverageTag, string> = {
   Prepaga: "bg-[#1956A6]/10 text-[#1956A6]",
@@ -20,7 +21,11 @@ const VALIDITY_STYLES: Record<number, { badge: string; label: string }> = {
   90: { badge: "bg-[#5636A4]/10 text-[#5636A4]", label: "90 días" },
 };
 
-export default function CoberturasList() {
+export default function CoberturasList({
+  coberturas,
+}: {
+  coberturas: Cobertura[];
+}) {
   // Llegada desde el buscador global (`?q=`): la semilla es el valor de arranque y
   // deja de mandar apenas la persona escribe. Se deriva en el render en lugar de
   // copiarse al estado con un efecto, así no hay un frame con la lista sin filtrar.
@@ -35,21 +40,21 @@ export default function CoberturasList() {
   const [activeTag, setActiveTag] = useState<CoverageTag | null>(null);
 
   const filtered = useMemo(() => {
-    return COVERAGES.filter((cov) => {
+    return coberturas.filter((cov) => {
       const matchesQuery = query.trim()
-        ? cov.name.toLowerCase().includes(query.trim().toLowerCase())
+        ? cov.nombre.toLowerCase().includes(query.trim().toLowerCase())
         : true;
       const matchesLetter = activeLetter
-        ? cov.name.toUpperCase().startsWith(activeLetter)
+        ? cov.nombre.toUpperCase().startsWith(activeLetter)
         : true;
-      const matchesTag = activeTag ? cov.tag === activeTag : true;
+      const matchesTag = activeTag ? cov.tipo === activeTag : true;
       return matchesQuery && matchesLetter && matchesTag;
     });
-  }, [query, activeLetter, activeTag]);
+  }, [coberturas, query, activeLetter, activeTag]);
 
   const usedLetters = useMemo(
-    () => new Set(COVERAGES.map((c) => c.name[0].toUpperCase())),
-    []
+    () => new Set(coberturas.map((c) => c.nombre[0].toUpperCase())),
+    [coberturas]
   );
 
   const clearFilters = () => {
@@ -143,14 +148,14 @@ export default function CoberturasList() {
       {/* ── Results header ── */}
       <div className="flex items-center justify-between mb-5">
         <p className="text-sm text-[#737985]">
-          {filtered.length === COVERAGES.length ? (
+          {filtered.length === coberturas.length ? (
             <span>
-              Mostrando <strong className="text-[#081827]">{COVERAGES.length}</strong> coberturas
+              Mostrando <strong className="text-[#081827]">{coberturas.length}</strong> coberturas
             </span>
           ) : (
             <span>
               <strong className="text-[#081827]">{filtered.length}</strong> de{" "}
-              {COVERAGES.length} coberturas
+              {coberturas.length} coberturas
             </span>
           )}
         </p>
@@ -168,20 +173,20 @@ export default function CoberturasList() {
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {filtered.map((cov) => {
-            const validity = VALIDITY_STYLES[cov.validity];
+            const validity = VALIDITY_STYLES[cov.vigencia];
             return (
               <div
-                key={cov.name}
+                key={cov._id}
                 className="bg-white border border-[#E6EAF1] rounded-xl p-4 hover:shadow-[0_4px_20px_rgba(8,24,39,.06)] hover:border-[#D8DEE8] transition-all group"
               >
                 <p className="text-[#081827] text-sm font-medium leading-snug mb-3 group-hover:text-[#103A73] transition-colors">
-                  {cov.name}
+                  {cov.nombre}
                 </p>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${TAG_STYLES[cov.tag]}`}
+                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${TAG_STYLES[cov.tipo]}`}
                   >
-                    {cov.tag}
+                    {cov.tipo}
                   </span>
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${validity.badge}`}

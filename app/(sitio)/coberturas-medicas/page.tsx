@@ -4,23 +4,14 @@ import Link from "next/link";
 import { ChevronRight, ShieldCheck, Clock, Phone } from "lucide-react";
 import CoberturasList from "@/components/CoberturasList";
 import CtaBackdrop from "@/components/CtaBackdrop";
-import { COVERAGES } from "@/lib/coverages";
+import { client } from "@/sanity/lib/client";
+import { COBERTURAS_QUERY, type Cobertura } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Coberturas Médicas — DIM Centros de Salud",
   description:
     "Conocé las más de 104 obras sociales y prepagas que atendemos en DIM. Verificá la validez de tu orden médica y consultá si tu cobertura está incluida.",
 };
-
-const prepagasCount = COVERAGES.filter((c) => c.tag === "Prepaga").length;
-const obrasSocialesCount = COVERAGES.filter((c) => c.tag === "Obra Social").length;
-
-const STATS = [
-  { value: `+${COVERAGES.length}`, label: "Coberturas aceptadas" },
-  { value: `${prepagasCount}`, label: "Prepagas" },
-  { value: `${obrasSocialesCount}`, label: "Obras sociales" },
-  { value: "30–90", label: "Días de validez de orden" },
-];
 
 const VALIDITY_INFO = [
   {
@@ -46,7 +37,42 @@ const VALIDITY_INFO = [
   },
 ];
 
-export default function CoberturasMedicasPage() {
+export default async function CoberturasMedicasPage() {
+  // Mismo patrón que app/(sitio)/layout.tsx: `revalidate: false` deja el fetch
+  // cacheado, así se resuelve en el build y la ruta sigue siendo estática.
+  // `useCdn: false` sólo acá, para hornear el dato de la API y no del CDN.
+  const coberturas = await client
+    .withConfig({ useCdn: false })
+    .fetch<Cobertura[] | null>(
+      COBERTURAS_QUERY,
+      {},
+      { next: { revalidate: false } }
+    );
+
+  if (!coberturas || coberturas.length === 0) {
+    throw new Error(
+      "No se encontraron coberturas médicas en Sanity: la página del directorio " +
+        "no puede construirse vacía. Entrá al Studio en /studio, abrí " +
+        '"Cobertura médica" en el menú lateral y verificá que los documentos ' +
+        "estén publicados (los borradores no se traen en el build)."
+    );
+  }
+
+  // Antes eran constantes de módulo porque las coberturas eran estáticas. Ahora
+  // llegan de Sanity, así que los conteos se derivan acá.
+  const STATS = [
+    { value: `+${coberturas.length}`, label: "Coberturas aceptadas" },
+    {
+      value: `${coberturas.filter((c) => c.tipo === "Prepaga").length}`,
+      label: "Prepagas",
+    },
+    {
+      value: `${coberturas.filter((c) => c.tipo === "Obra Social").length}`,
+      label: "Obras sociales",
+    },
+    { value: "30–90", label: "Días de validez de orden" },
+  ];
+
   return (
     <>
       {/* ────────── Hero (banner) ────────── */}
@@ -174,7 +200,7 @@ export default function CoberturasMedicasPage() {
             </h2>
           </div>
 
-          <CoberturasList />
+          <CoberturasList coberturas={coberturas} />
         </div>
       </section>
 

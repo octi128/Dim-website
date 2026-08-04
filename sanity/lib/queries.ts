@@ -91,3 +91,64 @@ export type Sede = {
   destacada: boolean
   orden: number
 }
+
+/**
+ * Las coberturas del directorio, en orden alfabético.
+ *
+ * El orden va por `lower(nombre)` y no por `nombre` a secas: GROQ compara los
+ * strings carácter por carácter, así que `order(nombre asc)` manda todos los
+ * nombres en mayúscula adelante y devuelve ACCORD, AMCI, AVALIAN… antes que
+ * "Acción Médica" o "Amsterdam". Nadie lee un directorio así. Con `lower()` el
+ * orden es el mismo que veía la persona usuaria hasta ahora.
+ *
+ * Del `logo` se traen `alt` y el asset —lo que necesita `urlFor()`—, más
+ * `hotspot` y `crop`, por el mismo criterio que la imagen de la sede: hoy
+ * ningún documento tiene logo cargado y el listado no lo renderiza, pero traerlo
+ * no cuesta nada y evita volver a tocar la query.
+ *
+ * `destacada` alimenta el carrusel del home, que todavía no lee de Sanity.
+ */
+export const COBERTURAS_QUERY = defineQuery(`
+  *[_type == "cobertura"] | order(lower(nombre) asc) {
+    _id,
+    nombre,
+    tipo,
+    vigencia,
+    logo{alt, hotspot, crop, asset},
+    destacada
+  }
+`)
+
+/**
+ * Los seis tipos de cobertura del schema.
+ *
+ * Convive con `CoverageTag` de `lib/coverages.ts`, que tiene los mismos seis
+ * valores pero es otra cosa: aquél tipa `COVERAGE_TAGS`, la constante de UI que
+ * dibuja las pestañas del filtro. Éste describe el dato que devuelve Sanity.
+ * Misma unión, dos responsabilidades — igual que `Zona` y `ZonaFiltro`.
+ */
+export type TipoCobertura =
+  | 'Prepaga'
+  | 'Obra Social'
+  | 'Hospital'
+  | 'Mutual'
+  | 'ART'
+  | 'Programa'
+
+/** Los tres valores que admite el campo, validados en el schema. */
+export type VigenciaCobertura = 30 | 60 | 90
+
+export type ImagenCobertura = {
+  alt: string
+  asset: {_ref: string; _type: 'reference'}
+}
+
+export type Cobertura = {
+  _id: string
+  nombre: string
+  tipo: TipoCobertura
+  vigencia: VigenciaCobertura
+  /** Opcional en el schema: hoy ningún documento tiene logo cargado. */
+  logo: ImagenCobertura | null
+  destacada: boolean
+}
