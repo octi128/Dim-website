@@ -24,7 +24,12 @@
   --font-mono: var(--font-jetbrains);
 }
 
-html { scroll-behavior: smooth; }
+/* Acá había un `html { scroll-behavior: smooth; }`. Se sacó a propósito: el
+   scroll suave global también se aplicaba al scroll al tope que hace Next al
+   navegar, así que cada cambio de página se volvía una animación larga que
+   atravesaba toda la página anterior —al entrar se veía el pie de la anterior
+   y recién después subía. Si más adelante se quiere scroll suave en anclas
+   internas, hay que acotarlo por selector; nunca sobre `html`. */
 
 body {
   background: #FBFAF7;
@@ -67,15 +72,6 @@ body {
 }
 .backdrop-enter {
   animation: fadeIn 0.2s ease-out forwards;
-}
-
-/* Modal panel */
-@keyframes modalIn {
-  from { opacity: 0; transform: translateY(14px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-.modal-enter {
-  animation: modalIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Menú mobile a pantalla completa: la superficie funde y cada fila sube
@@ -161,7 +157,6 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .backdrop-enter,
-  .modal-enter,
   .dropdown-enter,
   .menu-panel-enter,
   .menu-row-enter,

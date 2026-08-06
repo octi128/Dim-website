@@ -92,7 +92,7 @@ export default function NovedadesCarrusel({ novedades }: { novedades: Novedad[] 
       <ul className="nov-riel" ref={rielRef} onScroll={sincronizar}>
         {novedades.map((n) => (
           <li className="nov-card" key={n._id}>
-            <Link href={`/novedades#novedad-${n.slug}`} className="nov-link">
+            <Link href={`/novedades/${n.slug}`} className="nov-link">
               <div className="nov-foto">
                 {/* Decorativa: el título de la tarjeta ya nombra la novedad y la
                     portada es una foto genérica de la categoría. */}

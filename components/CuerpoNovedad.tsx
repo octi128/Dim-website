@@ -3,13 +3,12 @@ import { PortableText, type PortableTextBlock, type PortableTextComponents } fro
 /**
  * Este archivo NO lleva `"use client"` a propósito.
  *
- * Lo consumen el modal de `NovedadesList` —que sí es cliente— y la página
- * individual de cada novedad, que es Server Component. Sin directiva, el módulo
- * es agnóstico y cada quien lo resuelve en su contexto. Poner `"use client"`
- * acá arrastraría la página entera al bundle del cliente sin necesidad.
+ * Hoy su único consumidor es la página individual de cada novedad, que es Server
+ * Component: poner la directiva mandaría el cuerpo entero al bundle del cliente
+ * sin ninguna razón. Sin directiva el módulo es agnóstico, así que si mañana lo
+ * necesita un componente cliente también funciona ahí, sin tocar nada.
  *
- * No hay hooks, estado ni handlers: son componentes de presentación puros, así
- * que funcionan igual de los dos lados.
+ * No hay hooks, estado ni handlers: son componentes de presentación puros.
  */
 
 /** Un href de Sanity es externo si sale del sitio. El schema sólo admite `/…` o `https://…`. */

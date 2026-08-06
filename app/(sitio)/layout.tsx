@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollSuaveEnAnclas from "@/components/ScrollSuaveEnAnclas";
 import { client } from "@/sanity/lib/client";
 import { CONFIGURACION_QUERY, type Configuracion } from "@/sanity/lib/queries";
 
@@ -44,6 +45,9 @@ export default async function LayoutSitio({
 
   return (
     <>
+      {/* No pinta nada: engancha el scroll suave de los anclas internos. Ver el
+          comentario del componente para por qué no se resuelve con CSS. */}
+      <ScrollSuaveEnAnclas />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer configuracion={configuracion} />
