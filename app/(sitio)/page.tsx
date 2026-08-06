@@ -5,12 +5,29 @@ import TestimoniosPacientes from "@/components/home/TestimoniosPacientes";
 import NovedadesCarrusel from "@/components/home/NovedadesCarrusel";
 import "../home-v4.css";
 import { PORTAL_URL } from "@/lib/contacto";
+import { client } from "@/sanity/lib/client";
+import { NOVEDADES_CARRUSEL_QUERY, type Novedad } from "@/sanity/lib/queries";
 
 // Oculto junto con la sección "buscador" (ver más abajo): vuelve cuando exista
 // el contenido de especialidades detrás de cada letra.
 // const LETTERS = "ABCDEFGHIJLMNOPQRSTUVZ".split("");
 
-export default function Home() {
+export default async function Home() {
+  // Mismo patrón que app/(sitio)/coberturas-medicas/page.tsx: `revalidate: false`
+  // deja el fetch cacheado, así se resuelve en el build y la ruta sigue siendo
+  // estática. `useCdn: false` sólo acá, para hornear el dato de la API y no del CDN.
+  //
+  // Sin guarda que corte el build, a diferencia del listado de novedades: acá el
+  // carrusel es una sección entre muchas. Si no hay novedades no se renderiza la
+  // sección —una sección ausente pasa desapercibida, un carrusel vacío se ve roto.
+  const novedades = await client
+    .withConfig({ useCdn: false })
+    .fetch<Novedad[] | null>(
+      NOVEDADES_CARRUSEL_QUERY,
+      {},
+      { next: { revalidate: false } }
+    );
+
   return (
     <div className="home-v4">
       {/* ───────────────── SVG DEFS ───────────────── */}
@@ -281,7 +298,9 @@ export default function Home() {
       <TestimoniosPacientes />
 
       {/* ───────────────── NOVEDADES (carrusel) ────────── */}
-      <NovedadesCarrusel />
+      {novedades && novedades.length > 0 && (
+        <NovedadesCarrusel novedades={novedades} />
+      )}
 
       {/* ───────────────── BUSCADOR / ÍNDICE ───────────────
 

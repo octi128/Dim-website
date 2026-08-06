@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Newspaper } from "lucide-react";
 import NovedadesList from "@/components/NovedadesList";
-import { NEWS } from "@/lib/novedades";
+import { client } from "@/sanity/lib/client";
+import { NOVEDADES_QUERY, type Novedad } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Novedades de DIM | DIM Centros de Salud",
@@ -11,14 +12,32 @@ export const metadata: Metadata = {
     "Conocé las últimas novedades de DIM Centros de Salud: nuevos estudios, especialidades, servicios y centros. Los avances médicos y cambios en nuestro sistema, siempre para cuidarte mejor.",
 };
 
-const STATS = [
-  { value: `+${NEWS.length}`, label: "Novedades publicadas" },
-  { value: "2023", label: "Novedades desde" },
-  { value: "100%", label: "Turnos online" },
-  { value: "App", label: "DIM SALUD" },
-];
+export default async function NovedadesPage() {
+  // Mismo patrón que app/(sitio)/coberturas-medicas/page.tsx: `revalidate: false`
+  // deja el fetch cacheado, así se resuelve en el build y la ruta sigue siendo
+  // estática. `useCdn: false` sólo acá, para hornear el dato de la API y no del CDN.
+  const novedades = await client
+    .withConfig({ useCdn: false })
+    .fetch<Novedad[] | null>(NOVEDADES_QUERY, {}, { next: { revalidate: false } });
 
-export default function NovedadesPage() {
+  if (!novedades || novedades.length === 0) {
+    throw new Error(
+      "No se encontraron novedades en Sanity: la página del listado no puede " +
+        "construirse vacía. Entrá al Studio en /studio, abrí \"Novedad\" en el " +
+        "menú lateral y verificá que los documentos estén publicados (los " +
+        "borradores no se traen en el build)."
+    );
+  }
+
+  // Antes era una constante de módulo porque las novedades eran estáticas. Ahora
+  // llegan de Sanity, así que el conteo se deriva acá.
+  const STATS = [
+    { value: `+${novedades.length}`, label: "Novedades publicadas" },
+    { value: "2023", label: "Novedades desde" },
+    { value: "100%", label: "Turnos online" },
+    { value: "App", label: "DIM SALUD" },
+  ];
+
   return (
     <>
       {/* ────────── Hero (banner) ────────── */}
@@ -105,7 +124,7 @@ export default function NovedadesPage() {
             </h2>
           </div>
 
-          <NovedadesList items={NEWS} />
+          <NovedadesList novedades={novedades} />
         </div>
       </section>
     </>

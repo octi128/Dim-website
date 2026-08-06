@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "1.1.0",
+    "@portabletext/react": "^7.0.1",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.31.1",
     "bcryptjs": "3.0.3",

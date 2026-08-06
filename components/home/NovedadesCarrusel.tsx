@@ -3,13 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { NEWS, type NewsItem } from "@/lib/novedades";
+import { urlFor } from "@/sanity/lib/image";
+import { mesYAnio } from "@/lib/fecha";
+import type { Novedad } from "@/sanity/lib/queries";
 
-/** Las últimas novedades publicadas. NEWS ya viene ordenado de más nueva a más vieja. */
-const ITEMS = NEWS.slice(0, 8);
-
-/** La portada de cada novedad ya codifica el tema (/novedades/<clave>.jpg),
-    así que reusamos esa clave como etiqueta en vez de duplicar el dato. */
+/** La etiqueta visible de cada categoría. En Sanity el campo guarda la clave. */
 const CATEGORIA: Record<string, string> = {
   audiologia: "Audiología",
   cardiologia: "Cardiología",
@@ -29,18 +27,7 @@ const CATEGORIA: Record<string, string> = {
   vacunacion: "Vacunación",
 };
 
-function categoria(image: string) {
-  const clave = image.split("/").pop()?.replace(".jpg", "") ?? "";
-  return CATEGORIA[clave] ?? "Novedades";
-}
-
-/** Primer párrafo del cuerpo: alcanza como resumen y se recorta a dos líneas. */
-function resumen(item: NewsItem) {
-  const bloque = item.body.find((b) => "p" in b) as { p: string } | undefined;
-  return bloque?.p ?? "";
-}
-
-export default function NovedadesCarrusel() {
+export default function NovedadesCarrusel({ novedades }: { novedades: Novedad[] }) {
   const rielRef = useRef<HTMLUListElement>(null);
   const [alInicio, setAlInicio] = useState(true);
   const [alFinal, setAlFinal] = useState(false);
@@ -123,23 +110,25 @@ export default function NovedadesCarrusel() {
       {/* El riel vive fuera del .wrap para poder llegar hasta el borde de la
           ventana: la tarjeta cortada a la derecha avisa que hay más. */}
       <ul className="nov-riel" ref={rielRef} onScroll={sincronizar}>
-        {ITEMS.map((n) => (
-          <li className="nov-card" key={n.id}>
-            <Link href={`/novedades#novedad-${n.id}`} className="nov-link">
+        {novedades.map((n) => (
+          <li className="nov-card" key={n._id}>
+            <Link href={`/novedades#novedad-${n.slug}`} className="nov-link">
               <div className="nov-foto">
+                {/* Decorativa: el título de la tarjeta ya nombra la novedad y la
+                    portada es una foto genérica de la categoría. */}
                 <Image
-                  src={n.image}
+                  src={urlFor(n.portada).url()}
                   alt=""
                   fill
                   sizes="(max-width: 700px) 74vw, 320px"
                   className="nov-img"
                 />
-                <span className="nov-badge">{categoria(n.image)}</span>
+                <span className="nov-badge">{CATEGORIA[n.categoria] ?? "Novedades"}</span>
               </div>
-              <h3 className="nov-titulo">{n.title}</h3>
-              <p className="nov-desc">{resumen(n)}</p>
+              <h3 className="nov-titulo">{n.titulo}</h3>
+              <p className="nov-desc">{n.resumen}</p>
               <div className="nov-meta">
-                <span className="nov-fecha">{n.date}</span>
+                <span className="nov-fecha">{mesYAnio(n.fecha)}</span>
                 <span className="nov-mas">
                   Leer
                   <svg viewBox="0 0 24 24" aria-hidden="true">

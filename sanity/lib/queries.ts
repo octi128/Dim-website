@@ -1,4 +1,5 @@
 import {defineQuery} from 'next-sanity'
+import type {PortableTextBlock} from '@portabletext/react'
 
 /**
  * El singleton de configuración del sitio.
@@ -149,4 +150,106 @@ export type Cobertura = {
   /** Opcional en el schema: hoy ningún documento tiene logo cargado. */
   logo: ImagenCobertura | null
   destacada: boolean
+}
+
+/**
+ * Los campos que comparten el listado de novedades y el carrusel del home. Las
+ * dos vistas muestran lo mismo salvo el cuerpo, y traerlo de más no justifica
+ * mantener dos proyecciones que se desincronizan.
+ *
+ * `slug` se aplana a string: la proyección devolvería el objeto `{current, _type}`
+ * y lo único que se usa es el valor, para el deep-link `#novedad-<slug>`.
+ *
+ * De la portada van `alt` y el asset —lo que necesita `urlFor()`—, más `hotspot`
+ * y `crop`, con el mismo criterio que sedes y coberturas.
+ */
+const CAMPOS_NOVEDAD = `
+  _id,
+  titulo,
+  "slug": slug.current,
+  fecha,
+  categoria,
+  resumen,
+  portada{alt, hotspot, crop, asset},
+  destacada,
+  cta{label, href},
+  appDownload,
+  cuerpo
+`
+
+/**
+ * Todas las novedades del listado, de más nueva a más vieja.
+ *
+ * El orden sale de `fecha`, que es un `date` completo aunque el contenido
+ * original sólo tuviera mes y año: los días los inventó la migración justamente
+ * para desempatar dentro de un mismo mes. Ver `lib/fecha.ts`.
+ */
+export const NOVEDADES_QUERY = defineQuery(`
+  *[_type == "novedad"] | order(fecha desc) {${CAMPOS_NOVEDAD}}
+`)
+
+/**
+ * Las ocho novedades más recientes, para el carrusel del home.
+ *
+ * Es cronológico puro y NO prioriza `destacada`. El campo existe y se sigue
+ * usando para el badge "Nuevo", pero como fue marcado sobre las novedades que
+ * en ese momento eran las más nuevas, ordenar por él sólo lograría que una
+ * novedad de enero se cuele delante de tres posteriores.
+ */
+export const NOVEDADES_CARRUSEL_QUERY = defineQuery(`
+  *[_type == "novedad"] | order(fecha desc)[0...8] {${CAMPOS_NOVEDAD}}
+`)
+
+/**
+ * Las 16 categorías del dropdown del schema.
+ *
+ * Son la clave, no la etiqueta: el texto que ve la persona usuaria lo resuelve
+ * el mapa `CATEGORIA` de `components/home/NovedadesCarrusel.tsx`. Vienen del
+ * modelo viejo, donde la categoría estaba escondida en el nombre del archivo de
+ * la portada (`/novedades/<categoria>.jpg`).
+ */
+export type CategoriaNovedad =
+  | 'audiologia'
+  | 'cardiologia'
+  | 'dermatologia'
+  | 'digital'
+  | 'general'
+  | 'kinesiologia'
+  | 'laboratorio'
+  | 'nutricion'
+  | 'odontologia'
+  | 'oftalmologia'
+  | 'pediatria'
+  | 'prevencion'
+  | 'psicologia'
+  | 'resonancia'
+  | 'terapia'
+  | 'vacunacion'
+
+export type ImagenNovedad = {
+  alt: string
+  asset: {_ref: string; _type: 'reference'}
+}
+
+/** El botón opcional del pie de la novedad. */
+export type CtaNovedad = {
+  label: string
+  href: string
+}
+
+export type Novedad = {
+  _id: string
+  titulo: string
+  /** Ya aplanado por la query: el `current` del slug, sin el objeto alrededor. */
+  slug: string
+  /** ISO completo ("2026-07-01"), pero se muestra sólo mes y año. */
+  fecha: string
+  categoria: CategoriaNovedad
+  resumen: string
+  portada: ImagenNovedad
+  destacada: boolean
+  /** GROQ devuelve null (no undefined) cuando la novedad no tiene botón. */
+  cta: CtaNovedad | null
+  appDownload: boolean
+  cuerpo: PortableTextBlock[]
 }
