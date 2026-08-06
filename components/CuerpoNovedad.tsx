@@ -1,4 +1,6 @@
 import { PortableText, type PortableTextBlock, type PortableTextComponents } from "@portabletext/react";
+import { ArrowUpRight } from "lucide-react";
+import { PORTAL_URL } from "@/lib/contacto";
 
 /**
  * Este archivo NO lleva `"use client"` a propósito.
@@ -64,6 +66,45 @@ const CUERPO: PortableTextComponents = {
       </li>
     ),
     number: ({ children }) => <li>{children}</li>,
+  },
+  types: {
+    /**
+     * El bloque `ctaTurno` que se puede insertar en cualquier punto del texto.
+     * Mismo lenguaje visual que el CTA fijo del pie de la novedad —fondo oscuro,
+     * botón naranja— pero más compacto, porque acá interrumpe la lectura.
+     */
+    ctaTurno: ({ value }) => {
+      const titulo: string = value?.titulo || "¿Necesitás un turno?";
+      const texto: string | undefined = value?.texto;
+
+      return (
+        <div className="my-6 rounded-2xl bg-[#081827] p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
+          <div>
+            <p
+              className="font-display text-xl font-light text-white leading-snug"
+              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            >
+              {titulo}
+            </p>
+            {texto && (
+              <p className="text-white/60 font-light text-sm leading-relaxed mt-1.5">
+                {texto}
+              </p>
+            )}
+          </div>
+
+          <a
+            href={PORTAL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 inline-flex items-center justify-center gap-2 bg-[#F26A21] hover:bg-[#C84F12] text-white font-semibold px-6 py-3 rounded-full text-sm transition-colors"
+          >
+            Sacar turno
+            <ArrowUpRight size={15} strokeWidth={2.25} aria-hidden="true" />
+          </a>
+        </div>
+      );
+    },
   },
   marks: {
     link: ({ children, value }) => {

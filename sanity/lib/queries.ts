@@ -174,7 +174,8 @@ const CAMPOS_NOVEDAD = `
   destacada,
   cta{label, href},
   appDownload,
-  cuerpo
+  cuerpo,
+  paginasRelacionadas
 `
 
 /**
@@ -294,6 +295,35 @@ export const ETIQUETA_CATEGORIA: Record<CategoriaNovedad, string> = {
   vacunacion: 'Vacunación',
 }
 
+/**
+ * Cómo se nombra cada página del sitio cuando aparece linkeada al pie de una
+ * novedad. Las claves son las rutas que guarda `paginasRelacionadas`.
+ *
+ * Duplica la lista del dropdown de `sanity/schemaTypes/novedad.ts`, y es a
+ * propósito: el Studio y el front no se importan entre sí. Si se agrega una
+ * página, hay que tocar los dos lados. El front resuelve contra este mapa, así
+ * que una ruta que quede acá sin entrada simplemente no se renderiza en vez de
+ * romper la página.
+ */
+export const PAGINAS_DEL_SITIO: Record<string, string> = {
+  '/resonancia-magnetica': 'Resonancia magnética',
+  '/tomografia-multicorte': 'Tomografía multicorte',
+  '/medicina-nuclear': 'Medicina nuclear',
+  '/laboratorios': 'Laboratorio de análisis clínicos',
+  '/estudios-medicos-y-preparaciones': 'Estudios médicos y preparaciones',
+  '/estudios-y-preparaciones-de-laboratorio': 'Estudios y preparaciones de laboratorio',
+  '/especialidades-medicas': 'Especialidades médicas',
+  '/enfermedades': 'Enfermedades y afecciones',
+  '/cirugia': 'Cirugía',
+  '/cirugias-esteticas': 'Medicina estética y cirugía',
+  '/odontologia': 'Odontología Premium',
+  '/oncologia': 'Oncología',
+  '/atencion-sin-turno-previo': 'Atención sin turno previo',
+  '/nuestros-centros-y-horarios': 'Nuestros centros y horarios',
+  '/coberturas-medicas': 'Coberturas médicas',
+  '/mutual-amedim': 'Beneficios AMEDIM',
+}
+
 export type ImagenNovedad = {
   alt: string
   asset: {_ref: string; _type: 'reference'}
@@ -319,5 +349,14 @@ export type Novedad = {
   /** GROQ devuelve null (no undefined) cuando la novedad no tiene botón. */
   cta: CtaNovedad | null
   appDownload: boolean
+  /**
+   * Bloques de texto más, eventualmente, objetos `ctaTurno` insertados entre
+   * medio. Los renderiza `components/CuerpoNovedad.tsx`.
+   */
   cuerpo: PortableTextBlock[]
+  /**
+   * Rutas del sitio elegidas en el Studio, hasta cuatro. GROQ devuelve null (no
+   * []) cuando el editor no eligió ninguna, que hoy es en las 41.
+   */
+  paginasRelacionadas: string[] | null
 }

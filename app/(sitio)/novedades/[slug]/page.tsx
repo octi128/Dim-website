@@ -14,6 +14,7 @@ import {
   ETIQUETA_CATEGORIA,
   NOVEDADES_RELACIONADAS_QUERY,
   NOVEDAD_POR_SLUG_QUERY,
+  PAGINAS_DEL_SITIO,
   SLUGS_NOVEDADES_QUERY,
   type Novedad,
 } from "@/sanity/lib/queries";
@@ -124,6 +125,12 @@ export default async function NovedadPage({
   const todasAfines =
     relacionadas.length > 0 && relacionadas.every((r) => r.categoria === novedad.categoria);
   const tituloRelacionadas = todasAfines ? `Más sobre ${etiqueta}` : "Últimas novedades";
+
+  // Una ruta que el editor eligió y que después se sacó del mapa se omite en vez
+  // de renderizar un link sin nombre a una página que ya no existe.
+  const paginas = (novedad.paginasRelacionadas ?? []).filter(
+    (ruta) => ruta in PAGINAS_DEL_SITIO
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -258,6 +265,37 @@ export default async function NovedadPage({
           )}
         </div>
       </section>
+
+      {/* ────────── Páginas relacionadas ────────── */}
+      {paginas.length > 0 && (
+        <section className="bg-[#FBFAF7] pb-16 lg:pb-20">
+          <div className="max-w-3xl mx-auto px-6 lg:px-8">
+            <div className="border-t border-[#E6EAF1] pt-8">
+              <h2 className="font-mono text-[10px] uppercase tracking-widest text-[#4B4F56] mb-4">
+                Te puede interesar
+              </h2>
+
+              <ul className="flex flex-wrap gap-2.5">
+                {paginas.map((ruta) => (
+                  <li key={ruta}>
+                    <Link
+                      href={ruta}
+                      className="group inline-flex items-center gap-1.5 rounded-full border border-[#E6EAF1] bg-white px-4 py-2.5 text-sm font-medium text-[#081827] hover:border-[#F26A21]/50 hover:text-[#F26A21] transition-colors"
+                    >
+                      {PAGINAS_DEL_SITIO[ruta]}
+                      <ChevronRight
+                        size={14}
+                        aria-hidden="true"
+                        className="text-[#5636A4] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#F26A21]"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ────────── CTA de turnos ────────── */}
       <section className="bg-[#FBFAF7] pb-16 lg:pb-24">

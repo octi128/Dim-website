@@ -173,8 +173,73 @@ export default defineType({
             ],
           },
         }),
+        defineArrayMember({
+          name: 'ctaTurno',
+          title: 'Bloque de turnos',
+          description:
+            'Llamado a la acción que podés insertar en cualquier punto del texto: aparece como un recuadro destacado con un botón al Portal de Turnos. Útil justo después de explicar un estudio o servicio, sin esperar al pie de la novedad.',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'titulo',
+              title: 'Título',
+              type: 'string',
+              initialValue: '¿Necesitás un turno?',
+            }),
+            defineField({
+              name: 'texto',
+              title: 'Texto',
+              description: 'Opcional. Una línea corta debajo del título.',
+              type: 'string',
+            }),
+          ],
+          preview: {
+            select: {titulo: 'titulo'},
+            // Sin esto el bloque se ve como un objeto sin nombre en medio del
+            // texto y no se distingue de un párrafo.
+            prepare: ({titulo}) => ({
+              title: titulo || '¿Necesitás un turno?',
+              subtitle: 'Bloque de turnos',
+            }),
+          },
+        }),
       ],
       validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
+      name: 'paginasRelacionadas',
+      title: 'Páginas relacionadas',
+      description:
+        'Links que aparecen al pie de la novedad, para que quien la lee encuentre el servicio del que habla. Elegí pocas y pertinentes: cuatro links que apuntan a todos lados sirven menos que uno bien elegido.',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        // Ordenadas por tema —imágenes, laboratorio, especialidades, quirúrgico,
+        // acceso— y no alfabéticamente: quien edita las busca por tema.
+        list: [
+          {title: 'Resonancia magnética', value: '/resonancia-magnetica'},
+          {title: 'Tomografía multicorte', value: '/tomografia-multicorte'},
+          {title: 'Medicina nuclear', value: '/medicina-nuclear'},
+          {title: 'Laboratorio de análisis clínicos', value: '/laboratorios'},
+          {title: 'Estudios médicos y preparaciones', value: '/estudios-medicos-y-preparaciones'},
+          {
+            title: 'Estudios y preparaciones de laboratorio',
+            value: '/estudios-y-preparaciones-de-laboratorio',
+          },
+          {title: 'Especialidades médicas', value: '/especialidades-medicas'},
+          {title: 'Enfermedades y afecciones', value: '/enfermedades'},
+          {title: 'Cirugía', value: '/cirugia'},
+          {title: 'Medicina estética y cirugía', value: '/cirugias-esteticas'},
+          {title: 'Odontología Premium', value: '/odontologia'},
+          {title: 'Oncología', value: '/oncologia'},
+          {title: 'Atención sin turno previo', value: '/atencion-sin-turno-previo'},
+          {title: 'Nuestros centros y horarios', value: '/nuestros-centros-y-horarios'},
+          {title: 'Coberturas médicas', value: '/coberturas-medicas'},
+          {title: 'Beneficios AMEDIM', value: '/mutual-amedim'},
+        ],
+        layout: 'grid',
+      },
+      validation: (Rule) => Rule.max(4).unique(),
     }),
   ],
   orderings: [
