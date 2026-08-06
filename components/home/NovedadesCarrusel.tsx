@@ -5,27 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import { mesYAnio } from "@/lib/fecha";
-import type { Novedad } from "@/sanity/lib/queries";
-
-/** La etiqueta visible de cada categoría. En Sanity el campo guarda la clave. */
-const CATEGORIA: Record<string, string> = {
-  audiologia: "Audiología",
-  cardiologia: "Cardiología",
-  dermatologia: "Dermatología",
-  digital: "Salud digital",
-  general: "Institucional",
-  kinesiologia: "Kinesiología",
-  laboratorio: "Laboratorio",
-  nutricion: "Nutrición",
-  odontologia: "Odontología",
-  oftalmologia: "Oftalmología",
-  pediatria: "Pediatría",
-  prevencion: "Prevención",
-  psicologia: "Salud mental",
-  resonancia: "Diagnóstico por imágenes",
-  terapia: "Terapias",
-  vacunacion: "Vacunación",
-};
+import { ETIQUETA_CATEGORIA, type Novedad } from "@/sanity/lib/queries";
 
 export default function NovedadesCarrusel({ novedades }: { novedades: Novedad[] }) {
   const rielRef = useRef<HTMLUListElement>(null);
@@ -123,7 +103,7 @@ export default function NovedadesCarrusel({ novedades }: { novedades: Novedad[] 
                   sizes="(max-width: 700px) 74vw, 320px"
                   className="nov-img"
                 />
-                <span className="nov-badge">{CATEGORIA[n.categoria] ?? "Novedades"}</span>
+                <span className="nov-badge">{ETIQUETA_CATEGORIA[n.categoria] ?? "Novedades"}</span>
               </div>
               <h3 className="nov-titulo">{n.titulo}</h3>
               <p className="nov-desc">{n.resumen}</p>

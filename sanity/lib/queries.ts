@@ -200,13 +200,49 @@ export const NOVEDADES_CARRUSEL_QUERY = defineQuery(`
   *[_type == "novedad"] | order(fecha desc)[0...8] {${CAMPOS_NOVEDAD}}
 `)
 
+/** Una novedad puntual, para su página propia. */
+export const NOVEDAD_POR_SLUG_QUERY = defineQuery(`
+  *[_type == "novedad" && slug.current == $slug][0] {${CAMPOS_NOVEDAD}}
+`)
+
+/**
+ * Sólo los slugs, para `generateStaticParams`.
+ *
+ * El `defined()` filtra documentos a los que les falte el slug: sin él, uno solo
+ * mal cargado genera la ruta `/novedades/undefined` en el build.
+ */
+export const SLUGS_NOVEDADES_QUERY = defineQuery(`
+  *[_type == "novedad" && defined(slug.current)] {"slug": slug.current}
+`)
+
+/**
+ * Hasta tres novedades para el pie de una página individual.
+ *
+ * Prioriza la misma categoría y completa con las más recientes de cualquier otra,
+ * en una sola query y sin ramas en el código: `order()` acepta expresiones, así
+ * que `(categoria == $categoria) desc` manda las afines adelante y `fecha desc`
+ * ordena dentro de cada grupo.
+ *
+ * Los paréntesis no son decorativos: sin ellos GROQ intenta aplicar `desc` al
+ * operando derecho de la comparación y falla con "unexpected postfix operator".
+ *
+ * Con 4 o más de la misma categoría devuelve sólo afines; con 1 o 2 las mezcla;
+ * con 0 devuelve las tres más recientes del sitio. Este último caso es real:
+ * `dermatologia`, `psicologia` y `oftalmologia` tienen un único documento cada
+ * una. La página cambia el título del bloque según lo que haya vuelto.
+ */
+export const NOVEDADES_RELACIONADAS_QUERY = defineQuery(`
+  *[_type == "novedad" && slug.current != $slug]
+    | order((categoria == $categoria) desc, fecha desc)[0...3] {${CAMPOS_NOVEDAD}}
+`)
+
 /**
  * Las 16 categorías del dropdown del schema.
  *
  * Son la clave, no la etiqueta: el texto que ve la persona usuaria lo resuelve
- * el mapa `CATEGORIA` de `components/home/NovedadesCarrusel.tsx`. Vienen del
- * modelo viejo, donde la categoría estaba escondida en el nombre del archivo de
- * la portada (`/novedades/<categoria>.jpg`).
+ * `ETIQUETA_CATEGORIA`, acá abajo. Vienen del modelo viejo, donde la categoría
+ * estaba escondida en el nombre del archivo de la portada
+ * (`/novedades/<categoria>.jpg`).
  */
 export type CategoriaNovedad =
   | 'audiologia'
@@ -225,6 +261,38 @@ export type CategoriaNovedad =
   | 'resonancia'
   | 'terapia'
   | 'vacunacion'
+
+/**
+ * Cómo se nombra cada categoría en pantalla.
+ *
+ * Vive acá, y no en el componente que la dibuja, porque la consumen tanto el
+ * carrusel del home —que es `"use client"`— como la página individual de cada
+ * novedad, que es Server Component. Un módulo con `"use client"` no sirve de
+ * origen: al importarlo desde el servidor, React convierte todos sus exports en
+ * referencias de cliente y el objeto deja de ser legible.
+ *
+ * Las claves no son un espejo de la categoría: `resonancia` se muestra como
+ * "Diagnóstico por imágenes", `general` como "Institucional" y `psicologia`
+ * como "Salud mental".
+ */
+export const ETIQUETA_CATEGORIA: Record<CategoriaNovedad, string> = {
+  audiologia: 'Audiología',
+  cardiologia: 'Cardiología',
+  dermatologia: 'Dermatología',
+  digital: 'Salud digital',
+  general: 'Institucional',
+  kinesiologia: 'Kinesiología',
+  laboratorio: 'Laboratorio',
+  nutricion: 'Nutrición',
+  odontologia: 'Odontología',
+  oftalmologia: 'Oftalmología',
+  pediatria: 'Pediatría',
+  prevencion: 'Prevención',
+  psicologia: 'Salud mental',
+  resonancia: 'Diagnóstico por imágenes',
+  terapia: 'Terapias',
+  vacunacion: 'Vacunación',
+}
 
 export type ImagenNovedad = {
   alt: string
