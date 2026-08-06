@@ -31,9 +31,38 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'categoria',
+      title: 'Categoría',
+      description: 'Se muestra como etiqueta en el carrusel de la página principal.',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Audiología', value: 'audiologia'},
+          {title: 'Cardiología', value: 'cardiologia'},
+          {title: 'Dermatología', value: 'dermatologia'},
+          {title: 'Salud digital', value: 'digital'},
+          {title: 'Institucional', value: 'general'},
+          {title: 'Kinesiología', value: 'kinesiologia'},
+          {title: 'Laboratorio', value: 'laboratorio'},
+          {title: 'Nutrición', value: 'nutricion'},
+          {title: 'Odontología', value: 'odontologia'},
+          {title: 'Oftalmología', value: 'oftalmologia'},
+          {title: 'Pediatría', value: 'pediatria'},
+          {title: 'Prevención', value: 'prevencion'},
+          {title: 'Salud mental', value: 'psicologia'},
+          {title: 'Diagnóstico por imágenes', value: 'resonancia'},
+          {title: 'Terapias', value: 'terapia'},
+          {title: 'Vacunación', value: 'vacunacion'},
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'resumen',
       title: 'Resumen',
-      description: 'Texto corto que se muestra en las tarjetas del listado y del home.',
+      description:
+        'Texto corto que se muestra en las tarjetas del listado y del home. Máximo 200 caracteres. Algunos resúmenes se generaron automáticamente al migrar el contenido y conviene revisarlos.',
       type: 'text',
       rows: 3,
       validation: (Rule) => Rule.required().max(200),
@@ -41,6 +70,8 @@ export default defineType({
     defineField({
       name: 'portada',
       title: 'Imagen de portada',
+      description:
+        'Las imágenes actuales son provisorias, una por categoría. Podés reemplazarlas por una foto propia de cada novedad. Si la cambiás, actualizá también el texto alternativo.',
       type: 'image',
       options: {hotspot: true},
       fields: [
