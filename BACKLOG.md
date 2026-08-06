@@ -265,6 +265,17 @@ negocio o el dato de origen.
   el Deploy Hook y pegarlo en los webhooks de Sanity. **Es bloqueante para
   entregar el CMS al cliente**: sin esto, editar en el Studio parece no tener
   efecto.
+- **Actualización tras la migración de novedades**: el problema es más grande de
+  lo que decía este ítem. Ya son **seis** las rutas que hornean datos de Sanity
+  en build — se sumaron `/`, `/novedades` y las 41 de `/novedades/[slug]`. Y hay
+  un segundo nivel: **`revalidate: false` guarda la respuesta en
+  `.next/cache/fetch-cache`, que sobrevive entre builds**. Está verificado: se
+  cargó contenido nuevo en el Studio, se corrió `npm run build` y las páginas
+  salieron con el dato viejo; recién apareció después de `rm -rf .next/cache`.
+  O sea que el Deploy Hook por sí solo puede no alcanzar, porque Vercel restaura
+  la caché de build entre deploys. Hay que verificar en el proyecto real si el
+  rebuild disparado por el webhook trae el contenido nuevo, y si no, resolverlo
+  —con revalidación por tag, o forzando build limpio en ese hook—.
 
 ### 5.4 `portalUrl` quedó como dato huérfano en el documento de configuración
 
@@ -282,3 +293,214 @@ negocio o el dato de origen.
   documento cuando se haga otra pasada de mantenimiento del dataset. Queda
   anotado para que no sorprenda a quien inspeccione el documento por API y
   encuentre un campo que el schema ya no declara.
+
+---
+
+## 6. SEO y contenido de novedades
+
+Las 41 páginas individuales de novedades se construyeron pensando en
+posicionamiento. La estructura está, el contenido que la hace funcionar no.
+
+### 6.1 El interlinkeado hacia páginas de servicio está sin cargar
+
+- **Qué**: el campo `paginasRelacionadas` permite elegir hasta cuatro páginas del
+  sitio que se muestran al pie de cada novedad. Hoy lo usa **una sola de las 41**
+  (`yogaterapia`, que se cargó como prueba y linkea a resonancia, tomografía y
+  medicina nuclear). En las otras 40 la sección no se renderiza. Sin esas
+  elecciones, las novedades no reparten autoridad hacia las páginas de servicio,
+  que era el objetivo del campo.
+- **Dónde**: campo en
+  [sanity/schemaTypes/novedad.ts:210](sanity/schemaTypes/novedad.ts#L210); render
+  en [app/(sitio)/novedades/[slug]/page.tsx](app/(sitio)/novedades/[slug]/page.tsx).
+- **Por qué quedó pendiente**: elegir qué linkear en cada novedad es una decisión
+  editorial, una por una. No se puede derivar del contenido sin inventar
+  criterios.
+
+### 6.2 El cuerpo de las 41 novedades no tiene ningún link contextual
+
+- **Qué**: **cero** de las 41 tienen links dentro del texto — verificado contando
+  los bloques con `markDefs` en Sanity. Vienen de texto plano migrado. El schema
+  ya soporta links inline en Portable Text y `CuerpoNovedad` ya los renderiza,
+  con `target="_blank"` y `rel` correctos para los externos. Hay que agregarlos a
+  mano desde el Studio. Un link dentro de un párrafo, rodeado de texto que le da
+  contexto, pesa más para SEO que uno suelto en un bloque al pie.
+- **Dónde**: anotación `link` en
+  [sanity/schemaTypes/novedad.ts](sanity/schemaTypes/novedad.ts); render en
+  [components/CuerpoNovedad.tsx](components/CuerpoNovedad.tsx).
+- **Por qué quedó pendiente**: mismo motivo que 6.1 — es trabajo editorial sobre
+  41 textos, no una transformación automatizable.
+
+### 6.3 El bloque `ctaTurno` insertable casi no se usa
+
+- **Qué**: el cuerpo admite insertar un bloque de llamado a la acción en
+  cualquier punto del texto, con botón al Portal de Turnos. Lo usa **una sola de
+  las 41** (`yogaterapia`, la de prueba). Las otras 40 tienen únicamente el CTA
+  fijo del pie, que quien abandona la lectura a mitad nunca ve.
+- **Dónde**: bloque en
+  [sanity/schemaTypes/novedad.ts:177](sanity/schemaTypes/novedad.ts#L177); render
+  en [components/CuerpoNovedad.tsx](components/CuerpoNovedad.tsx).
+- **Por qué quedó pendiente**: dónde cortar el texto para meter un CTA es una
+  decisión de redacción. Ponerlo automático en todas —después del primer párrafo,
+  por ejemplo— sería peor que no ponerlo.
+
+### 6.4 Falta definir el dominio canónico
+
+- **Qué**: el proyecto no declara su propia URL en ningún lado: no hay
+  `metadataBase` en `app/layout.tsx` ni variable de entorno con el dominio. Por
+  eso las 41 páginas salen sin `openGraph.url`, sin `mainEntityOfPage` y sin
+  `publisher.logo` en el JSON-LD. Tampoco hay `alternates.canonical` en ninguna
+  página del sitio. Lo que **sí** funciona es la imagen al compartir: `urlFor()`
+  devuelve una URL absoluta del CDN de Sanity, así que la preview de WhatsApp
+  sale completa.
+- **Dónde**: el comentario que lo documenta está en
+  [app/(sitio)/novedades/[slug]/page.tsx:53](app/(sitio)/novedades/[slug]/page.tsx#L53),
+  arriba de `generateMetadata`.
+- **Por qué quedó pendiente**: el dominio definitivo no está decidido. Se
+  prefirió omitir los campos antes que hornear una URL canónica equivocada en 41
+  páginas, que es peor que no tenerla.
+
+### 6.5 No existe `sitemap.ts` ni `robots.ts`
+
+- **Qué**: el proyecto no tiene ninguno de los dos, ni sus equivalentes
+  estáticos en `public/`. Para un sitio con 41 páginas nuevas pensadas para
+  posicionar, Google no tiene un mapa de qué existe ni instrucciones de rastreo.
+- **Dónde**: faltarían en [app/](app/) como `sitemap.ts` y `robots.ts`.
+- **Por qué quedó pendiente**: los dos necesitan la URL canónica del sitio, así
+  que dependen de 6.4. Una vez definido el dominio, los dos son cortos: las rutas
+  estáticas están en `app/` y los slugs de novedades ya los devuelve
+  `SLUGS_NOVEDADES_QUERY`.
+
+### 6.6 Diez resúmenes se truncaron automáticamente al migrar
+
+- **Qué**: el campo `resumen` tope en 200 caracteres y se llenó con el primer
+  párrafo del cuerpo. En diez novedades ese párrafo era más largo y el script
+  cortó en el último espacio antes de 197, agregando "…". Varias cortan justo
+  donde el párrafo anunciaba una lista, así que el resumen queda colgado. Los
+  diez, por slug:
+
+  | Slug | Caracteres |
+  | --- | --- |
+  | `chequeo-de-salud-sexual` | 192 |
+  | `comenzamos-a-realizar-antropometria` | 195 |
+  | `dengue-reforcemos-los-cuidados` | 197 |
+  | `esteatosis-hepatica-en-dim` | 197 |
+  | `incorporamos-kinesiologia-por-atm` | 192 |
+  | `nueva-especialidad-cirugia-pediatrica` | 191 |
+  | `nuevo-estudio-doppler-oftalmologico` | 193 |
+  | `nuevo-tratamiento-de-kinesiologia-mep` | 195 |
+  | `osteopatia-en-kinesiologia-de-avanzada` | 196 |
+  | `todos-tus-informes-100-digitales-con-dim-verde` | 197 |
+
+- **Dónde**: campo `resumen` en
+  [sanity/schemaTypes/novedad.ts:65](sanity/schemaTypes/novedad.ts#L65), cuya
+  descripción ya avisa al editor que algunos se generaron automáticamente.
+- **Por qué quedó pendiente**: reescribirlos es redacción. El resumen es lo que
+  se ve en la tarjeta del listado, en el carrusel del home y como
+  `og:description` al compartir, así que los diez están expuestos en tres lugares.
+
+---
+
+## 7. Las fechas de novedades tienen el día inventado
+
+- **Qué**: el contenido de origen sólo guardaba mes y año ("Julio 2026"). El
+  schema pide un `date` completo y lo usa para ordenar, así que la migración
+  asignó un día por novedad con el único fin de reproducir el orden del listado:
+  a las N novedades de un mismo mes les dio días N, N-1 … 1. **Diecinueve de las
+  41 tienen un día distinto de 01**, que son las que compartían mes con otra. En
+  pantalla nunca se muestra la fecha completa —`mesYAnio()` la recorta—, pero
+  **el JSON-LD la publica en `datePublished` y Open Graph en `publishedTime`**.
+  O sea que los buscadores y las redes reciben un día que nunca existió.
+- **Dónde**: [lib/fecha.ts:39](lib/fecha.ts#L39) explica el recorte;
+  [app/(sitio)/novedades/[slug]/page.tsx:144](app/(sitio)/novedades/[slug]/page.tsx#L144)
+  (`datePublished`) y
+  [app/(sitio)/novedades/[slug]/page.tsx:84](app/(sitio)/novedades/[slug]/page.tsx#L84)
+  (`publishedTime`).
+- **Por qué quedó pendiente**: omitir la fecha del JSON-LD sería peor —
+  schema.org la pide para `Article` y sin ella el marcado pierde valor. La
+  alternativa real es conseguir las fechas verdaderas, que es un dato que tiene
+  que dar el cliente. Mientras tanto queda anotado para que nadie lo tome por
+  exacto ni lo muestre completo en el front.
+
+---
+
+## 8. Imágenes de novedades
+
+### 8.1 Las 16 portadas son provisorias y están compartidas
+
+- **Qué**: hay **16 assets distintos para 41 novedades** — verificado contando
+  referencias únicas en Sanity. Cada portada representa una categoría temática,
+  no la novedad, y las más usadas (`kinesiologia`, `laboratorio`) se repiten en
+  cinco. El schema permite una foto propia por novedad y la descripción del campo
+  se lo aclara al editor, pero nadie las reemplazó.
+- **Dónde**: campo `portada` en
+  [sanity/schemaTypes/novedad.ts:74](sanity/schemaTypes/novedad.ts#L74).
+- **Por qué quedó pendiente**: hacen falta fotos reales, que son material que
+  tiene que aportar DIM. El sitio funciona igual: en las tarjetas la imagen es
+  decorativa (`alt=""`) justamente porque no aporta información propia.
+
+### 8.2 Los 16 textos alternativos se generaron automáticamente
+
+- **Qué**: las 41 novedades tienen `alt` cargado —ninguna quedó sin él—, pero los
+  textos salieron de una tabla del script de migración, uno por categoría
+  ("Sesión de kinesiología", "Laboratorio de análisis clínicos"). Describen la
+  categoría, no la foto, y se repiten entre novedades. En la página individual
+  ese `alt` sí se usa, porque ahí la imagen se presenta sola y a tamaño grande.
+- **Dónde**: campo `alt` dentro de `portada` en
+  [sanity/schemaTypes/novedad.ts](sanity/schemaTypes/novedad.ts).
+- **Por qué quedó pendiente**: quedan bien mientras las portadas sean genéricas,
+  pero en cuanto se reemplacen por fotos propias (8.1) dejan de describir lo que
+  se ve. Conviene revisarlos junto con esa carga, no antes.
+
+---
+
+## 9. Duplicaciones e inconsistencias asumidas
+
+A diferencia de la sección 1, acá no hay riesgo de divergencia silenciosa de
+datos: son decisiones tomadas a propósito, anotadas para que no se lean como
+descuidos.
+
+### 9.1 La lista de páginas del sitio vive en dos lugares
+
+- **Qué**: las 16 páginas que se pueden elegir en `paginasRelacionadas` están
+  escritas dos veces: como `options.list` del schema (lo que ve el editor) y como
+  el mapa `PAGINAS_DEL_SITIO` (lo que usa el front para resolver el nombre
+  legible). Ambas listas tienen hoy 16 entradas y coinciden.
+- **Dónde**: [sanity/schemaTypes/novedad.ts:210](sanity/schemaTypes/novedad.ts#L210)
+  y [sanity/lib/queries.ts:308](sanity/lib/queries.ts#L308).
+- **Por qué quedó pendiente**: no se puede evitar sin que el Studio importe del
+  front o al revés, y ese acoplamiento es peor que la duplicación. **Al agregar
+  una página hay que tocar los dos lados.** El modo de falla es benigno y está
+  elegido así: si sólo se toca el schema, el editor puede elegir la ruta pero el
+  link no se renderiza —falla en silencio, no rompe la página—.
+
+### 9.2 La grilla de novedades y el bloque de relacionadas usan markup distinto
+
+- **Qué**: el listado de `/novedades` arma las tarjetas con un `<div>` y las
+  tarjetas de "Otras novedades" de la página individual usan `<ul>`/`<li>`, con
+  las mismas clases de grilla. Inconsistencia semántica menor: las dos son listas
+  de novedades y deberían marcarse igual.
+- **Dónde**: [components/NovedadesList.tsx:18](components/NovedadesList.tsx#L18)
+  contra
+  [app/(sitio)/novedades/[slug]/page.tsx:349](app/(sitio)/novedades/[slug]/page.tsx#L349).
+- **Por qué quedó pendiente**: se decidió explícitamente no tocar el markup de la
+  grilla al sacar el modal, para que ese diff mostrara sólo el cambio de
+  comportamiento. Unificar hacia `<ul>`/`<li>` es de bajo riesgo y mejora lo que
+  anuncia un lector de pantalla.
+
+---
+
+## 10. Limitación conocida del scroll suave en anclas
+
+- **Qué**: el scroll suave de los anclas internos lo resuelve un componente
+  cliente que engancha un listener delegado en un efecto. Eso significa que
+  **depende de que React haya hidratado**: entre el primer paint y la
+  hidratación, un click en un ancla cae en el salto nativo instantáneo del
+  navegador. Es una ventana de milisegundos y el fallback es correcto —aterriza
+  en el lugar justo, sólo que sin animación—.
+- **Dónde**: [components/ScrollSuaveEnAnclas.tsx](components/ScrollSuaveEnAnclas.tsx),
+  montado en [app/(sitio)/layout.tsx:50](app/(sitio)/layout.tsx#L50).
+- **Por qué quedó pendiente**: es inherente a cualquier solución en JS y no tiene
+  arreglo dentro de ese enfoque. La alternativa en CSS —`scroll-behavior` en
+  `html`— no tiene esta ventana pero rompe las navegaciones entre páginas, que es
+  un problema mucho peor y constante; está medido y documentado en el comentario
+  del componente. Queda anotado para que nadie lo "arregle" volviendo al CSS.

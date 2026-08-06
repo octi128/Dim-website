@@ -21,9 +21,9 @@ export function esExterno(href: string) {
 /**
  * Cómo se pinta el cuerpo Portable Text.
  *
- * Los párrafos y las viñetas replican el markup que tenía el cuerpo cuando vivía
- * en `lib/novedades.ts`, incluido el punto naranja dibujado a mano en lugar del
- * bullet nativo.
+ * Los párrafos y las viñetas conservan el markup que el cuerpo tenía antes de la
+ * migración a Sanity, incluido el punto naranja dibujado a mano en lugar del
+ * bullet nativo. Es a propósito: el contenido cambió de fuente, no de aspecto.
  *
  * Los subtítulos, la lista numerada y los links no existen en el contenido
  * migrado, pero el schema los ofrece en el editor: sin estos componentes, la

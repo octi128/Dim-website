@@ -5,9 +5,12 @@
  * se muestran —y siempre se mostraron— sólo como mes y año.
  *
  * No es una decisión estética: el contenido original nunca tuvo día. Los días
- * que hay en Sanity los inventó `scripts/migrar-novedades.ts` para desempatar
- * las novedades del mismo mes y reproducir el orden del listado. Mostrar la
- * fecha completa sería publicar un dato que no existe.
+ * que hay en Sanity los inventó la migración para desempatar las novedades del
+ * mismo mes y reproducir el orden del listado — a las N de un mismo mes les
+ * asignó días N, N-1 … 1.
+ *
+ * De ahí la regla: **no mostrar la fecha completa en el front**. Sería publicar
+ * un dato que no existe.
  */
 
 const MESES = [
